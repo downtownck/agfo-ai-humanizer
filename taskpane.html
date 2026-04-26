@@ -79,47 +79,50 @@
 
 <div class="body">
 
-  <!-- API AYARLARI -->
-  <div class="section">
-    <div class="section-title">&#x2699;&#xFE0F; API Ayarlar&#x131;</div>
-    <div class="provider-tabs">
-      <button class="ptab active" data-provider="openai">OpenAI</button>
-      <button class="ptab" data-provider="gemini">Gemini</button>
-      <button class="ptab" data-provider="claude">Claude</button>
-    </div>
-    <div id="api-openai">
-      <label>OpenAI API Key</label>
-      <input type="password" id="key-openai" placeholder="sk-..."/>
-      <label style="margin-top:8px">Model</label>
-      <select id="model-openai">
-        <option value="gpt-4o-mini">gpt-4o-mini (H&#x131;zl&#x131;)</option>
-        <option value="gpt-4o">gpt-4o (G&#xFC;&#xE7;l&#xFC;)</option>
-        <option value="gpt-4-turbo">gpt-4-turbo</option>
-        <option value="gpt-3.5-turbo">gpt-3.5-turbo (Ekonomik)</option>
-      </select>
-    </div>
-    <div id="api-gemini" style="display:none">
-      <label>Gemini API Key</label>
-      <input type="password" id="key-gemini" placeholder="AIza..."/>
-      <label style="margin-top:8px">Model</label>
-      <select id="model-gemini">
-        <option value="gemini-1.5-flash">gemini-1.5-flash</option>
-        <option value="gemini-1.5-pro">gemini-1.5-pro</option>
-        <option value="gemini-2.0-flash">gemini-2.0-flash</option>
-      </select>
-    </div>
-    <div id="api-claude" style="display:none">
-      <label>Claude API Key</label>
-      <input type="password" id="key-claude" placeholder="sk-ant-..."/>
-      <label style="margin-top:8px">Model</label>
-      <select id="model-claude">
-        <option value="claude-3-5-sonnet-20241022">claude-3-5-sonnet</option>
-        <option value="claude-3-opus-20240229">claude-3-opus</option>
-        <option value="claude-3-haiku-20240307">claude-3-haiku (H&#x131;zl&#x131;)</option>
-      </select>
-    </div>
-    <button class="btn btn-secondary" id="btn-save-key" style="margin-top:8px">&#x1F4BE; Ayarlar&#x131; Kaydet</button>
+ <!-- API AYARLARI -->
+<div class="section">
+  <div class="section-title">&#x2699;&#xFE0F; API Ayarlar&#x131;</div>
+
+  <div class="provider-tabs">
+    <button class="ptab active" data-provider="openrouter">OpenRouter</button>
+    <button class="ptab" data-provider="openai">OpenAI</button>
+    <button class="ptab" data-provider="claude">Claude</button>
+    <button class="ptab" data-provider="gemini">Gemini</button>
   </div>
+
+  <div id="api-openrouter">
+    <label>OpenRouter API Key</label>
+    <input type="password" id="key-openrouter" placeholder="sk-or-..."/>
+    <label style="margin-top:8px">Model</label>
+    <select id="model-openrouter"></select>
+  </div>
+
+  <div id="api-openai" style="display:none">
+    <label>OpenAI API Key</label>
+    <input type="password" id="key-openai" placeholder="sk-..."/>
+    <label style="margin-top:8px">Model</label>
+    <select id="model-openai"></select>
+  </div>
+
+  <div id="api-claude" style="display:none">
+    <label>Claude API Key</label>
+    <input type="password" id="key-claude" placeholder="sk-ant-..."/>
+    <label style="margin-top:8px">Model</label>
+    <select id="model-claude"></select>
+  </div>
+
+  <div id="api-gemini" style="display:none">
+    <label>Gemini API Key</label>
+    <input type="password" id="key-gemini" placeholder="AIza..."/>
+    <label style="margin-top:8px">Model</label>
+    <select id="model-gemini"></select>
+  </div>
+
+  <button class="btn btn-secondary" id="btn-refresh-models" style="margin-top:8px">&#x1F504; Modelleri Yenile</button>
+  <button class="btn btn-secondary" id="btn-save-key" style="margin-top:5px">&#x1F4BE; Ayarlar&#x131; Kaydet</button>
+
+  <div class="status info" id="model-status" style="margin-top:8px;display:none"></div>
+</div>
 
   <!-- METİN GİRİŞİ -->
   <div class="section">
