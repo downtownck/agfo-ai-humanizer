@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>AGFO AI Humanizer</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:13px;color:#1e293b;background:#f8fafc;height:100vh;display:flex;flex-direction:column}
+
+    /* HEADER */
+    .hdr{background:#0f172a;color:#fff;padding:12px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .hdr h1{font-size:15px;font-weight:700}
+    .hdr-icon{font-size:18px}
+
+    /* SCROLLABLE BODY */
+    .body{flex:1;overflow-y:auto;padding:12px}
+
+    /* API KEY SECTION */
+    .section{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px;margin-bottom:10px}
+    .section-title{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+
+    label{display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:4px}
+    input,select,textarea{width:100%;border:1.5px solid #cbd5e1;border-radius:8px;padding:8px 10px;font:13px/1.4 inherit;color:#1e293b;background:#fff;outline:none;transition:border-color .2s}
+    input:focus,select:focus,textarea:focus{border-color:#1d4ed8}
+    textarea{resize:vertical;min-height:100px}
+
+    /* PROVIDER TABS */
+    .provider-tabs{display:flex;gap:4px;margin-bottom:8px}
+    .ptab{flex:1;padding:6px 4px;border:1.5px solid #cbd5e1;background:#fff;border-radius:7px;cursor:pointer;font-size:11px;font-weight:700;color:#64748b;text-align:center;transition:all .2s}
+    .ptab.active{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
+
+    /* MODE GRID */
+    .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+    .mode-btn{border:1.5px solid #cbd5e1;background:#fff;border-radius:8px;padding:7px 5px;cursor:pointer;font-size:11px;font-weight:700;color:#334155;text-align:center;transition:all .2s}
+    .mode-btn.active{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
+    .mode-btn:hover:not(.active){background:#f1f5f9}
+
+    /* BUTTONS */
+    .btn{width:100%;padding:9px;border:none;border-radius:9px;cursor:pointer;font-size:13px;font-weight:700;transition:all .2s;margin-top:6px}
+    .btn-primary{background:#1d4ed8;color:#fff}
+    .btn-primary:hover{background:#1e40af}
+    .btn-primary:disabled{opacity:.6;cursor:wait}
+    .btn-secondary{background:#f1f5f9;color:#334155;border:1.5px solid #cbd5e1}
+    .btn-secondary:hover{background:#e2e8f0}
+    .btn-green{background:#16a34a;color:#fff}
+    .btn-green:hover{background:#15803d}
+    .btn-sm{width:auto;padding:6px 10px;font-size:11px;margin-top:0}
+
+    /* OUTPUT */
+    .output-box{background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:12px;font-size:13px;line-height:1.7;max-height:220px;overflow-y:auto;display:none}
+    .output-box p{margin-bottom:10px}
+    .output-box p:last-child{margin-bottom:0}
+    .output-box h2,.output-box h3{margin:10px 0 6px;font-size:14px;color:#0f172a}
+    .output-box ul,.output-box ol{margin:6px 0 10px 18px}
+    .output-actions{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+
+    /* STATUS */
+    .status{font-size:11px;padding:6px 10px;border-radius:7px;margin-top:8px;display:none}
+    .status.info{background:#eff6ff;color:#1d4ed8;display:block}
+    .status.error{background:#fef2f2;color:#dc2626;display:block}
+    .status.success{background:#f0fdf4;color:#16a34a;display:block}
+
+    /* CHAR COUNT */
+    .char-count{font-size:10px;color:#94a3b8;text-align:right;margin-top:3px}
+
+    /* SPINNER */
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
+  </style>
+</head>
+<body>
+
+<div class="hdr">
+  <span class="hdr-icon">&#x1F9E0;</span>
+  <h1>AGFO AI Humanizer</h1>
+</div>
+
+<div class="body">
+
+  <!-- API AYARLARI -->
+  <div class="section">
+    <div class="section-title">&#x2699;&#xFE0F; API Ayarlar&#x131;</div>
+    <div class="provider-tabs">
+      <button class="ptab active" data-provider="openai">OpenAI</button>
+      <button class="ptab" data-provider="gemini">Gemini</button>
+      <button class="ptab" data-provider="claude">Claude</button>
+    </div>
+    <div id="api-openai">
+      <label>OpenAI API Key</label>
+      <input type="password" id="key-openai" placeholder="sk-..."/>
+      <label style="margin-top:8px">Model</label>
+      <select id="model-openai">
+        <option value="gpt-4o-mini">gpt-4o-mini (H&#x131;zl&#x131;)</option>
+        <option value="gpt-4o">gpt-4o (G&#xFC;&#xE7;l&#xFC;)</option>
+        <option value="gpt-4-turbo">gpt-4-turbo</option>
+        <option value="gpt-3.5-turbo">gpt-3.5-turbo (Ekonomik)</option>
+      </select>
+    </div>
+    <div id="api-gemini" style="display:none">
+      <label>Gemini API Key</label>
+      <input type="password" id="key-gemini" placeholder="AIza..."/>
+      <label style="margin-top:8px">Model</label>
+      <select id="model-gemini">
+        <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+        <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+        <option value="gemini-2.0-flash">gemini-2.0-flash</option>
+      </select>
+    </div>
+    <div id="api-claude" style="display:none">
+      <label>Claude API Key</label>
+      <input type="password" id="key-claude" placeholder="sk-ant-..."/>
+      <label style="margin-top:8px">Model</label>
+      <select id="model-claude">
+        <option value="claude-3-5-sonnet-20241022">claude-3-5-sonnet</option>
+        <option value="claude-3-opus-20240229">claude-3-opus</option>
+        <option value="claude-3-haiku-20240307">claude-3-haiku (H&#x131;zl&#x131;)</option>
+      </select>
+    </div>
+    <button class="btn btn-secondary" id="btn-save-key" style="margin-top:8px">&#x1F4BE; Ayarlar&#x131; Kaydet</button>
+  </div>
+
+  <!-- METİN GİRİŞİ -->
+  <div class="section">
+    <div class="section-title">&#x1F4DD; Metin</div>
+    <label>Dil</label>
+    <select id="lang-select" style="margin-bottom:8px">
+      <option value="Turkish">T&#xFC;rk&#xE7;e</option>
+      <option value="English">English</option>
+      <option value="German">Deutsch</option>
+      <option value="French">Fran&#xE7;ais</option>
+      <option value="Spanish">Espa&#xF1;ol</option>
+    </select>
+    <label>&#x130;nsanla&#x15F;t&#x131;r&#x131;lacak Metin</label>
+    <textarea id="hc-input" placeholder="Metni buraya yap&#x131;&#x15F;t&#x131;r&#x131;n veya belgeden al&#x131;n..."></textarea>
+    <div class="char-count"><span id="char-count">0</span> karakter</div>
+    <button class="btn btn-secondary" id="btn-get-selection" style="margin-top:8px">&#x1F4CB; Se&#xE7;ili Metni Al</button>
+    <button class="btn btn-secondary" id="btn-get-all" style="margin-top:5px">&#x1F4C4; T&#xFC;m Belgeyi Al</button>
+  </div>
+
+  <!-- MOD SEÇİMİ -->
+  <div class="section">
+    <div class="section-title">&#x1F3DB;&#xFE0F; Mod</div>
+    <div class="mode-grid">
+      <button class="mode-btn active" data-mode="OTO">&#x1F916; OTO</button>
+      <button class="mode-btn" data-mode="GENEL">&#x270D;&#xFE0F; Genel</button>
+      <button class="mode-btn" data-mode="YAPISAL">&#x1F3D7;&#xFE0F; Yap&#x131;sal</button>
+      <button class="mode-btn" data-mode="TON">&#x1F399;&#xFE0F; Ton</button>
+      <button class="mode-btn" data-mode="AKADEMIK">&#x1F393; Akademik</button>
+      <button class="mode-btn" data-mode="KELIME">&#x1F524; Kelime</button>
+      <button class="mode-btn" data-mode="KATMANLI">&#x1F9C5; Katmanl&#x131;</button>
+      <button class="mode-btn" data-mode="BURST">&#x26A1; Burst</button>
+      <button class="mode-btn" data-mode="CGK_DRAMA">&#x1F300; CGK Drama</button>
+      <button class="mode-btn" data-mode="CGK_AKADEMIK">&#x1F4D0; CGK Akademik</button>
+    </div>
+  </div>
+
+  <!-- ÇALIŞTIR -->
+  <button class="btn btn-primary" id="btn-run">&#x1F680; &#x130;nsanla&#x15F;t&#x131;r</button>
+  <div class="status" id="status-msg"></div>
+
+  <!-- ÇIKTI -->
+  <div class="section" id="output-section" style="display:none;margin-top:10px">
+    <div class="section-title">&#x2705; Sonu&#xE7; &#x2014; <span id="used-mode">OTO</span></div>
+    <div class="output-box" id="hc-output"></div>
+    <div class="output-actions">
+      <button class="btn btn-green btn-sm" id="btn-replace">&#x1F501; Se&#xE7;imiyle De&#x11F;i&#x15F;tir</button>
+      <button class="btn btn-green btn-sm" id="btn-append">&#x2795; Sona Ekle</button>
+      <button class="btn btn-secondary btn-sm" id="btn-copy">&#x1F4CB; Kopyala</button>
+    </div>
+  </div>
+
+</div><!-- /body -->
+
+<script src="taskpane.js"></script>
+</body>
+</html>
