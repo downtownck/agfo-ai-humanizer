@@ -7,14 +7,15 @@
   xsi:type="TaskPaneApp">
 
   <Id>a1b2c3d4-e5f6-7890-abcd-ef1234567890</Id>
-  <Version>4.0.3</Version>
+  <Version>4.0.4</Version>
   <ProviderName>AGFOCERT / Cemal Gurkan Kara</ProviderName>
   <DefaultLocale>tr-TR</DefaultLocale>
-  <DisplayName DefaultValue="AGFO AI Humanizer"/>
-  <Description DefaultValue="Metni AI ile insanlastir, HTML formatini koru."/>
 
-  <IconUrl DefaultValue="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/320px-Camponotus_flavomarginatus_ant.jpg"/>
-  <HighResolutionIconUrl DefaultValue="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/320px-Camponotus_flavomarginatus_ant.jpg"/>
+  <DisplayName DefaultValue="AGFO AI Humanizer"/>
+  <Description DefaultValue="Metni AI ile insanlaştır, Word içinde yeniden yaz ve düzenle."/>
+
+  <IconUrl DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/assets/icon-80.png"/>
   <SupportUrl DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/"/>
 
   <AppDomains>
@@ -26,7 +27,7 @@
   </Hosts>
 
   <Requirements>
-    <Sets>
+    <Sets DefaultMinVersion="1.3">
       <Set Name="WordApi" MinVersion="1.3"/>
     </Sets>
   </Requirements>
@@ -36,5 +37,87 @@
   </DefaultSettings>
 
   <Permissions>ReadWriteDocument</Permissions>
+
+  <VersionOverrides
+    xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+    xsi:type="VersionOverridesV1_0">
+
+    <Hosts>
+      <Host xsi:type="Document">
+        <DesktopFormFactor>
+
+          <GetStarted>
+            <Title resid="GetStarted.Title"/>
+            <Description resid="GetStarted.Description"/>
+            <LearnMoreUrl resid="GetStarted.LearnMoreUrl"/>
+          </GetStarted>
+
+          <FunctionFile resid="Taskpane.Url"/>
+
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="AGFO.CommandsGroup">
+
+                <Label resid="AGFO.GroupLabel"/>
+
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16"/>
+                  <bt:Image size="32" resid="Icon.32x32"/>
+                  <bt:Image size="80" resid="Icon.80x80"/>
+                </Icon>
+
+                <Control xsi:type="Button" id="AGFO.OpenTaskpaneButton">
+                  <Label resid="AGFO.ButtonLabel"/>
+
+                  <Supertip>
+                    <Title resid="AGFO.ButtonLabel"/>
+                    <Description resid="AGFO.ButtonDescription"/>
+                  </Supertip>
+
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
+                  </Icon>
+
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>AGFOHumanizerPane</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url"/>
+                  </Action>
+                </Control>
+
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/assets/icon-80.png"/>
+      </bt:Images>
+
+      <bt:Urls>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/taskpane.html"/>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/"/>
+      </bt:Urls>
+
+      <bt:ShortStrings>
+        <bt:String id="GetStarted.Title" DefaultValue="AGFO AI Humanizer hazır"/>
+        <bt:String id="AGFO.GroupLabel" DefaultValue="AGFO AI"/>
+        <bt:String id="AGFO.ButtonLabel" DefaultValue="AI Humanizer"/>
+      </bt:ShortStrings>
+
+      <bt:LongStrings>
+        <bt:String id="GetStarted.Description" DefaultValue="AGFO AI Humanizer Word içinde kullanıma hazır. Home sekmesindeki AI Humanizer butonundan paneli açabilirsiniz."/>
+        <bt:String id="AGFO.ButtonDescription" DefaultValue="Seçili metni veya tüm belgeyi AI ile insanlaştırmak için AGFO AI Humanizer panelini açar."/>
+      </bt:LongStrings>
+    </Resources>
+
+  </VersionOverrides>
 
 </OfficeApp>
