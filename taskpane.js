@@ -1406,79 +1406,102 @@ async function wordRun(callback) {
     if (input && count) count.textContent = String(input.value.length);
   }
 
-  function bindEvents() {
-    document.querySelectorAll(".ptab").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        setProvider(btn.getAttribute("data-provider"));
-      });
+function bindEvents() {
+  document.querySelectorAll(".ptab").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      setProvider(btn.getAttribute("data-provider"));
     });
+  });
 
-    document.querySelectorAll(".mode-btn").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        document.querySelectorAll(".mode-btn").forEach(function (b) {
-          b.classList.remove("active");
-        });
-
-        btn.classList.add("active");
-
-        const mode = btn.getAttribute("data-mode") || "OTO";
-        runModeDirect(mode, btn);
+  document.querySelectorAll(".mode-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll(".mode-btn").forEach(function (b) {
+        b.classList.remove("active");
       });
+
+      btn.classList.add("active");
+
+      /*
+       * Şimdilik doğrudan Word'e yazma devre dışı.
+       * Panel tekrar stabil çalışsın diye mod butonu sadece modu seçsin.
+       * Eski akış: Seçili Metni Al -> İnsanlaştır -> Seçimiyle Değiştir
+       */
+      setStatus("Mod seçildi: " + (btn.getAttribute("data-mode") || "OTO"), "info");
     });
+  });
 
-    const btnInstruction = $("btn-apply-instruction");
-    if (btnInstruction) {
-      btnInstruction.addEventListener("click", function () {
-        runCustomInstructionDirect(btnInstruction);
-      });
-    }
+  var input = $("hc-input");
+  if (input) {
+    input.addEventListener("input", updateCharCount);
+  }
 
-    const input = $("hc-input");
-    if (input) input.addEventListener("input", updateCharCount);
-
-    const btnSave = $("btn-save-key");
-    if (btnSave) {
-      btnSave.addEventListener("click", function () {
-        saveSettings();
-        refreshModels(state.provider, true);
-      });
-    }
-
-    const btnRefresh = $("btn-refresh-models");
-    if (btnRefresh) {
-      btnRefresh.addEventListener("click", function () {
-        saveSettings();
-        refreshModels(state.provider, true);
-      });
-    }
-
-    const btnGetSelection = $("btn-get-selection");
-    if (btnGetSelection) btnGetSelection.addEventListener("click", getSelectionText);
-
-    const btnGetAll = $("btn-get-all");
-    if (btnGetAll) btnGetAll.addEventListener("click", getAllText);
-
-    const btnRun = $("btn-run");
-    if (btnRun) btnRun.addEventListener("click", runHumanizer);
-
-    const btnReplace = $("btn-replace");
-    if (btnReplace) btnReplace.addEventListener("click", replaceSelection);
-
-    const btnAppend = $("btn-append");
-    if (btnAppend) btnAppend.addEventListener("click", appendToEnd);
-
-    const btnCopy = $("btn-copy");
-    if (btnCopy) btnCopy.addEventListener("click", copyOutput);
-
-    Object.keys(providers).forEach(function (provider) {
-      const p = providers[provider];
-      const modelEl = $(p.modelId);
-      const keyEl = $(p.keyId);
-
-      if (modelEl) modelEl.addEventListener("change", saveSettings);
-      if (keyEl) keyEl.addEventListener("change", saveSettings);
+  var btnSave = $("btn-save-key");
+  if (btnSave) {
+    btnSave.addEventListener("click", function () {
+      saveSettings();
+      refreshModels(state.provider, true);
     });
   }
+
+  var btnRefresh = $("btn-refresh-models");
+  if (btnRefresh) {
+    btnRefresh.addEventListener("click", function () {
+      saveSettings();
+      refreshModels(state.provider, true);
+    });
+  }
+
+  var btnGetSelection = $("btn-get-selection");
+  if (btnGetSelection) {
+    btnGetSelection.addEventListener("click", getSelectionText);
+  }
+
+  var btnGetAll = $("btn-get-all");
+  if (btnGetAll) {
+    btnGetAll.addEventListener("click", getAllText);
+  }
+
+  var btnRun = $("btn-run");
+  if (btnRun) {
+    btnRun.addEventListener("click", runHumanizer);
+  }
+
+  var btnReplace = $("btn-replace");
+  if (btnReplace) {
+    btnReplace.addEventListener("click", replaceSelection);
+  }
+
+  var btnAppend = $("btn-append");
+  if (btnAppend) {
+    btnAppend.addEventListener("click", appendToEnd);
+  }
+
+  var btnCopy = $("btn-copy");
+  if (btnCopy) {
+    btnCopy.addEventListener("click", copyOutput);
+  }
+
+  var btnInstruction = $("btn-apply-instruction");
+  if (btnInstruction) {
+    btnInstruction.addEventListener("click", function () {
+      setStatus("Custom talimat modu geçici olarak devre dışı. Önce ana paneli stabil hale getiriyoruz.", "info");
+    });
+  }
+
+  Object.keys(providers).forEach(function (provider) {
+    var p = providers[provider];
+    var modelEl = $(p.modelId);
+    var keyEl = $(p.keyId);
+
+    if (modelEl) {
+      modelEl.addEventListener("change", saveSettings);
+    }
+
+    if (keyEl) {
+      keyEl.addEventListener("change", saveSettings);
+    }
+  });
+}
 
   function initFallbackModels() {
     Object.keys(providers).forEach(function (provider) {
