@@ -75,23 +75,24 @@
     return document.getElementById(id);
   }
 
-  function wordApiReady() {
-    return (
-      typeof window !== "undefined" &&
-      typeof window.Office !== "undefined" &&
-      window.Office.context &&
-      window.Office.context.host === window.Office.HostType.Word &&
-      typeof window.Word !== "undefined" &&
-      typeof window.Word.run === "function"
+function wordApiReady() {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.Office !== "undefined" &&
+    typeof window.Word !== "undefined" &&
+    typeof window.Word.run === "function"
+  );
+}
+
+async function wordRun(callback) {
+  if (!wordApiReady()) {
+    throw new Error(
+      "Word API hazır değil. Panel Word içinde açılmadıysa bu normaldir. Word içindeyseniz paneli kapatıp yeniden açın; gerekirse Word’ü tamamen kapatıp tekrar açın."
     );
   }
 
-  async function wordRun(callback) {
-    if (!wordApiReady()) {
-      throw new Error(
-        "Word API hazır değil. Bu paneli normal tarayıcıda değil, Word içindeki Add-in panelinden açın. Eğer Word içindeyseniz paneli kapatıp yeniden açın."
-      );
-    }
+  return window.Word.run(callback);
+}
 
     return window.Word.run(callback);
   }
@@ -1497,12 +1498,6 @@
 
     setModelStatus("Model listeleri hazır. OpenRouter önerilir; güncel modeller için Modelleri Yenile.", "info");
 
-    if (!wordApiReady()) {
-      setStatus(
-        "Word API henüz hazır görünmüyor. Paneli normal tarayıcıda açtıysanız seçim işlemleri çalışmaz. Word içinden açtıysanız paneli kapatıp yeniden açın.",
-        "error"
-      );
-    }
   }
 
   if (window.Office && window.Office.onReady) {
