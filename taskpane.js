@@ -1,13 +1,14 @@
 /* ============================================================
  * AGFO AI Humanizer - Word Office.js
- * Dynamic Models: OpenRouter + OpenAI + Claude + Gemini
+ * Direct selected-text rewrite + custom instruction
+ * Providers: OpenRouter + OpenAI + Claude + Gemini
  * ============================================================ */
 
 (function () {
   "use strict";
 
-  const SETTINGS_KEY = "agfo_humanizer_settings_v5";
-  const MODEL_CACHE_KEY = "agfo_humanizer_model_cache_v5";
+  const SETTINGS_KEY = "agfo_humanizer_settings_v6";
+  const MODEL_CACHE_KEY = "agfo_humanizer_model_cache_v6";
 
   const MAX_OUTPUT_TOKENS = 2500;
   const TEMPERATURE = 0.2;
@@ -16,7 +17,8 @@
   const state = {
     provider: "openrouter",
     outputText: "",
-    initialized: false
+    initialized: false,
+    busy: false
   };
 
   const providers = {
@@ -117,11 +119,6 @@
     return el ? el.value : p.defaultModel;
   }
 
-  function activeMode() {
-    const btn = document.querySelector(".mode-btn.active");
-    return btn ? btn.getAttribute("data-mode") : "OTO";
-  }
-
   function activeLang() {
     const el = $("lang-select");
     return el ? el.value : "Turkish";
@@ -168,6 +165,17 @@
       });
     } catch (e) {
       console.warn("Settings load failed:", e);
+    }
+  }
+
+  function getSavedModel(provider) {
+    try {
+      const raw = localStorage.getItem(SETTINGS_KEY);
+      if (!raw) return "";
+      const data = JSON.parse(raw);
+      return data.models && data.models[provider] ? data.models[provider] : "";
+    } catch (e) {
+      return "";
     }
   }
 
@@ -261,16 +269,10 @@
       return id.includes("gemini");
     }
 
-    if (provider === "claude") {
-      return id.includes("claude");
-    }
+    if (provider === "claude") return id.includes("claude");
 
     if (provider === "openai") {
-      return (
-        id.startsWith("gpt-") ||
-        id.startsWith("o") ||
-        id.startsWith("chatgpt-")
-      );
+      return id.startsWith("gpt-") || id.startsWith("o") || id.startsWith("chatgpt-");
     }
 
     return true;
@@ -280,7 +282,6 @@
     const id = normalizeId(model.id).toLowerCase();
     const name = String(model.name || "").toLowerCase();
     const text = id + " " + name;
-
     let score = 0;
 
     const topPatterns = [
@@ -292,7 +293,6 @@
       ["gpt-5", 430],
       ["gpt-4.1", 390],
       ["gpt-4o", 360],
-
       ["claude-opus-4.5", 480],
       ["claude-sonnet-4.5", 470],
       ["claude-4", 440],
@@ -301,16 +301,13 @@
       ["claude-3-5-sonnet", 370],
       ["claude-3.5-sonnet", 370],
       ["claude-3-5-haiku", 310],
-
       ["gemini-3-pro", 470],
       ["gemini-2.5-pro", 420],
       ["gemini-2.5-flash", 390],
       ["gemini-2.0-flash", 330],
       ["gemini-1.5-pro", 260],
-
       ["o4-mini", 360],
       ["o3", 345],
-
       ["mistral-large", 260],
       ["deepseek-v3", 250],
       ["qwen3", 240],
@@ -325,7 +322,6 @@
     if (text.includes("flash")) score += 35;
     if (text.includes("sonnet")) score += 40;
     if (text.includes("pro")) score += 25;
-
     if (text.includes("instruct")) score += 20;
     if (text.includes("chat")) score += 20;
 
@@ -366,6 +362,7 @@
     models.forEach(function (m) {
       const id = normalizeId(m.id);
       if (!id || seen[id]) return;
+
       seen[id] = true;
 
       const item = Object.assign({}, m, { id: id });
@@ -389,13 +386,13 @@
 
     if (val >= 1000000) return Math.round(val / 1000000) + "M ctx";
     if (val >= 1000) return Math.round(val / 1000) + "K ctx";
+
     return val + " ctx";
   }
 
   function optionLabel(model, index) {
     const name = model.name || model.id;
     const id = model.id;
-
     let suffix = "";
 
     const context =
@@ -450,21 +447,11 @@
     }
 
     const saved = preferredValue || getSavedModel(provider) || p.defaultModel;
+
     if ([].slice.call(select.options).some(function (o) { return o.value === saved; })) {
       select.value = saved;
     } else if (select.options.length) {
       select.selectedIndex = 0;
-    }
-  }
-
-  function getSavedModel(provider) {
-    try {
-      const raw = localStorage.getItem(SETTINGS_KEY);
-      if (!raw) return "";
-      const data = JSON.parse(raw);
-      return data.models && data.models[provider] ? data.models[provider] : "";
-    } catch (e) {
-      return "";
     }
   }
 
@@ -479,7 +466,6 @@
 
   async function fetchOpenRouterModels() {
     const key = getKey("openrouter");
-
     const headers = {};
     if (key) headers.Authorization = "Bearer " + key;
 
@@ -488,9 +474,7 @@
       headers: headers
     });
 
-    if (!res.ok) {
-      throw new Error("OpenRouter model listesi alınamadı: HTTP " + res.status);
-    }
+    if (!res.ok) throw new Error("OpenRouter model listesi alınamadı: HTTP " + res.status);
 
     const data = await res.json();
     return Array.isArray(data.data) ? data.data : [];
@@ -498,9 +482,7 @@
 
   async function fetchOpenAIModels() {
     const key = getKey("openai");
-    if (!key) {
-      throw new Error("OpenAI modellerini çekmek için API key gerekli.");
-    }
+    if (!key) throw new Error("OpenAI modellerini çekmek için API key gerekli.");
 
     const res = await fetch("https://api.openai.com/v1/models", {
       method: "GET",
@@ -509,9 +491,7 @@
       }
     });
 
-    if (!res.ok) {
-      throw new Error("OpenAI model listesi alınamadı: HTTP " + res.status);
-    }
+    if (!res.ok) throw new Error("OpenAI model listesi alınamadı: HTTP " + res.status);
 
     const data = await res.json();
 
@@ -529,9 +509,7 @@
 
   async function fetchClaudeModels() {
     const key = getKey("claude");
-    if (!key) {
-      throw new Error("Claude modellerini çekmek için API key gerekli.");
-    }
+    if (!key) throw new Error("Claude modellerini çekmek için API key gerekli.");
 
     const res = await fetch("https://api.anthropic.com/v1/models?limit=1000", {
       method: "GET",
@@ -541,9 +519,7 @@
       }
     });
 
-    if (!res.ok) {
-      throw new Error("Claude model listesi alınamadı: HTTP " + res.status);
-    }
+    if (!res.ok) throw new Error("Claude model listesi alınamadı: HTTP " + res.status);
 
     const data = await res.json();
 
@@ -560,21 +536,15 @@
 
   async function fetchGeminiModels() {
     const key = getKey("gemini");
-    if (!key) {
-      throw new Error("Gemini modellerini çekmek için API key gerekli.");
-    }
+    if (!key) throw new Error("Gemini modellerini çekmek için API key gerekli.");
 
     const url =
       "https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000&key=" +
       encodeURIComponent(key);
 
-    const res = await fetch(url, {
-      method: "GET"
-    });
+    const res = await fetch(url, { method: "GET" });
 
-    if (!res.ok) {
-      throw new Error("Gemini model listesi alınamadı: HTTP " + res.status);
-    }
+    if (!res.ok) throw new Error("Gemini model listesi alınamadı: HTTP " + res.status);
 
     const data = await res.json();
 
@@ -611,9 +581,7 @@
       const models = await fetchModels(provider);
       const sorted = sortUsefulModels(provider, models);
 
-      if (!sorted.length) {
-        throw new Error("Uygun chat modeli bulunamadı.");
-      }
+      if (!sorted.length) throw new Error("Uygun chat modeli bulunamadı.");
 
       setCachedModels(provider, sorted);
       fillModelSelect(provider, sorted, preferred);
@@ -650,60 +618,78 @@
     refreshModels(provider, false);
   }
 
-function buildPrompt(mode, lang) {
-  return agfoGetPrompt(mode, lang);
-}
-
-function agfoGetPrompt(mode, lang) {
-  const normalizedMode = String(mode || "OTO").toUpperCase();
-  const safeLang = String(lang || "Turkish").trim();
-
-  let prompt;
-
-  if (normalizedMode === "CGK_DRAMA") {
-    prompt = agfoPromptCgkDrama();
-  } else if (normalizedMode === "CGK_AKADEMIK") {
-    prompt = agfoPromptCgkAkademik();
-  } else if (normalizedMode === "SIMPLE") {
-    prompt = agfoPromptSimple();
-  } else if (normalizedMode === "KUPKURU") {
-    prompt = agfoPromptKupkuru();
-  } else {
-    prompt = agfoPromptDefault();
+  function buildPrompt(mode, lang) {
+    return agfoGetPrompt(mode, lang);
   }
 
-  prompt = prompt
-    .replaceAll("{mode}", normalizedMode)
-    .replaceAll("{lang}", safeLang);
+  function buildInstructionPrompt(instruction, lang) {
+    return [
+      "Sen seçili metin üzerinde kullanıcının talimatını uygulayan profesyonel bir editörsün.",
+      "",
+      "KULLANICI TALİMATI:",
+      instruction,
+      "",
+      "KURALLAR:",
+      "- Yalnızca verilen seçili metni dönüştür.",
+      "- Seçili metnin dışına çıkma.",
+      "- Yeni olay, karakter, sahne veya bilgi ekleme.",
+      "- Talimatı metnin anlamını bozmayacak şekilde uygula.",
+      "- Açıklama, not, analiz, giriş veya kapanış yorumu yazma.",
+      "- Cevap sadece dönüştürülmüş metinden oluşsun.",
+      "- Microsoft Word için temiz düz metin döndür.",
+      "- HTML etiketi ve markdown kod bloğu döndürme.",
+      "- Çıktı dili: " + lang
+    ].join("\n");
+  }
 
-  prompt += `
+  function agfoGetPrompt(mode, lang) {
+    const normalizedMode = String(mode || "OTO").toUpperCase();
+    const safeLang = String(lang || "Turkish").trim();
+
+    let prompt;
+
+    if (normalizedMode === "CGK_DRAMA") {
+      prompt = agfoPromptCgkDrama();
+    } else if (normalizedMode === "CGK_AKADEMIK") {
+      prompt = agfoPromptCgkAkademik();
+    } else if (normalizedMode === "SIMPLE") {
+      prompt = agfoPromptSimple();
+    } else if (normalizedMode === "KUPKURU") {
+      prompt = agfoPromptKupkuru();
+    } else {
+      prompt = agfoPromptDefault();
+    }
+
+    prompt = prompt
+      .replaceAll("{mode}", normalizedMode)
+      .replaceAll("{lang}", safeLang);
+
+    prompt += `
 
 KESİN ÇIKTI KURALI:
-- Yalnızca kullanıcının gönderdiği metni dönüştür.
+- Yalnızca kullanıcının gönderdiği seçili metni dönüştür.
 - Word belgesinin gönderilmeyen bölümlerini dönüştürme, tahmin etme veya ekleme.
 - Açıklama, not, önsöz, sonsöz, analiz, gerekçe veya yorum yazma.
 - "İşte düzenlenmiş metin", "Aşağıda", "Elbette", "Tabii" gibi girişler yazma.
 - Cevap sadece dönüştürülmüş metinden oluşsun.
-- Markdown kod bloğu kullanma.
 - Microsoft Word için temiz düz metin döndür.
-- HTML etiketi döndürme.`;
+- HTML etiketi ve markdown kod bloğu döndürme.`;
 
-  return prompt;
-}
+    return prompt;
+  }
 
-function agfoPromptDefault() {
-  return `Sen bir metin yeniden yazma uzmanısın.
+  function agfoPromptDefault() {
+    return `Sen bir metin yeniden yazma uzmanısın.
 
 MOD: {mode}
 
-Görevin, verilen metni gerçek bir insanın yazmış olabileceği şekilde dönüştürmektir.
+Görevin, verilen seçili metni gerçek bir insanın yazmış olabileceği şekilde dönüştürmektir.
 
-EVRENSEL KURALLAR:
+Kurallar:
 - Anlamı koru.
 - Zaman kipini değiştirme.
 - Yeni bilgi ekleme.
 - Metnin kapsamını genişletme.
-- Metni özetleme; yalnızca verilen metni dönüştür.
 - AI kalıplarını temizle.
 - Yapay simetriyi ve mekanik geçişleri azalt.
 - Gereksiz üçlü yapıları kır.
@@ -722,95 +708,84 @@ KELIME: Kelime seçimini iyileştir, anlamı değiştirme.
 KATMANLI: Anlamı bozmadan daha katmanlı ve nüanslı yaz.
 
 Çıktı dili: {lang}`;
-}
+  }
 
-function agfoPromptSimple() {
-  return `Sen bir metin sadeleştirme ve insanileştirme editörüsün.
+  function agfoPromptSimple() {
+    return `Sen bir metin sadeleştirme ve insanileştirme editörüsün.
 
-GÖREV:
-Verilen metindeki yapay zekâ yazım izlerini temizle.
+Görev:
+Verilen seçili metindeki yapay zekâ izlerini temizle.
 
-KURALLAR:
-- Anlamı, bilgi akışını ve temel iddiayı koru.
+Kurallar:
+- Anlamı ve bilgi sırasını koru.
 - Metni büyütme.
 - Yeni bilgi ekleme.
-- Yapay simetriyi, mekanik geçişleri ve fazla düzenli paragraf ritmini kır.
-- Gereksiz üçlü yapıları azalt.
-- "Bu bağlamda", "önemli bir rol oynar", "dikkat çekmektedir", "sonuç olarak" gibi klişe geçişleri temizle.
+- Klişe geçişleri temizle.
 - Gereksiz pekiştiricileri sil.
 - Cümleleri daha doğal Türkçeye çevir.
 - Açıklama, not, değerlendirme, giriş veya kapanış cümlesi ekleme.
-- Çıktıda sadece düzenlenmiş metni ver.
+- Çıktıda yalnızca düzenlenmiş metni ver.
 
 Çıktı dili: {lang}`;
-}
+  }
 
-function agfoPromptKupkuru() {
-  return `Sen sert sadeleştirme yapan profesyonel bir Türkçe editörsün.
+  function agfoPromptKupkuru() {
+    return `Sen sert sadeleştirme yapan profesyonel bir Türkçe editörsün.
 
-GÖREV:
-Verilen metni, bağlam anlaşılacak şekilde en kuru, en kısa ve en anlam odaklı hâle getir. Amaç üslup güzelliği değil, yalnızca olayın, kararın, çatışmanın ve sonucun anlaşılmasıdır.
+Görev:
+Verilen seçili metni mümkün olan en kısa, en kuru ve en işlevsel hâle getir.
 
-ANA İLKE:
-Metinde yalnızca bağlamı taşıyan cümleler kalsın. Sahne, duygu, atmosfer, tasvir ve sembolizm ancak olayın anlaşılması için zorunluysa korunur. Zorunlu değilse silinir.
-
-KURALLAR:
+Kurallar:
 - Ana anlamı koru.
 - Olay, iddia ve bilgi sırasını bozma.
 - Gereksiz betimlemeleri kaldır.
-- Duygu, atmosfer, iç gerilim, dramatik vurgu ve şiirsel ifadeleri azalt.
-- Metafor, benzetme, sembolik anlatım ve aforizma kullanma.
-- Aynı anlamı taşıyan cümleleri birleştir veya sil.
-- Fazla uzun cümleleri böl.
+- Duygu, atmosfer ve dramatik vurguyu azalt.
+- Metafor, aforizma ve süs cümlelerini sil.
+- Aynı anlamı taşıyan cümleleri birleştir.
 - Yorumu azalt; olayı ve sonucu doğrudan ver.
-- Metni güzelleştirmeye çalışma.
 - Yeni bilgi ekleme.
-- Açıklama, not veya değerlendirme yazma.
+- Açıklama veya not yazma.
 
 Çıktı dili: {lang}`;
-}
+  }
 
-function agfoPromptCgkAkademik() {
-  return `Sen akademik Türkçe metinleri düzenleyen profesyonel bir editörsün.
+  function agfoPromptCgkAkademik() {
+    return `Sen akademik Türkçe metinleri düzenleyen profesyonel bir editörsün.
 
-TEMEL İLKE:
+Temel ilke:
 Bilimsel içeriği sade, katmanlı ve doğal bir dille aktar. Veriyi öne çıkar. Yorumu verinin içinden üret. Klişeden kaçın.
 
-YAZMADAN ÖNCE:
-- Paragrafı olumsuz yüklemle açmamaya çalış.
-- Arka arkaya iki paragrafı "Bu..." ile başlatma.
-- Silindiğinde anlam eksilmeyen olumsuz cümleleri kaldır.
-
-KURALLAR:
+Kurallar:
 - Bilimsel anlamı koru.
 - Akademik tonu koru ama metni şişirme.
 - Her paragraf tek odak taşısın.
+- Paragraf açılışında sürekli "Bu..." kullanma.
+- Olumsuz yüklemle paragraf açmaktan kaçın.
 - Aşırı yüklenmiş cümleleri böl.
 - Üçlü yapıları azalt.
 - Yapay akademik kalıpları sadeleştir.
 - "...olduğu bilinmektedir" yerine daha doğrudan ifade kullan.
 - "...önem arz etmektedir" yerine "...önemlidir" veya "...önem taşır" kullan.
-- Gereksiz pekiştiricileri sil: "oldukça", "son derece", "büyük ölçüde".
-- Yapay bağlaçlardan kaçın: üstelik, dahası, bilakis, mamafih, keza.
+- Gereksiz pekiştiricileri sil.
 - Açıklama, not veya analiz ekleme.
 - Sadece dönüştürülmüş metni ver.
 
 Çıktı dili: {lang}`;
-}
+  }
 
-function agfoPromptCgkDrama() {
-  return `Türkçe drama tarzında yazan profesyonel bir editörsün.
+  function agfoPromptCgkDrama() {
+    return `Türkçe drama tarzında yazan profesyonel bir editörsün.
 
-AMAÇ:
-Verilen metni süslü, yapay veya açıklayıcı hâle getirmeden; doğal, katmanlı, duyusal ve kader duygusu taşıyan bir anlatıya dönüştür.
+Amaç:
+Verilen seçili metni süslü, yapay veya açıklayıcı hâle getirmeden; doğal, katmanlı, duyusal ve kader duygusu taşıyan bir anlatıya dönüştür.
 
 Metin yalnızca olay anlatmasın; olayın içinden zaman, aile, tekrar, kayıp, arzu ve kaçınılmazlık sezilsin.
 Okur duygu adını değil, duygunun izini görsün.
 
-TEMEL AKIŞ:
+Temel akış:
 sahne → duyusal temas → iç tepki → tekrar/kader sezgisi → küçük ama kalıcı kavrayış
 
-KURALLAR:
+Kurallar:
 - Önce somut durum kur.
 - Anlamı sahnenin içinden çıkar.
 - Soyutluğu doğrudan verme; nesne, hava, beden, ses, koku veya küçük davranışla sezdir.
@@ -827,7 +802,7 @@ KURALLAR:
 - Açıklama, not, analiz, başlık, giriş veya kapanış yorumu yazma.
 - Sadece yeniden yazılmış metni ver.
 
-DİLDEN KAÇIN:
+Dilden kaçın:
 - "Derin bir yalnızlık hissetti"
 - "İçinde tarif edilemez bir acı vardı"
 - "Kader ağlarını örüyordu"
@@ -836,7 +811,7 @@ DİLDEN KAÇIN:
 - "Bu onun için bir dönüm noktasıydı"
 
 Çıktı dili: {lang}`;
-}
+  }
 
   async function callAI(systemPrompt, userText) {
     if (state.provider === "openrouter") {
@@ -876,6 +851,7 @@ DİLDEN KAÇIN:
 
   function modelLooksReasoning(model) {
     const s = String(model || "").toLowerCase();
+
     return (
       s.startsWith("o1") ||
       s.startsWith("o3") ||
@@ -943,9 +919,7 @@ DİLDEN KAÇIN:
       data.choices[0].message &&
       data.choices[0].message.content;
 
-    if (!out) {
-      throw new Error("Model boş yanıt döndürdü.");
-    }
+    if (!out) throw new Error("Model boş yanıt döndürdü.");
 
     return cleanModelOutput(out);
   }
@@ -1064,183 +1038,152 @@ DİLDEN KAÇIN:
       .replace(/^\s*```(?:html|markdown|md|text)?/i, "")
       .replace(/```\s*$/i, "")
       .replace(/\uFEFF/g, "")
+      .replace(/^\s*(Elbette|Tabii|İşte|Iste|Aşağıda|Asagida)[^\n]*[:：-]?\s*/i, "")
       .trim();
   }
 
-  function escapeHtml(text) {
-    return String(text || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+  async function getCurrentWordSelectionText() {
+    let selectedText = "";
+
+    await Word.run(async function (context) {
+      const range = context.document.getSelection();
+      range.load("text");
+      await context.sync();
+
+      selectedText = String(range.text || "").trim();
+    });
+
+    return selectedText;
   }
 
-  function textToHtml(text) {
-    const clean = cleanModelOutput(text);
-    const paragraphs = clean
-      .split(/\n{2,}/)
-      .map(function (p) {
-        return p.trim();
-      })
-      .filter(Boolean);
+  async function replaceCurrentWordSelection(newText) {
+    await Word.run(async function (context) {
+      const range = context.document.getSelection();
+      range.load("text");
+      await context.sync();
 
-    if (!paragraphs.length) return "";
+      const current = String(range.text || "").trim();
 
-    return paragraphs
-      .map(function (p) {
-        return "<p>" + escapeHtml(p).replace(/\n/g, "<br>") + "</p>";
-      })
-      .join("");
+      if (!current) {
+        throw new Error("Seçim kayboldu. Lütfen metni tekrar seçip yeniden deneyin.");
+      }
+
+      const inserted = range.insertText(newText, "Replace");
+      inserted.font.color = "#166534";
+
+      await context.sync();
+    });
   }
 
-  async function getSelectionText() {
-    try {
-      await Word.run(async function (context) {
-        const range = context.document.getSelection();
-        range.load("text");
-        await context.sync();
+  function setButtonBusy(btn, busy, label) {
+    if (!btn) return function () {};
 
-        $("hc-input").value = range.text || "";
-        updateCharCount();
-        setStatus("Seçili metin alındı.", "success");
-      });
-    } catch (err) {
-      setStatus("Seçili metin alınamadı: " + err.message, "error");
+    const oldHtml = btn.innerHTML;
+
+    if (busy) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>' + (label || "İşleniyor...");
     }
+
+    return function () {
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
+    };
   }
 
-  async function getAllText() {
-    try {
-      await Word.run(async function (context) {
-        const body = context.document.body;
-        body.load("text");
-        await context.sync();
+  async function runSelectedMode(mode, clickedButton) {
+    if (state.busy) return;
+    state.busy = true;
 
-        $("hc-input").value = body.text || "";
-        updateCharCount();
-        setStatus("Tüm belge metni alındı.", "success");
-      });
-    } catch (err) {
-      setStatus("Belge metni alınamadı: " + err.message, "error");
-    }
-  }
-
-  async function replaceSelection() {
-    if (!state.outputText) {
-      setStatus("Önce AI çıktısı üretmelisin.", "error");
-      return;
-    }
-
-    try {
-      await Word.run(async function (context) {
-        const range = context.document.getSelection();
-        range.insertText(state.outputText, "Replace");
-        await context.sync();
-
-        setStatus("Seçim AI çıktısıyla değiştirildi.", "success");
-      });
-    } catch (err) {
-      setStatus("Word'e yazılamadı: " + err.message, "error");
-    }
-  }
-
-  async function appendToEnd() {
-    if (!state.outputText) {
-      setStatus("Önce AI çıktısı üretmelisin.", "error");
-      return;
-    }
-
-    try {
-      await Word.run(async function (context) {
-        context.document.body.insertParagraph(state.outputText, "End");
-        await context.sync();
-
-        setStatus("Çıktı belgenin sonuna eklendi.", "success");
-      });
-    } catch (err) {
-      setStatus("Belge sonuna eklenemedi: " + err.message, "error");
-    }
-  }
-
-  async function copyOutput() {
-    if (!state.outputText) {
-      setStatus("Kopyalanacak çıktı yok.", "error");
-      return;
-    }
-
-    try {
-      await navigator.clipboard.writeText(state.outputText);
-      setStatus("Çıktı kopyalandı.", "success");
-    } catch (err) {
-      setStatus("Kopyalama başarısız: " + err.message, "error");
-    }
-  }
-
-  async function runHumanizer() {
-    const input = $("hc-input");
-    const btn = $("btn-run");
-
-    const text = input ? input.value.trim() : "";
-    if (!text) {
-      setStatus("Lütfen metin gir veya belgeden metin al.", "error");
-      return;
-    }
-
+    const restoreButton = setButtonBusy(clickedButton, true, "İşleniyor...");
     const provider = state.provider;
     const model = getSelectedModel(provider);
     const lang = activeLang();
-    const mode = activeMode();
+
+    document.querySelectorAll(".mode-btn").forEach(function (b) {
+      b.classList.remove("active");
+    });
+
+    if (clickedButton) clickedButton.classList.add("active");
 
     saveSettings();
 
-    const oldHtml = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>İşleniyor...';
-
     setStatus(
-      providers[provider].label + " / " + model + " ile metin işleniyor...",
+      providers[provider].label + " / " + model + " ile seçili metin işleniyor...",
       "info"
     );
 
     try {
-      const prompt = buildPrompt(mode, lang);
-      const result = await callAI(prompt, text);
+      const selectedText = await getCurrentWordSelectionText();
 
-      state.outputText = result;
-
-      const output = $("hc-output");
-      const section = $("output-section");
-
-      output.innerHTML = textToHtml(result);
-      output.style.display = "block";
-      section.style.display = "block";
-
-      $("used-mode").textContent = mode + " · " + providers[provider].label + " · " + model;
-
-      setStatus("Tamamlandı.", "success");
-    } catch (err) {
-      console.error(err);
-
-      let extra = "";
-      if (
-        String(err.message || "").toLowerCase().includes("failed to fetch") ||
-        String(err.message || "").toLowerCase().includes("cors")
-      ) {
-        extra =
-          " Not: Bazı sağlayıcılar tarayıcı/Office taskpane içinden doğrudan API çağrısını CORS nedeniyle engelleyebilir. Ürünleşmede backend proxy daha sağlıklı olur.";
+      if (!selectedText) {
+        setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
+        return;
       }
 
-      setStatus("Hata: " + err.message + extra, "error");
+      const prompt = buildPrompt(mode, lang);
+      const result = await callAI(prompt, selectedText);
+
+      await replaceCurrentWordSelection(result);
+
+      state.outputText = result;
+      setStatus("Seçili metin doğrudan değiştirildi.", "success");
+    } catch (err) {
+      console.error(err);
+      setStatus("Hata: " + err.message, "error");
     } finally {
-      btn.disabled = false;
-      btn.innerHTML = oldHtml;
+      restoreButton();
+      state.busy = false;
     }
   }
 
-  function updateCharCount() {
-    const input = $("hc-input");
-    const count = $("char-count");
-    if (input && count) count.textContent = String(input.value.length);
+  async function runSelectedInstruction(clickedButton) {
+    if (state.busy) return;
+
+    const input = $("custom-instruction");
+    const instruction = input ? input.value.trim() : "";
+
+    if (!instruction) {
+      setStatus("Önce seçili metne uygulanacak talimatı yazın.", "error");
+      return;
+    }
+
+    state.busy = true;
+
+    const restoreButton = setButtonBusy(clickedButton, true, "Uygulanıyor...");
+    const provider = state.provider;
+    const model = getSelectedModel(provider);
+    const lang = activeLang();
+
+    saveSettings();
+
+    setStatus(
+      providers[provider].label + " / " + model + " ile talimat uygulanıyor...",
+      "info"
+    );
+
+    try {
+      const selectedText = await getCurrentWordSelectionText();
+
+      if (!selectedText) {
+        setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
+        return;
+      }
+
+      const prompt = buildInstructionPrompt(instruction, lang);
+      const result = await callAI(prompt, selectedText);
+
+      await replaceCurrentWordSelection(result);
+
+      state.outputText = result;
+      setStatus("Talimat seçili metne uygulandı.", "success");
+    } catch (err) {
+      console.error(err);
+      setStatus("Hata: " + err.message, "error");
+    } finally {
+      restoreButton();
+      state.busy = false;
+    }
   }
 
   function bindEvents() {
@@ -1252,45 +1195,41 @@ DİLDEN KAÇIN:
 
     document.querySelectorAll(".mode-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        document.querySelectorAll(".mode-btn").forEach(function (b) {
-          b.classList.remove("active");
-        });
-        btn.classList.add("active");
+        const mode = btn.getAttribute("data-mode") || "OTO";
+        runSelectedMode(mode, btn);
       });
     });
 
-    const input = $("hc-input");
-    if (input) input.addEventListener("input", updateCharCount);
+    const btnInstruction = $("btn-apply-instruction");
+    if (btnInstruction) {
+      btnInstruction.addEventListener("click", function () {
+        runSelectedInstruction(btnInstruction);
+      });
+    }
 
-    $("btn-save-key").addEventListener("click", function () {
-      saveSettings();
-      refreshModels(state.provider, true);
-    });
+    const btnSave = $("btn-save-key");
+    if (btnSave) {
+      btnSave.addEventListener("click", function () {
+        saveSettings();
+        refreshModels(state.provider, true);
+      });
+    }
 
-    $("btn-refresh-models").addEventListener("click", function () {
-      saveSettings();
-      refreshModels(state.provider, true);
-    });
-
-    $("btn-get-selection").addEventListener("click", getSelectionText);
-    $("btn-get-all").addEventListener("click", getAllText);
-    $("btn-run").addEventListener("click", runHumanizer);
-    $("btn-replace").addEventListener("click", replaceSelection);
-    $("btn-append").addEventListener("click", appendToEnd);
-    $("btn-copy").addEventListener("click", copyOutput);
+    const btnRefresh = $("btn-refresh-models");
+    if (btnRefresh) {
+      btnRefresh.addEventListener("click", function () {
+        saveSettings();
+        refreshModels(state.provider, true);
+      });
+    }
 
     Object.keys(providers).forEach(function (provider) {
       const p = providers[provider];
       const modelEl = $(p.modelId);
       const keyEl = $(p.keyId);
 
-      if (modelEl) {
-        modelEl.addEventListener("change", saveSettings);
-      }
-
-      if (keyEl) {
-        keyEl.addEventListener("change", saveSettings);
-      }
+      if (modelEl) modelEl.addEventListener("change", saveSettings);
+      if (keyEl) keyEl.addEventListener("change", saveSettings);
     });
   }
 
@@ -1307,7 +1246,6 @@ DİLDEN KAÇIN:
     loadSettings();
     initFallbackModels();
     bindEvents();
-    updateCharCount();
     setProvider(state.provider || "openrouter");
 
     setModelStatus("Model listeleri hazır. OpenRouter önerilir; güncel modeller için Modelleri Yenile.", "info");
