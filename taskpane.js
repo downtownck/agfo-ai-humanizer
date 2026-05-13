@@ -1271,12 +1271,18 @@ async function runModeDirect(mode, btn) {
       });
     });
 
-    document.querySelectorAll(".mode-btn").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        const mode = btn.getAttribute("data-mode") || "OTO";
-        runSelectedMode(mode, btn);
-      });
+document.querySelectorAll(".mode-btn").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    document.querySelectorAll(".mode-btn").forEach(function (b) {
+      b.classList.remove("active");
     });
+
+    btn.classList.add("active");
+
+    const mode = btn.getAttribute("data-mode") || "OTO";
+    runModeDirect(mode, btn);
+  });
+});
 
     const btnInstruction = $("btn-apply-instruction");
     if (btnInstruction) {
