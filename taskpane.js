@@ -1,27 +1,27 @@
 /* ============================================================
  * AGFO AI Humanizer - Word Office.js
- * Direct selected-text rewrite + fallback old panel support
+ * Stable clean version
+ * Flow: Get Selection / Get All -> Humanize -> Replace / Append / Copy
  * Providers: OpenRouter + OpenAI + Claude + Gemini
  * ============================================================ */
 
 (function () {
   "use strict";
 
-  const SETTINGS_KEY = "agfo_humanizer_settings_v7";
-  const MODEL_CACHE_KEY = "agfo_humanizer_model_cache_v7";
+  var SETTINGS_KEY = "agfo_humanizer_settings_stable_v1";
+  var MODEL_CACHE_KEY = "agfo_humanizer_model_cache_stable_v1";
 
-  const MAX_OUTPUT_TOKENS = 2500;
-  const TEMPERATURE = 0.2;
-  const MODEL_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
+  var MAX_OUTPUT_TOKENS = 2500;
+  var TEMPERATURE = 0.2;
+  var MODEL_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
 
-  const state = {
+  var state = {
     provider: "openrouter",
     outputText: "",
-    initialized: false,
-    busy: false
+    initialized: false
   };
 
-  const providers = {
+  var providers = {
     openrouter: {
       label: "OpenRouter",
       keyId: "key-openrouter",
@@ -75,30 +75,26 @@
     return document.getElementById(id);
   }
 
-function wordApiReady() {
-  return (
-    typeof window !== "undefined" &&
-    typeof window.Office !== "undefined" &&
-    typeof window.Word !== "undefined" &&
-    typeof window.Word.run === "function"
-  );
-}
-
-async function wordRun(callback) {
-  if (!wordApiReady()) {
-    throw new Error(
-      "Word API hazır değil. Panel Word içinde açılmadıysa bu normaldir. Word içindeyseniz paneli kapatıp yeniden açın; gerekirse Word’ü tamamen kapatıp tekrar açın."
+  function wordApiReady() {
+    return (
+      typeof window !== "undefined" &&
+      typeof window.Word !== "undefined" &&
+      typeof window.Word.run === "function"
     );
   }
 
-  return window.Word.run(callback);
-}
+  async function wordRun(callback) {
+    if (!wordApiReady()) {
+      throw new Error(
+        "Word API hazır değil. Bu paneli Word içindeki Add-in panelinden açın. Normal tarayıcıda belge işlemleri çalışmaz."
+      );
+    }
 
     return window.Word.run(callback);
   }
 
   function setStatus(message, type) {
-    const el = $("status-msg");
+    var el = $("status-msg");
     if (!el) return;
 
     if (!message) {
@@ -114,7 +110,7 @@ async function wordRun(callback) {
   }
 
   function setModelStatus(message, type) {
-    const el = $("model-status");
+    var el = $("model-status");
     if (!el) return;
 
     if (!message) {
@@ -130,38 +126,38 @@ async function wordRun(callback) {
   }
 
   function getKey(provider) {
-    const p = providers[provider];
-    const el = $(p.keyId);
+    var p = providers[provider];
+    var el = p ? $(p.keyId) : null;
     return el ? el.value.trim() : "";
   }
 
   function getSelectedModel(provider) {
-    const p = providers[provider];
-    const el = $(p.modelId);
+    var p = providers[provider];
+    var el = p ? $(p.modelId) : null;
     return el ? el.value : p.defaultModel;
   }
 
   function activeMode() {
-    const btn = document.querySelector(".mode-btn.active");
+    var btn = document.querySelector(".mode-btn.active");
     return btn ? btn.getAttribute("data-mode") : "OTO";
   }
 
   function activeLang() {
-    const el = $("lang-select");
+    var el = $("lang-select");
     return el ? el.value : "Turkish";
   }
 
   function saveSettings() {
-    const data = {
+    var data = {
       provider: state.provider,
       keys: {},
       models: {}
     };
 
     Object.keys(providers).forEach(function (provider) {
-      const p = providers[provider];
-      const keyEl = $(p.keyId);
-      const modelEl = $(p.modelId);
+      var p = providers[provider];
+      var keyEl = $(p.keyId);
+      var modelEl = $(p.modelId);
 
       data.keys[provider] = keyEl ? keyEl.value : "";
       data.models[provider] = modelEl ? modelEl.value : p.defaultModel;
@@ -173,20 +169,20 @@ async function wordRun(callback) {
 
   function loadSettings() {
     try {
-      const raw = localStorage.getItem(SETTINGS_KEY);
+      var raw = localStorage.getItem(SETTINGS_KEY);
       if (!raw) return;
 
-      const data = JSON.parse(raw);
+      var data = JSON.parse(raw);
 
       if (data.provider && providers[data.provider]) {
         state.provider = data.provider;
       }
 
       Object.keys(providers).forEach(function (provider) {
-        const p = providers[provider];
+        var p = providers[provider];
 
         if (data.keys && typeof data.keys[provider] === "string") {
-          const keyEl = $(p.keyId);
+          var keyEl = $(p.keyId);
           if (keyEl) keyEl.value = data.keys[provider];
         }
       });
@@ -197,10 +193,10 @@ async function wordRun(callback) {
 
   function getSavedModel(provider) {
     try {
-      const raw = localStorage.getItem(SETTINGS_KEY);
+      var raw = localStorage.getItem(SETTINGS_KEY);
       if (!raw) return "";
 
-      const data = JSON.parse(raw);
+      var data = JSON.parse(raw);
       return data.models && data.models[provider] ? data.models[provider] : "";
     } catch (e) {
       return "";
@@ -209,11 +205,11 @@ async function wordRun(callback) {
 
   function getCachedModels(provider) {
     try {
-      const raw = localStorage.getItem(MODEL_CACHE_KEY);
+      var raw = localStorage.getItem(MODEL_CACHE_KEY);
       if (!raw) return null;
 
-      const cache = JSON.parse(raw);
-      const item = cache[provider];
+      var cache = JSON.parse(raw);
+      var item = cache[provider];
 
       if (!item || !item.createdAt || !Array.isArray(item.models)) return null;
       if (Date.now() - item.createdAt > MODEL_CACHE_TTL_MS) return null;
@@ -226,8 +222,8 @@ async function wordRun(callback) {
 
   function setCachedModels(provider, models) {
     try {
-      const raw = localStorage.getItem(MODEL_CACHE_KEY);
-      const cache = raw ? JSON.parse(raw) : {};
+      var raw = localStorage.getItem(MODEL_CACHE_KEY);
+      var cache = raw ? JSON.parse(raw) : {};
 
       cache[provider] = {
         createdAt: Date.now(),
@@ -245,9 +241,9 @@ async function wordRun(callback) {
   }
 
   function isBadModelId(id) {
-    const s = String(id || "").toLowerCase();
+    var s = String(id || "").toLowerCase();
 
-    const banned = [
+    var banned = [
       "embedding",
       "embed",
       "dall-e",
@@ -268,55 +264,52 @@ async function wordRun(callback) {
     ];
 
     return banned.some(function (x) {
-      return s.includes(x);
+      return s.indexOf(x) !== -1;
     });
   }
 
   function looksChatCapable(provider, model) {
-    const id = normalizeId(model.id).toLowerCase();
-    const name = String(model.name || "").toLowerCase();
+    var id = normalizeId(model.id).toLowerCase();
+    var name = String(model.name || "").toLowerCase();
 
     if (!id || isBadModelId(id) || isBadModelId(name)) return false;
 
     if (provider === "openrouter") {
-      const arch = model.architecture || {};
-      const input = arch.input_modalities || [];
-      const output = arch.output_modalities || [];
+      var arch = model.architecture || {};
+      var input = arch.input_modalities || [];
+      var output = arch.output_modalities || [];
 
-      if (Array.isArray(input) && input.length && !input.includes("text")) return false;
-      if (Array.isArray(output) && output.length && !output.includes("text")) return false;
+      if (Array.isArray(input) && input.length && input.indexOf("text") === -1) return false;
+      if (Array.isArray(output) && output.length && output.indexOf("text") === -1) return false;
 
       return true;
     }
 
     if (provider === "gemini") {
-      const methods = model.supportedGenerationMethods || model.supported_actions || [];
+      var methods = model.supportedGenerationMethods || model.supported_actions || [];
       if (Array.isArray(methods) && methods.length) {
-        return methods.includes("generateContent");
+        return methods.indexOf("generateContent") !== -1;
       }
 
-      return id.includes("gemini");
+      return id.indexOf("gemini") !== -1;
     }
 
-    if (provider === "claude") {
-      return id.includes("claude");
-    }
+    if (provider === "claude") return id.indexOf("claude") !== -1;
 
     if (provider === "openai") {
-      return id.startsWith("gpt-") || id.startsWith("o") || id.startsWith("chatgpt-");
+      return id.indexOf("gpt-") === 0 || id.indexOf("o") === 0 || id.indexOf("chatgpt-") === 0;
     }
 
     return true;
   }
 
   function scoreModel(provider, model) {
-    const id = normalizeId(model.id).toLowerCase();
-    const name = String(model.name || "").toLowerCase();
-    const text = id + " " + name;
+    var id = normalizeId(model.id).toLowerCase();
+    var name = String(model.name || "").toLowerCase();
+    var text = id + " " + name;
+    var score = 0;
 
-    let score = 0;
-
-    const topPatterns = [
+    var topPatterns = [
       ["gpt-5.5-pro", 500],
       ["gpt-5.5", 490],
       ["gpt-5.4-pro", 470],
@@ -347,24 +340,24 @@ async function wordRun(callback) {
     ];
 
     topPatterns.forEach(function (pair) {
-      if (text.includes(pair[0])) score += pair[1];
+      if (text.indexOf(pair[0]) !== -1) score += pair[1];
     });
 
-    if (text.includes("mini")) score += 35;
-    if (text.includes("flash")) score += 35;
-    if (text.includes("sonnet")) score += 40;
-    if (text.includes("pro")) score += 25;
-    if (text.includes("instruct")) score += 20;
-    if (text.includes("chat")) score += 20;
+    if (text.indexOf("mini") !== -1) score += 35;
+    if (text.indexOf("flash") !== -1) score += 35;
+    if (text.indexOf("sonnet") !== -1) score += 40;
+    if (text.indexOf("pro") !== -1) score += 25;
+    if (text.indexOf("instruct") !== -1) score += 20;
+    if (text.indexOf("chat") !== -1) score += 20;
 
-    if (text.includes("free")) score -= 20;
-    if (text.includes("preview")) score -= 15;
-    if (text.includes("experimental")) score -= 35;
-    if (text.includes("beta")) score -= 25;
-    if (text.includes("deprecated")) score -= 150;
+    if (text.indexOf("free") !== -1) score -= 20;
+    if (text.indexOf("preview") !== -1) score -= 15;
+    if (text.indexOf("experimental") !== -1) score -= 35;
+    if (text.indexOf("beta") !== -1) score -= 25;
+    if (text.indexOf("deprecated") !== -1) score -= 150;
 
     if (provider === "openrouter") {
-      const context = Number(
+      var context = Number(
         model.context_length ||
         (model.top_provider && model.top_provider.context_length) ||
         0
@@ -375,9 +368,9 @@ async function wordRun(callback) {
       else if (context >= 128000) score += 35;
       else if (context >= 32000) score += 15;
 
-      const params = model.supported_parameters || [];
-      if (Array.isArray(params) && params.includes("temperature")) score += 5;
-      if (Array.isArray(params) && params.includes("max_tokens")) score += 5;
+      var params = model.supported_parameters || [];
+      if (Array.isArray(params) && params.indexOf("temperature") !== -1) score += 5;
+      if (Array.isArray(params) && params.indexOf("max_tokens") !== -1) score += 5;
     }
 
     if (model.created) {
@@ -388,16 +381,16 @@ async function wordRun(callback) {
   }
 
   function sortUsefulModels(provider, models) {
-    const seen = {};
-    const cleaned = [];
+    var seen = {};
+    var cleaned = [];
 
     models.forEach(function (m) {
-      const id = normalizeId(m.id);
+      var id = normalizeId(m.id);
       if (!id || seen[id]) return;
 
       seen[id] = true;
 
-      const item = Object.assign({}, m, { id: id });
+      var item = Object.assign({}, m, { id: id });
       if (!looksChatCapable(provider, item)) return;
 
       item._score = scoreModel(provider, item);
@@ -413,7 +406,7 @@ async function wordRun(callback) {
   }
 
   function formatContext(n) {
-    const val = Number(n || 0);
+    var val = Number(n || 0);
     if (!val) return "";
 
     if (val >= 1000000) return Math.round(val / 1000000) + "M ctx";
@@ -423,12 +416,11 @@ async function wordRun(callback) {
   }
 
   function optionLabel(model, index) {
-    const name = model.name || model.id;
-    const id = model.id;
+    var name = model.name || model.id;
+    var id = model.id;
+    var suffix = "";
 
-    let suffix = "";
-
-    const context =
+    var context =
       model.context_length ||
       (model.top_provider && model.top_provider.context_length) ||
       model.inputTokenLimit ||
@@ -442,23 +434,23 @@ async function wordRun(callback) {
   }
 
   function fillModelSelect(provider, models, preferredValue) {
-    const p = providers[provider];
-    const select = $(p.modelId);
+    var p = providers[provider];
+    var select = $(p.modelId);
     if (!select) return;
 
     select.innerHTML = "";
 
-    const sorted = sortUsefulModels(provider, models);
-    const finalModels = sorted.length ? sorted : p.fallback;
+    var sorted = sortUsefulModels(provider, models);
+    var finalModels = sorted.length ? sorted : p.fallback;
 
-    const recommended = finalModels.slice(0, 12);
-    const others = finalModels.slice(12, 120);
+    var recommended = finalModels.slice(0, 12);
+    var others = finalModels.slice(12, 120);
 
-    const groupTop = document.createElement("optgroup");
+    var groupTop = document.createElement("optgroup");
     groupTop.label = "Önerilen / işe yarayan chat modelleri";
 
     recommended.forEach(function (model, index) {
-      const opt = document.createElement("option");
+      var opt = document.createElement("option");
       opt.value = model.id;
       opt.textContent = optionLabel(model, index);
       groupTop.appendChild(opt);
@@ -467,11 +459,11 @@ async function wordRun(callback) {
     select.appendChild(groupTop);
 
     if (others.length) {
-      const groupOther = document.createElement("optgroup");
+      var groupOther = document.createElement("optgroup");
       groupOther.label = "Diğer uygun modeller";
 
       others.forEach(function (model, index) {
-        const opt = document.createElement("option");
+        var opt = document.createElement("option");
         opt.value = model.id;
         opt.textContent = optionLabel(model, index + recommended.length);
         groupOther.appendChild(opt);
@@ -480,13 +472,13 @@ async function wordRun(callback) {
       select.appendChild(groupOther);
     }
 
-    const saved = preferredValue || getSavedModel(provider) || p.defaultModel;
+    var saved = preferredValue || getSavedModel(provider) || p.defaultModel;
+    var hasSaved = [].slice.call(select.options).some(function (o) {
+      return o.value === saved;
+    });
 
-    if ([].slice.call(select.options).some(function (o) { return o.value === saved; })) {
-      select.value = saved;
-    } else if (select.options.length) {
-      select.selectedIndex = 0;
-    }
+    if (hasSaved) select.value = saved;
+    else if (select.options.length) select.selectedIndex = 0;
   }
 
   async function fetchModels(provider) {
@@ -499,42 +491,35 @@ async function wordRun(callback) {
   }
 
   async function fetchOpenRouterModels() {
-    const key = getKey("openrouter");
-
-    const headers = {};
+    var key = getKey("openrouter");
+    var headers = {};
     if (key) headers.Authorization = "Bearer " + key;
 
-    const res = await fetch("https://openrouter.ai/api/v1/models", {
+    var res = await fetch("https://openrouter.ai/api/v1/models", {
       method: "GET",
       headers: headers
     });
 
-    if (!res.ok) {
-      throw new Error("OpenRouter model listesi alınamadı: HTTP " + res.status);
-    }
+    if (!res.ok) throw new Error("OpenRouter model listesi alınamadı: HTTP " + res.status);
 
-    const data = await res.json();
+    var data = await res.json();
     return Array.isArray(data.data) ? data.data : [];
   }
 
   async function fetchOpenAIModels() {
-    const key = getKey("openai");
-    if (!key) {
-      throw new Error("OpenAI modellerini çekmek için API key gerekli.");
-    }
+    var key = getKey("openai");
+    if (!key) throw new Error("OpenAI modellerini çekmek için API key gerekli.");
 
-    const res = await fetch("https://api.openai.com/v1/models", {
+    var res = await fetch("https://api.openai.com/v1/models", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + key
       }
     });
 
-    if (!res.ok) {
-      throw new Error("OpenAI model listesi alınamadı: HTTP " + res.status);
-    }
+    if (!res.ok) throw new Error("OpenAI model listesi alınamadı: HTTP " + res.status);
 
-    const data = await res.json();
+    var data = await res.json();
 
     return Array.isArray(data.data)
       ? data.data.map(function (m) {
@@ -549,12 +534,10 @@ async function wordRun(callback) {
   }
 
   async function fetchClaudeModels() {
-    const key = getKey("claude");
-    if (!key) {
-      throw new Error("Claude modellerini çekmek için API key gerekli.");
-    }
+    var key = getKey("claude");
+    if (!key) throw new Error("Claude modellerini çekmek için API key gerekli.");
 
-    const res = await fetch("https://api.anthropic.com/v1/models?limit=1000", {
+    var res = await fetch("https://api.anthropic.com/v1/models?limit=1000", {
       method: "GET",
       headers: {
         "x-api-key": key,
@@ -562,11 +545,9 @@ async function wordRun(callback) {
       }
     });
 
-    if (!res.ok) {
-      throw new Error("Claude model listesi alınamadı: HTTP " + res.status);
-    }
+    if (!res.ok) throw new Error("Claude model listesi alınamadı: HTTP " + res.status);
 
-    const data = await res.json();
+    var data = await res.json();
 
     return Array.isArray(data.data)
       ? data.data.map(function (m) {
@@ -580,22 +561,18 @@ async function wordRun(callback) {
   }
 
   async function fetchGeminiModels() {
-    const key = getKey("gemini");
-    if (!key) {
-      throw new Error("Gemini modellerini çekmek için API key gerekli.");
-    }
+    var key = getKey("gemini");
+    if (!key) throw new Error("Gemini modellerini çekmek için API key gerekli.");
 
-    const url =
+    var url =
       "https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000&key=" +
       encodeURIComponent(key);
 
-    const res = await fetch(url, { method: "GET" });
+    var res = await fetch(url, { method: "GET" });
 
-    if (!res.ok) {
-      throw new Error("Gemini model listesi alınamadı: HTTP " + res.status);
-    }
+    if (!res.ok) throw new Error("Gemini model listesi alınamadı: HTTP " + res.status);
 
-    const data = await res.json();
+    var data = await res.json();
 
     return Array.isArray(data.models)
       ? data.models.map(function (m) {
@@ -612,12 +589,11 @@ async function wordRun(callback) {
   }
 
   async function refreshModels(provider, force) {
-    const p = providers[provider];
-    const preferred = getSavedModel(provider);
+    var p = providers[provider];
+    var preferred = getSavedModel(provider);
 
     if (!force) {
-      const cached = getCachedModels(provider);
-
+      var cached = getCachedModels(provider);
       if (cached && cached.length) {
         fillModelSelect(provider, cached, preferred);
         setModelStatus(p.label + " modelleri önbellekten yüklendi.", "info");
@@ -628,12 +604,10 @@ async function wordRun(callback) {
     setModelStatus(p.label + " modelleri çekiliyor...", "info");
 
     try {
-      const models = await fetchModels(provider);
-      const sorted = sortUsefulModels(provider, models);
+      var models = await fetchModels(provider);
+      var sorted = sortUsefulModels(provider, models);
 
-      if (!sorted.length) {
-        throw new Error("Uygun chat modeli bulunamadı.");
-      }
+      if (!sorted.length) throw new Error("Uygun chat modeli bulunamadı.");
 
       setCachedModels(provider, sorted);
       fillModelSelect(provider, sorted, preferred);
@@ -663,7 +637,7 @@ async function wordRun(callback) {
     });
 
     Object.keys(providers).forEach(function (p) {
-      const panel = $("api-" + p);
+      var panel = $("api-" + p);
       if (panel) panel.style.display = p === provider ? "block" : "none";
     });
 
@@ -682,8 +656,8 @@ async function wordRun(callback) {
       instruction,
       "",
       "KURALLAR:",
-      "- Yalnızca verilen seçili metni dönüştür.",
-      "- Seçili metnin dışına çıkma.",
+      "- Yalnızca verilen metni dönüştür.",
+      "- Metnin dışına çıkma.",
       "- Yeni olay, karakter, sahne veya bilgi ekleme.",
       "- Talimatı metnin anlamını bozmayacak şekilde uygula.",
       "- Açıklama, not, analiz, giriş veya kapanış yorumu yazma.",
@@ -695,29 +669,22 @@ async function wordRun(callback) {
   }
 
   function agfoGetPrompt(mode, lang) {
-    const normalizedMode = String(mode || "OTO").toUpperCase();
-    const safeLang = String(lang || "Turkish").trim();
+    var normalizedMode = String(mode || "OTO").toUpperCase();
+    var safeLang = String(lang || "Turkish").trim();
+    var prompt;
 
-    let prompt;
-
-    if (normalizedMode === "CGK_DRAMA") {
-      prompt = agfoPromptCgkDrama();
-    } else if (normalizedMode === "CGK_AKADEMIK") {
-      prompt = agfoPromptCgkAkademik();
-    } else if (normalizedMode === "SIMPLE") {
-      prompt = agfoPromptSimple();
-    } else if (normalizedMode === "KUPKURU") {
-      prompt = agfoPromptKupkuru();
-    } else {
-      prompt = agfoPromptDefault();
-    }
+    if (normalizedMode === "CGK_DRAMA") prompt = agfoPromptCgkDrama();
+    else if (normalizedMode === "CGK_AKADEMIK") prompt = agfoPromptCgkAkademik();
+    else if (normalizedMode === "SIMPLE") prompt = agfoPromptSimple();
+    else if (normalizedMode === "KUPKURU") prompt = agfoPromptKupkuru();
+    else prompt = agfoPromptDefault();
 
     prompt = prompt
       .replace(/\{mode\}/g, normalizedMode)
       .replace(/\{lang\}/g, safeLang);
 
     prompt += "\n\nKESİN ÇIKTI KURALI:\n";
-    prompt += "- Yalnızca kullanıcının gönderdiği seçili metni dönüştür.\n";
+    prompt += "- Yalnızca kullanıcının gönderdiği metni dönüştür.\n";
     prompt += "- Word belgesinin gönderilmeyen bölümlerini dönüştürme, tahmin etme veya ekleme.\n";
     prompt += "- Açıklama, not, önsöz, sonsöz, analiz, gerekçe veya yorum yazma.\n";
     prompt += "- \"İşte düzenlenmiş metin\", \"Aşağıda\", \"Elbette\", \"Tabii\" gibi girişler yazma.\n";
@@ -731,7 +698,7 @@ async function wordRun(callback) {
   function agfoPromptDefault() {
     return "Sen bir metin yeniden yazma uzmanısın.\n\n" +
       "MOD: {mode}\n\n" +
-      "Görevin, verilen seçili metni gerçek bir insanın yazmış olabileceği şekilde dönüştürmektir.\n\n" +
+      "Görevin, verilen metni gerçek bir insanın yazmış olabileceği şekilde dönüştürmektir.\n\n" +
       "Kurallar:\n" +
       "- Anlamı koru.\n" +
       "- Zaman kipini değiştirme.\n" +
@@ -758,7 +725,7 @@ async function wordRun(callback) {
   function agfoPromptSimple() {
     return "Sen bir metin sadeleştirme ve insanileştirme editörüsün.\n\n" +
       "Görev:\n" +
-      "Verilen seçili metindeki yapay zekâ izlerini temizle.\n\n" +
+      "Verilen metindeki yapay zekâ izlerini temizle.\n\n" +
       "Kurallar:\n" +
       "- Anlamı ve bilgi sırasını koru.\n" +
       "- Metni büyütme.\n" +
@@ -774,7 +741,7 @@ async function wordRun(callback) {
   function agfoPromptKupkuru() {
     return "Sen sert sadeleştirme yapan profesyonel bir Türkçe editörsün.\n\n" +
       "Görev:\n" +
-      "Verilen seçili metni mümkün olan en kısa, en kuru ve en işlevsel hâle getir.\n\n" +
+      "Verilen metni mümkün olan en kısa, en kuru ve en işlevsel hâle getir.\n\n" +
       "Kurallar:\n" +
       "- Ana anlamı koru.\n" +
       "- Olay, iddia ve bilgi sırasını bozma.\n" +
@@ -812,7 +779,7 @@ async function wordRun(callback) {
   function agfoPromptCgkDrama() {
     return "Türkçe drama tarzında yazan profesyonel bir editörsün.\n\n" +
       "Amaç:\n" +
-      "Verilen seçili metni süslü, yapay veya açıklayıcı hâle getirmeden; doğal, katmanlı, duyusal ve kader duygusu taşıyan bir anlatıya dönüştür.\n\n" +
+      "Verilen metni süslü, yapay veya açıklayıcı hâle getirmeden; doğal, katmanlı, duyusal ve kader duygusu taşıyan bir anlatıya dönüştür.\n\n" +
       "Metin yalnızca olay anlatmasın; olayın içinden zaman, aile, tekrar, kayıp, arzu ve kaçınılmazlık sezilsin.\n" +
       "Okur duygu adını değil, duygunun izini görsün.\n\n" +
       "Temel akış:\n" +
@@ -880,13 +847,13 @@ async function wordRun(callback) {
   }
 
   function modelLooksReasoning(model) {
-    const s = String(model || "").toLowerCase();
+    var s = String(model || "").toLowerCase();
 
     return (
-      s.startsWith("o1") ||
-      s.startsWith("o3") ||
-      s.startsWith("o4") ||
-      s.includes("reasoning")
+      s.indexOf("o1") === 0 ||
+      s.indexOf("o3") === 0 ||
+      s.indexOf("o4") === 0 ||
+      s.indexOf("reasoning") !== -1
     );
   }
 
@@ -895,7 +862,7 @@ async function wordRun(callback) {
       throw new Error(providers[opts.provider].label + " API key eksik.");
     }
 
-    const body = {
+    var body = {
       model: opts.model,
       messages: [
         { role: "system", content: opts.systemPrompt },
@@ -914,7 +881,7 @@ async function wordRun(callback) {
       }
     }
 
-    const headers = {
+    var headers = {
       "Content-Type": "application/json",
       Authorization: "Bearer " + opts.key
     };
@@ -924,18 +891,18 @@ async function wordRun(callback) {
       headers["X-Title"] = "AGFO AI Humanizer Word Add-in";
     }
 
-    const res = await fetch(opts.url, {
+    var res = await fetch(opts.url, {
       method: "POST",
       headers: headers,
       body: JSON.stringify(body)
     });
 
-    const data = await res.json().catch(function () {
+    var data = await res.json().catch(function () {
       return {};
     });
 
     if (!res.ok) {
-      const msg =
+      var msg =
         data.error && data.error.message
           ? data.error.message
           : "HTTP " + res.status;
@@ -943,27 +910,25 @@ async function wordRun(callback) {
       throw new Error(msg);
     }
 
-    const out =
+    var out =
       data &&
       data.choices &&
       data.choices[0] &&
       data.choices[0].message &&
       data.choices[0].message.content;
 
-    if (!out) {
-      throw new Error("Model boş yanıt döndürdü.");
-    }
+    if (!out) throw new Error("Model boş yanıt döndürdü.");
 
     return cleanModelOutput(out);
   }
 
   async function callClaude(systemPrompt, userText) {
-    const key = getKey("claude");
+    var key = getKey("claude");
     if (!key) throw new Error("Claude API key eksik.");
 
-    const model = getSelectedModel("claude");
+    var model = getSelectedModel("claude");
 
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    var res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -981,12 +946,12 @@ async function wordRun(callback) {
       })
     });
 
-    const data = await res.json().catch(function () {
+    var data = await res.json().catch(function () {
       return {};
     });
 
     if (!res.ok) {
-      const msg =
+      var msg =
         data.error && data.error.message
           ? data.error.message
           : "HTTP " + res.status;
@@ -994,7 +959,7 @@ async function wordRun(callback) {
       throw new Error(msg);
     }
 
-    const out =
+    var out =
       data &&
       data.content &&
       data.content[0] &&
@@ -1006,19 +971,19 @@ async function wordRun(callback) {
   }
 
   async function callGemini(systemPrompt, userText) {
-    const key = getKey("gemini");
+    var key = getKey("gemini");
     if (!key) throw new Error("Gemini API key eksik.");
 
-    const model = getSelectedModel("gemini");
-    const safeModel = normalizeId(model);
+    var model = getSelectedModel("gemini");
+    var safeModel = normalizeId(model);
 
-    const url =
+    var url =
       "https://generativelanguage.googleapis.com/v1beta/models/" +
       encodeURIComponent(safeModel) +
       ":generateContent?key=" +
       encodeURIComponent(key);
 
-    const res = await fetch(url, {
+    var res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -1041,12 +1006,12 @@ async function wordRun(callback) {
       })
     });
 
-    const data = await res.json().catch(function () {
+    var data = await res.json().catch(function () {
       return {};
     });
 
     if (!res.ok) {
-      const msg =
+      var msg =
         data.error && data.error.message
           ? data.error.message
           : "HTTP " + res.status;
@@ -1054,7 +1019,7 @@ async function wordRun(callback) {
       throw new Error(msg);
     }
 
-    const out =
+    var out =
       data &&
       data.candidates &&
       data.candidates[0] &&
@@ -1077,14 +1042,40 @@ async function wordRun(callback) {
       .trim();
   }
 
+  function escapeHtml(text) {
+    return String(text || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function textToHtml(text) {
+    var clean = cleanModelOutput(text);
+    var paragraphs = clean
+      .split(/\n{2,}/)
+      .map(function (p) {
+        return p.trim();
+      })
+      .filter(Boolean);
+
+    if (!paragraphs.length) return "";
+
+    return paragraphs
+      .map(function (p) {
+        return "<p>" + escapeHtml(p).replace(/\n/g, "<br>") + "</p>";
+      })
+      .join("");
+  }
+
   async function getSelectionText() {
     try {
       await wordRun(async function (context) {
-        const range = context.document.getSelection();
+        var range = context.document.getSelection();
         range.load("text");
         await context.sync();
 
-        const input = $("hc-input");
+        var input = $("hc-input");
         if (input) input.value = range.text || "";
 
         updateCharCount();
@@ -1098,11 +1089,11 @@ async function wordRun(callback) {
   async function getAllText() {
     try {
       await wordRun(async function (context) {
-        const body = context.document.body;
+        var body = context.document.body;
         body.load("text");
         await context.sync();
 
-        const input = $("hc-input");
+        var input = $("hc-input");
         if (input) input.value = body.text || "";
 
         updateCharCount();
@@ -1121,8 +1112,8 @@ async function wordRun(callback) {
 
     try {
       await wordRun(async function (context) {
-        const range = context.document.getSelection();
-        const inserted = range.insertText(state.outputText, "Replace");
+        var range = context.document.getSelection();
+        var inserted = range.insertText(state.outputText, "Replace");
         inserted.font.color = "#166534";
         await context.sync();
 
@@ -1165,50 +1156,24 @@ async function wordRun(callback) {
     }
   }
 
-  function escapeHtml(text) {
-    return String(text || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-  }
-
-  function textToHtml(text) {
-    const clean = cleanModelOutput(text);
-    const paragraphs = clean
-      .split(/\n{2,}/)
-      .map(function (p) {
-        return p.trim();
-      })
-      .filter(Boolean);
-
-    if (!paragraphs.length) return "";
-
-    return paragraphs
-      .map(function (p) {
-        return "<p>" + escapeHtml(p).replace(/\n/g, "<br>") + "</p>";
-      })
-      .join("");
-  }
-
   async function runHumanizer() {
-    const input = $("hc-input");
-    const btn = $("btn-run");
+    var input = $("hc-input");
+    var btn = $("btn-run");
 
-    const text = input ? input.value.trim() : "";
+    var text = input ? input.value.trim() : "";
     if (!text) {
       setStatus("Lütfen metin gir veya belgeden metin al.", "error");
       return;
     }
 
-    const provider = state.provider;
-    const model = getSelectedModel(provider);
-    const lang = activeLang();
-    const mode = activeMode();
+    var provider = state.provider;
+    var model = getSelectedModel(provider);
+    var lang = activeLang();
+    var mode = activeMode();
 
     saveSettings();
 
-    const oldHtml = btn ? btn.innerHTML : "";
+    var oldHtml = btn ? btn.innerHTML : "";
     if (btn) {
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span>İşleniyor...';
@@ -1220,14 +1185,14 @@ async function wordRun(callback) {
     );
 
     try {
-      const prompt = buildPrompt(mode, lang);
-      const result = await callAI(prompt, text);
+      var prompt = buildPrompt(mode, lang);
+      var result = await callAI(prompt, text);
 
       state.outputText = result;
 
-      const output = $("hc-output");
-      const section = $("output-section");
-      const usedMode = $("used-mode");
+      var output = $("hc-output");
+      var section = $("output-section");
+      var usedMode = $("used-mode");
 
       if (output) {
         output.innerHTML = textToHtml(result);
@@ -1241,10 +1206,10 @@ async function wordRun(callback) {
     } catch (err) {
       console.error(err);
 
-      let extra = "";
-      const msg = String(err.message || "").toLowerCase();
+      var extra = "";
+      var msg = String(err.message || "").toLowerCase();
 
-      if (msg.includes("failed to fetch") || msg.includes("cors")) {
+      if (msg.indexOf("failed to fetch") !== -1 || msg.indexOf("cors") !== -1) {
         extra =
           " Not: Bazı sağlayıcılar Office taskpane içinden doğrudan API çağrısını CORS nedeniyle engelleyebilir. Ürünleşmede backend proxy daha sağlıklı olur.";
       }
@@ -1258,136 +1223,58 @@ async function wordRun(callback) {
     }
   }
 
-  async function getSelectedTextDirect() {
-    let selectedText = "";
-
-    await wordRun(async function (context) {
-      const range = context.document.getSelection();
-      range.load("text");
-      await context.sync();
-
-      selectedText = String(range.text || "").trim();
-    });
-
-    return selectedText;
-  }
-
-  async function replaceSelectedTextDirect(newText) {
-    await wordRun(async function (context) {
-      const range = context.document.getSelection();
-      range.load("text");
-      await context.sync();
-
-      const currentText = String(range.text || "").trim();
-
-      if (!currentText) {
-        throw new Error("Seçim kayboldu. Lütfen metni tekrar seçip yeniden deneyin.");
-      }
-
-      const inserted = range.insertText(newText, "Replace");
-      inserted.font.color = "#166534";
-
-      await context.sync();
-    });
-  }
-
-  async function runModeDirect(mode, btn) {
-    if (state.busy) return;
-    state.busy = true;
-
-    if (!mode) mode = "OTO";
-
-    const provider = state.provider;
-    const model = getSelectedModel(provider);
-    const lang = activeLang();
-
-    const oldHtml = btn ? btn.innerHTML : "";
-
-    if (btn) {
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>İşleniyor...';
-    }
-
-    saveSettings();
-
-    setStatus(
-      providers[provider].label + " / " + model + " ile seçili metin işleniyor...",
-      "info"
-    );
-
-    try {
-      const selectedText = await getSelectedTextDirect();
-
-      if (!selectedText) {
-        setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
-        return;
-      }
-
-      const prompt = buildPrompt(mode, lang);
-      const result = await callAI(prompt, selectedText);
-
-      await replaceSelectedTextDirect(result);
-
-      state.outputText = result;
-      setStatus("Seçili metin doğrudan değiştirildi.", "success");
-    } catch (err) {
-      console.error(err);
-      setStatus("Hata: " + err.message, "error");
-    } finally {
-      if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = oldHtml;
-      }
-      state.busy = false;
-    }
-  }
-
-  async function runCustomInstructionDirect(btn) {
-    if (state.busy) return;
-
-    const instructionEl = $("custom-instruction");
-    const instruction = instructionEl ? instructionEl.value.trim() : "";
+  async function runCustomInstructionFromInput(btn) {
+    var instructionEl = $("custom-instruction");
+    var input = $("hc-input");
+    var instruction = instructionEl ? instructionEl.value.trim() : "";
+    var text = input ? input.value.trim() : "";
 
     if (!instruction) {
       setStatus("Önce özel talimat yazın.", "error");
       return;
     }
 
-    state.busy = true;
+    if (!text) {
+      setStatus("Önce Seçili Metni Al ile metni kutuya aktarın veya metni kutuya yazın.", "error");
+      return;
+    }
 
-    const provider = state.provider;
-    const model = getSelectedModel(provider);
-    const lang = activeLang();
+    var provider = state.provider;
+    var model = getSelectedModel(provider);
+    var lang = activeLang();
 
-    const oldHtml = btn ? btn.innerHTML : "";
+    saveSettings();
 
+    var oldHtml = btn ? btn.innerHTML : "";
     if (btn) {
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span>Uygulanıyor...';
     }
 
-    saveSettings();
-
     setStatus(
-      providers[provider].label + " / " + model + " ile talimat uygulanıyor...",
+      providers[provider].label + " / " + model + " ile özel talimat uygulanıyor...",
       "info"
     );
 
     try {
-      const selectedText = await getSelectedTextDirect();
-
-      if (!selectedText) {
-        setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
-        return;
-      }
-
-      const prompt = buildInstructionPrompt(instruction, lang);
-      const result = await callAI(prompt, selectedText);
-
-      await replaceSelectedTextDirect(result);
+      var prompt = buildInstructionPrompt(instruction, lang);
+      var result = await callAI(prompt, text);
 
       state.outputText = result;
-      setStatus("Talimat seçili metne uygulandı.", "success");
+
+      var output = $("hc-output");
+      var section = $("output-section");
+      var usedMode = $("used-mode");
+
+      if (output) {
+        output.innerHTML = textToHtml(result);
+        output.style.display = "block";
+      }
+
+      if (section) section.style.display = "block";
+      if (usedMode) usedMode.textContent = "CUSTOM · " + providers[provider].label + " · " + model;
+
+      setStatus("Özel talimat uygulandı.", "success");
     } catch (err) {
       console.error(err);
       setStatus("Hata: " + err.message, "error");
@@ -1396,112 +1283,86 @@ async function wordRun(callback) {
         btn.disabled = false;
         btn.innerHTML = oldHtml;
       }
-      state.busy = false;
     }
   }
 
   function updateCharCount() {
-    const input = $("hc-input");
-    const count = $("char-count");
+    var input = $("hc-input");
+    var count = $("char-count");
     if (input && count) count.textContent = String(input.value.length);
   }
 
-function bindEvents() {
-  document.querySelectorAll(".ptab").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      setProvider(btn.getAttribute("data-provider"));
-    });
-  });
-
-  document.querySelectorAll(".mode-btn").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      document.querySelectorAll(".mode-btn").forEach(function (b) {
-        b.classList.remove("active");
+  function bindEvents() {
+    document.querySelectorAll(".ptab").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setProvider(btn.getAttribute("data-provider"));
       });
-
-      btn.classList.add("active");
-
-      /*
-       * Şimdilik doğrudan Word'e yazma devre dışı.
-       * Panel tekrar stabil çalışsın diye mod butonu sadece modu seçsin.
-       * Eski akış: Seçili Metni Al -> İnsanlaştır -> Seçimiyle Değiştir
-       */
-      setStatus("Mod seçildi: " + (btn.getAttribute("data-mode") || "OTO"), "info");
     });
-  });
 
-  var input = $("hc-input");
-  if (input) {
-    input.addEventListener("input", updateCharCount);
-  }
+    document.querySelectorAll(".mode-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll(".mode-btn").forEach(function (b) {
+          b.classList.remove("active");
+        });
 
-  var btnSave = $("btn-save-key");
-  if (btnSave) {
-    btnSave.addEventListener("click", function () {
-      saveSettings();
-      refreshModels(state.provider, true);
+        btn.classList.add("active");
+        setStatus("Mod seçildi: " + (btn.getAttribute("data-mode") || "OTO"), "info");
+      });
     });
-  }
 
-  var btnRefresh = $("btn-refresh-models");
-  if (btnRefresh) {
-    btnRefresh.addEventListener("click", function () {
-      saveSettings();
-      refreshModels(state.provider, true);
-    });
-  }
+    var input = $("hc-input");
+    if (input) input.addEventListener("input", updateCharCount);
 
-  var btnGetSelection = $("btn-get-selection");
-  if (btnGetSelection) {
-    btnGetSelection.addEventListener("click", getSelectionText);
-  }
-
-  var btnGetAll = $("btn-get-all");
-  if (btnGetAll) {
-    btnGetAll.addEventListener("click", getAllText);
-  }
-
-  var btnRun = $("btn-run");
-  if (btnRun) {
-    btnRun.addEventListener("click", runHumanizer);
-  }
-
-  var btnReplace = $("btn-replace");
-  if (btnReplace) {
-    btnReplace.addEventListener("click", replaceSelection);
-  }
-
-  var btnAppend = $("btn-append");
-  if (btnAppend) {
-    btnAppend.addEventListener("click", appendToEnd);
-  }
-
-  var btnCopy = $("btn-copy");
-  if (btnCopy) {
-    btnCopy.addEventListener("click", copyOutput);
-  }
-
-  var btnInstruction = $("btn-apply-instruction");
-  if (btnInstruction) {
-    btnInstruction.addEventListener("click", function () {
-      setStatus("Custom talimat modu geçici olarak devre dışı. Önce ana paneli stabil hale getiriyoruz.", "info");
-    });
-  }
-
-  Object.keys(providers).forEach(function (provider) {
-    var p = providers[provider];
-    var modelEl = $(p.modelId);
-    var keyEl = $(p.keyId);
-
-    if (modelEl) {
-      modelEl.addEventListener("change", saveSettings);
+    var btnSave = $("btn-save-key");
+    if (btnSave) {
+      btnSave.addEventListener("click", function () {
+        saveSettings();
+        refreshModels(state.provider, true);
+      });
     }
 
-    if (keyEl) {
-      keyEl.addEventListener("change", saveSettings);
+    var btnRefresh = $("btn-refresh-models");
+    if (btnRefresh) {
+      btnRefresh.addEventListener("click", function () {
+        saveSettings();
+        refreshModels(state.provider, true);
+      });
     }
-  });
-}
+
+    var btnGetSelection = $("btn-get-selection");
+    if (btnGetSelection) btnGetSelection.addEventListener("click", getSelectionText);
+
+    var btnGetAll = $("btn-get-all");
+    if (btnGetAll) btnGetAll.addEventListener("click", getAllText);
+
+    var btnRun = $("btn-run");
+    if (btnRun) btnRun.addEventListener("click", runHumanizer);
+
+    var btnReplace = $("btn-replace");
+    if (btnReplace) btnReplace.addEventListener("click", replaceSelection);
+
+    var btnAppend = $("btn-append");
+    if (btnAppend) btnAppend.addEventListener("click", appendToEnd);
+
+    var btnCopy = $("btn-copy");
+    if (btnCopy) btnCopy.addEventListener("click", copyOutput);
+
+    var btnInstruction = $("btn-apply-instruction");
+    if (btnInstruction) {
+      btnInstruction.addEventListener("click", function () {
+        runCustomInstructionFromInput(btnInstruction);
+      });
+    }
+
+    Object.keys(providers).forEach(function (provider) {
+      var p = providers[provider];
+      var modelEl = $(p.modelId);
+      var keyEl = $(p.keyId);
+
+      if (modelEl) modelEl.addEventListener("change", saveSettings);
+      if (keyEl) keyEl.addEventListener("change", saveSettings);
+    });
+  }
 
   function initFallbackModels() {
     Object.keys(providers).forEach(function (provider) {
@@ -1520,7 +1381,6 @@ function bindEvents() {
     setProvider(state.provider || "openrouter");
 
     setModelStatus("Model listeleri hazır. OpenRouter önerilir; güncel modeller için Modelleri Yenile.", "info");
-
   }
 
   if (window.Office && window.Office.onReady) {
