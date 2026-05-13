@@ -1,14 +1,14 @@
 /* ============================================================
  * AGFO AI Humanizer - Word Office.js
- * Direct selected-text rewrite + custom instruction
+ * Direct selected-text rewrite + fallback old panel support
  * Providers: OpenRouter + OpenAI + Claude + Gemini
  * ============================================================ */
 
 (function () {
   "use strict";
 
-  const SETTINGS_KEY = "agfo_humanizer_settings_v6";
-  const MODEL_CACHE_KEY = "agfo_humanizer_model_cache_v6";
+  const SETTINGS_KEY = "agfo_humanizer_settings_v7";
+  const MODEL_CACHE_KEY = "agfo_humanizer_model_cache_v7";
 
   const MAX_OUTPUT_TOKENS = 2500;
   const TEMPERATURE = 0.2;
@@ -75,6 +75,27 @@
     return document.getElementById(id);
   }
 
+  function wordApiReady() {
+    return (
+      typeof window !== "undefined" &&
+      typeof window.Office !== "undefined" &&
+      window.Office.context &&
+      window.Office.context.host === window.Office.HostType.Word &&
+      typeof window.Word !== "undefined" &&
+      typeof window.Word.run === "function"
+    );
+  }
+
+  async function wordRun(callback) {
+    if (!wordApiReady()) {
+      throw new Error(
+        "Word API hazır değil. Bu paneli normal tarayıcıda değil, Word içindeki Add-in panelinden açın. Eğer Word içindeyseniz paneli kapatıp yeniden açın."
+      );
+    }
+
+    return window.Word.run(callback);
+  }
+
   function setStatus(message, type) {
     const el = $("status-msg");
     if (!el) return;
@@ -117,6 +138,11 @@
     const p = providers[provider];
     const el = $(p.modelId);
     return el ? el.value : p.defaultModel;
+  }
+
+  function activeMode() {
+    const btn = document.querySelector(".mode-btn.active");
+    return btn ? btn.getAttribute("data-mode") : "OTO";
   }
 
   function activeLang() {
@@ -172,6 +198,7 @@
     try {
       const raw = localStorage.getItem(SETTINGS_KEY);
       if (!raw) return "";
+
       const data = JSON.parse(raw);
       return data.models && data.models[provider] ? data.models[provider] : "";
     } catch (e) {
@@ -266,10 +293,13 @@
       if (Array.isArray(methods) && methods.length) {
         return methods.includes("generateContent");
       }
+
       return id.includes("gemini");
     }
 
-    if (provider === "claude") return id.includes("claude");
+    if (provider === "claude") {
+      return id.includes("claude");
+    }
 
     if (provider === "openai") {
       return id.startsWith("gpt-") || id.startsWith("o") || id.startsWith("chatgpt-");
@@ -282,6 +312,7 @@
     const id = normalizeId(model.id).toLowerCase();
     const name = String(model.name || "").toLowerCase();
     const text = id + " " + name;
+
     let score = 0;
 
     const topPatterns = [
@@ -393,6 +424,7 @@
   function optionLabel(model, index) {
     const name = model.name || model.id;
     const id = model.id;
+
     let suffix = "";
 
     const context =
@@ -404,6 +436,7 @@
     if (context) suffix += " · " + formatContext(context);
 
     if (index < 8) return "⭐ " + name + " — " + id + suffix;
+
     return name + " — " + id + suffix;
   }
 
@@ -466,6 +499,7 @@
 
   async function fetchOpenRouterModels() {
     const key = getKey("openrouter");
+
     const headers = {};
     if (key) headers.Authorization = "Bearer " + key;
 
@@ -474,7 +508,9 @@
       headers: headers
     });
 
-    if (!res.ok) throw new Error("OpenRouter model listesi alınamadı: HTTP " + res.status);
+    if (!res.ok) {
+      throw new Error("OpenRouter model listesi alınamadı: HTTP " + res.status);
+    }
 
     const data = await res.json();
     return Array.isArray(data.data) ? data.data : [];
@@ -482,7 +518,9 @@
 
   async function fetchOpenAIModels() {
     const key = getKey("openai");
-    if (!key) throw new Error("OpenAI modellerini çekmek için API key gerekli.");
+    if (!key) {
+      throw new Error("OpenAI modellerini çekmek için API key gerekli.");
+    }
 
     const res = await fetch("https://api.openai.com/v1/models", {
       method: "GET",
@@ -491,7 +529,9 @@
       }
     });
 
-    if (!res.ok) throw new Error("OpenAI model listesi alınamadı: HTTP " + res.status);
+    if (!res.ok) {
+      throw new Error("OpenAI model listesi alınamadı: HTTP " + res.status);
+    }
 
     const data = await res.json();
 
@@ -509,7 +549,9 @@
 
   async function fetchClaudeModels() {
     const key = getKey("claude");
-    if (!key) throw new Error("Claude modellerini çekmek için API key gerekli.");
+    if (!key) {
+      throw new Error("Claude modellerini çekmek için API key gerekli.");
+    }
 
     const res = await fetch("https://api.anthropic.com/v1/models?limit=1000", {
       method: "GET",
@@ -519,7 +561,9 @@
       }
     });
 
-    if (!res.ok) throw new Error("Claude model listesi alınamadı: HTTP " + res.status);
+    if (!res.ok) {
+      throw new Error("Claude model listesi alınamadı: HTTP " + res.status);
+    }
 
     const data = await res.json();
 
@@ -536,7 +580,9 @@
 
   async function fetchGeminiModels() {
     const key = getKey("gemini");
-    if (!key) throw new Error("Gemini modellerini çekmek için API key gerekli.");
+    if (!key) {
+      throw new Error("Gemini modellerini çekmek için API key gerekli.");
+    }
 
     const url =
       "https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000&key=" +
@@ -544,7 +590,9 @@
 
     const res = await fetch(url, { method: "GET" });
 
-    if (!res.ok) throw new Error("Gemini model listesi alınamadı: HTTP " + res.status);
+    if (!res.ok) {
+      throw new Error("Gemini model listesi alınamadı: HTTP " + res.status);
+    }
 
     const data = await res.json();
 
@@ -568,6 +616,7 @@
 
     if (!force) {
       const cached = getCachedModels(provider);
+
       if (cached && cached.length) {
         fillModelSelect(provider, cached, preferred);
         setModelStatus(p.label + " modelleri önbellekten yüklendi.", "info");
@@ -581,7 +630,9 @@
       const models = await fetchModels(provider);
       const sorted = sortUsefulModels(provider, models);
 
-      if (!sorted.length) throw new Error("Uygun chat modeli bulunamadı.");
+      if (!sorted.length) {
+        throw new Error("Uygun chat modeli bulunamadı.");
+      }
 
       setCachedModels(provider, sorted);
       fillModelSelect(provider, sorted, preferred);
@@ -661,156 +712,134 @@
     }
 
     prompt = prompt
-      .replaceAll("{mode}", normalizedMode)
-      .replaceAll("{lang}", safeLang);
+      .replace(/\{mode\}/g, normalizedMode)
+      .replace(/\{lang\}/g, safeLang);
 
-    prompt += `
-
-KESİN ÇIKTI KURALI:
-- Yalnızca kullanıcının gönderdiği seçili metni dönüştür.
-- Word belgesinin gönderilmeyen bölümlerini dönüştürme, tahmin etme veya ekleme.
-- Açıklama, not, önsöz, sonsöz, analiz, gerekçe veya yorum yazma.
-- "İşte düzenlenmiş metin", "Aşağıda", "Elbette", "Tabii" gibi girişler yazma.
-- Cevap sadece dönüştürülmüş metinden oluşsun.
-- Microsoft Word için temiz düz metin döndür.
-- HTML etiketi ve markdown kod bloğu döndürme.`;
+    prompt += "\n\nKESİN ÇIKTI KURALI:\n";
+    prompt += "- Yalnızca kullanıcının gönderdiği seçili metni dönüştür.\n";
+    prompt += "- Word belgesinin gönderilmeyen bölümlerini dönüştürme, tahmin etme veya ekleme.\n";
+    prompt += "- Açıklama, not, önsöz, sonsöz, analiz, gerekçe veya yorum yazma.\n";
+    prompt += "- \"İşte düzenlenmiş metin\", \"Aşağıda\", \"Elbette\", \"Tabii\" gibi girişler yazma.\n";
+    prompt += "- Cevap sadece dönüştürülmüş metinden oluşsun.\n";
+    prompt += "- Microsoft Word için temiz düz metin döndür.\n";
+    prompt += "- HTML etiketi ve markdown kod bloğu döndürme.";
 
     return prompt;
   }
 
   function agfoPromptDefault() {
-    return `Sen bir metin yeniden yazma uzmanısın.
-
-MOD: {mode}
-
-Görevin, verilen seçili metni gerçek bir insanın yazmış olabileceği şekilde dönüştürmektir.
-
-Kurallar:
-- Anlamı koru.
-- Zaman kipini değiştirme.
-- Yeni bilgi ekleme.
-- Metnin kapsamını genişletme.
-- AI kalıplarını temizle.
-- Yapay simetriyi ve mekanik geçişleri azalt.
-- Gereksiz üçlü yapıları kır.
-- Fazla düzgün, fazla steril, fazla şablonlu cümleleri doğallaştır.
-- Açıklama, not veya analiz ekleme.
-- Cevap yalnızca dönüştürülmüş metinden oluşsun.
-
-MOD YORUMU:
-OTO: Metne en uygun stratejiyi kendin seç.
-GENEL: Genel akıcılığı ve doğallığı artır.
-YAPISAL: Akış, paragraf mantığı ve geçişleri düzelt.
-TON: Ton, ritim ve insan sıcaklığını güçlendir.
-BURST: Cümle uzunluklarını çeşitlendir, doğal iniş çıkış oluştur.
-AKADEMIK: Akademik ama okunabilir bir ton kur.
-KELIME: Kelime seçimini iyileştir, anlamı değiştirme.
-KATMANLI: Anlamı bozmadan daha katmanlı ve nüanslı yaz.
-
-Çıktı dili: {lang}`;
+    return "Sen bir metin yeniden yazma uzmanısın.\n\n" +
+      "MOD: {mode}\n\n" +
+      "Görevin, verilen seçili metni gerçek bir insanın yazmış olabileceği şekilde dönüştürmektir.\n\n" +
+      "Kurallar:\n" +
+      "- Anlamı koru.\n" +
+      "- Zaman kipini değiştirme.\n" +
+      "- Yeni bilgi ekleme.\n" +
+      "- Metnin kapsamını genişletme.\n" +
+      "- AI kalıplarını temizle.\n" +
+      "- Yapay simetriyi ve mekanik geçişleri azalt.\n" +
+      "- Gereksiz üçlü yapıları kır.\n" +
+      "- Fazla düzgün, fazla steril, fazla şablonlu cümleleri doğallaştır.\n" +
+      "- Açıklama, not veya analiz ekleme.\n" +
+      "- Cevap yalnızca dönüştürülmüş metinden oluşsun.\n\n" +
+      "MOD YORUMU:\n" +
+      "OTO: Metne en uygun stratejiyi kendin seç.\n" +
+      "GENEL: Genel akıcılığı ve doğallığı artır.\n" +
+      "YAPISAL: Akış, paragraf mantığı ve geçişleri düzelt.\n" +
+      "TON: Ton, ritim ve insan sıcaklığını güçlendir.\n" +
+      "BURST: Cümle uzunluklarını çeşitlendir, doğal iniş çıkış oluştur.\n" +
+      "AKADEMIK: Akademik ama okunabilir bir ton kur.\n" +
+      "KELIME: Kelime seçimini iyileştir, anlamı değiştirme.\n" +
+      "KATMANLI: Anlamı bozmadan daha katmanlı ve nüanslı yaz.\n\n" +
+      "Çıktı dili: {lang}";
   }
 
   function agfoPromptSimple() {
-    return `Sen bir metin sadeleştirme ve insanileştirme editörüsün.
-
-Görev:
-Verilen seçili metindeki yapay zekâ izlerini temizle.
-
-Kurallar:
-- Anlamı ve bilgi sırasını koru.
-- Metni büyütme.
-- Yeni bilgi ekleme.
-- Klişe geçişleri temizle.
-- Gereksiz pekiştiricileri sil.
-- Cümleleri daha doğal Türkçeye çevir.
-- Açıklama, not, değerlendirme, giriş veya kapanış cümlesi ekleme.
-- Çıktıda yalnızca düzenlenmiş metni ver.
-
-Çıktı dili: {lang}`;
+    return "Sen bir metin sadeleştirme ve insanileştirme editörüsün.\n\n" +
+      "Görev:\n" +
+      "Verilen seçili metindeki yapay zekâ izlerini temizle.\n\n" +
+      "Kurallar:\n" +
+      "- Anlamı ve bilgi sırasını koru.\n" +
+      "- Metni büyütme.\n" +
+      "- Yeni bilgi ekleme.\n" +
+      "- Klişe geçişleri temizle.\n" +
+      "- Gereksiz pekiştiricileri sil.\n" +
+      "- Cümleleri daha doğal Türkçeye çevir.\n" +
+      "- Açıklama, not, değerlendirme, giriş veya kapanış cümlesi ekleme.\n" +
+      "- Çıktıda yalnızca düzenlenmiş metni ver.\n\n" +
+      "Çıktı dili: {lang}";
   }
 
   function agfoPromptKupkuru() {
-    return `Sen sert sadeleştirme yapan profesyonel bir Türkçe editörsün.
-
-Görev:
-Verilen seçili metni mümkün olan en kısa, en kuru ve en işlevsel hâle getir.
-
-Kurallar:
-- Ana anlamı koru.
-- Olay, iddia ve bilgi sırasını bozma.
-- Gereksiz betimlemeleri kaldır.
-- Duygu, atmosfer ve dramatik vurguyu azalt.
-- Metafor, aforizma ve süs cümlelerini sil.
-- Aynı anlamı taşıyan cümleleri birleştir.
-- Yorumu azalt; olayı ve sonucu doğrudan ver.
-- Yeni bilgi ekleme.
-- Açıklama veya not yazma.
-
-Çıktı dili: {lang}`;
+    return "Sen sert sadeleştirme yapan profesyonel bir Türkçe editörsün.\n\n" +
+      "Görev:\n" +
+      "Verilen seçili metni mümkün olan en kısa, en kuru ve en işlevsel hâle getir.\n\n" +
+      "Kurallar:\n" +
+      "- Ana anlamı koru.\n" +
+      "- Olay, iddia ve bilgi sırasını bozma.\n" +
+      "- Gereksiz betimlemeleri kaldır.\n" +
+      "- Duygu, atmosfer ve dramatik vurguyu azalt.\n" +
+      "- Metafor, aforizma ve süs cümlelerini sil.\n" +
+      "- Aynı anlamı taşıyan cümleleri birleştir.\n" +
+      "- Yorumu azalt; olayı ve sonucu doğrudan ver.\n" +
+      "- Yeni bilgi ekleme.\n" +
+      "- Açıklama veya not yazma.\n\n" +
+      "Çıktı dili: {lang}";
   }
 
   function agfoPromptCgkAkademik() {
-    return `Sen akademik Türkçe metinleri düzenleyen profesyonel bir editörsün.
-
-Temel ilke:
-Bilimsel içeriği sade, katmanlı ve doğal bir dille aktar. Veriyi öne çıkar. Yorumu verinin içinden üret. Klişeden kaçın.
-
-Kurallar:
-- Bilimsel anlamı koru.
-- Akademik tonu koru ama metni şişirme.
-- Her paragraf tek odak taşısın.
-- Paragraf açılışında sürekli "Bu..." kullanma.
-- Olumsuz yüklemle paragraf açmaktan kaçın.
-- Aşırı yüklenmiş cümleleri böl.
-- Üçlü yapıları azalt.
-- Yapay akademik kalıpları sadeleştir.
-- "...olduğu bilinmektedir" yerine daha doğrudan ifade kullan.
-- "...önem arz etmektedir" yerine "...önemlidir" veya "...önem taşır" kullan.
-- Gereksiz pekiştiricileri sil.
-- Açıklama, not veya analiz ekleme.
-- Sadece dönüştürülmüş metni ver.
-
-Çıktı dili: {lang}`;
+    return "Sen akademik Türkçe metinleri düzenleyen profesyonel bir editörsün.\n\n" +
+      "Temel ilke:\n" +
+      "Bilimsel içeriği sade, katmanlı ve doğal bir dille aktar. Veriyi öne çıkar. Yorumu verinin içinden üret. Klişeden kaçın.\n\n" +
+      "Kurallar:\n" +
+      "- Bilimsel anlamı koru.\n" +
+      "- Akademik tonu koru ama metni şişirme.\n" +
+      "- Her paragraf tek odak taşısın.\n" +
+      "- Paragraf açılışında sürekli \"Bu...\" kullanma.\n" +
+      "- Olumsuz yüklemle paragraf açmaktan kaçın.\n" +
+      "- Aşırı yüklenmiş cümleleri böl.\n" +
+      "- Üçlü yapıları azalt.\n" +
+      "- Yapay akademik kalıpları sadeleştir.\n" +
+      "- \"...olduğu bilinmektedir\" yerine daha doğrudan ifade kullan.\n" +
+      "- \"...önem arz etmektedir\" yerine \"...önemlidir\" veya \"...önem taşır\" kullan.\n" +
+      "- Gereksiz pekiştiricileri sil.\n" +
+      "- Açıklama, not veya analiz ekleme.\n" +
+      "- Sadece dönüştürülmüş metni ver.\n\n" +
+      "Çıktı dili: {lang}";
   }
 
   function agfoPromptCgkDrama() {
-    return `Türkçe drama tarzında yazan profesyonel bir editörsün.
-
-Amaç:
-Verilen seçili metni süslü, yapay veya açıklayıcı hâle getirmeden; doğal, katmanlı, duyusal ve kader duygusu taşıyan bir anlatıya dönüştür.
-
-Metin yalnızca olay anlatmasın; olayın içinden zaman, aile, tekrar, kayıp, arzu ve kaçınılmazlık sezilsin.
-Okur duygu adını değil, duygunun izini görsün.
-
-Temel akış:
-sahne → duyusal temas → iç tepki → tekrar/kader sezgisi → küçük ama kalıcı kavrayış
-
-Kurallar:
-- Önce somut durum kur.
-- Anlamı sahnenin içinden çıkar.
-- Soyutluğu doğrudan verme; nesne, hava, beden, ses, koku veya küçük davranışla sezdir.
-- Gerçek ile olağanüstü arasındaki sınırı yumuşak tutabilirsin.
-- Olağan dışı bir ayrıntı varsa açıklama; gündelik hayatın doğal bir parçasıymış gibi taşı.
-- Kehanet, tekrar, rüya, aile hafızası, unutma, ölüm, koku, yağmur, toprak, ışık ve sessizlik gibi öğeleri dışarıdan süs olarak ekleme; metinde ima varsa güçlendir.
-- Büyük duyguları küçük nesneler taşısın.
-- Diyalog varsa karakterin yorgunluğuna ve konumuna ait olsun.
-- Her replikten sonra "dedi/söyledi" zinciri kurma.
-- Duyguyu adlandırma; duyguya yol açan ayrıntıyı artır.
-- "İnsan bazen...", "Hayat böyledir...", "Kader buydu..." gibi kapanışlar kurma.
-- Son cümle somut, küçük, açıklamasız ve yankılı olsun.
-- Yeni olay, yeni karakter veya yeni bilgi ekleme.
-- Açıklama, not, analiz, başlık, giriş veya kapanış yorumu yazma.
-- Sadece yeniden yazılmış metni ver.
-
-Dilden kaçın:
-- "Derin bir yalnızlık hissetti"
-- "İçinde tarif edilemez bir acı vardı"
-- "Kader ağlarını örüyordu"
-- "Zaman durmuş gibiydi"
-- "Her şey anlam kazanmıştı"
-- "Bu onun için bir dönüm noktasıydı"
-
-Çıktı dili: {lang}`;
+    return "Türkçe drama tarzında yazan profesyonel bir editörsün.\n\n" +
+      "Amaç:\n" +
+      "Verilen seçili metni süslü, yapay veya açıklayıcı hâle getirmeden; doğal, katmanlı, duyusal ve kader duygusu taşıyan bir anlatıya dönüştür.\n\n" +
+      "Metin yalnızca olay anlatmasın; olayın içinden zaman, aile, tekrar, kayıp, arzu ve kaçınılmazlık sezilsin.\n" +
+      "Okur duygu adını değil, duygunun izini görsün.\n\n" +
+      "Temel akış:\n" +
+      "sahne → duyusal temas → iç tepki → tekrar/kader sezgisi → küçük ama kalıcı kavrayış\n\n" +
+      "Kurallar:\n" +
+      "- Önce somut durum kur.\n" +
+      "- Anlamı sahnenin içinden çıkar.\n" +
+      "- Soyutluğu doğrudan verme; nesne, hava, beden, ses, koku veya küçük davranışla sezdir.\n" +
+      "- Gerçek ile olağanüstü arasındaki sınırı yumuşak tutabilirsin.\n" +
+      "- Olağan dışı bir ayrıntı varsa açıklama; gündelik hayatın doğal bir parçasıymış gibi taşı.\n" +
+      "- Kehanet, tekrar, rüya, aile hafızası, unutma, ölüm, koku, yağmur, toprak, ışık ve sessizlik gibi öğeleri dışarıdan süs olarak ekleme; metinde ima varsa güçlendir.\n" +
+      "- Büyük duyguları küçük nesneler taşısın.\n" +
+      "- Diyalog varsa karakterin yorgunluğuna ve konumuna ait olsun.\n" +
+      "- Her replikten sonra \"dedi/söyledi\" zinciri kurma.\n" +
+      "- Duyguyu adlandırma; duyguya yol açan ayrıntıyı artır.\n" +
+      "- \"İnsan bazen...\", \"Hayat böyledir...\", \"Kader buydu...\" gibi kapanışlar kurma.\n" +
+      "- Son cümle somut, küçük, açıklamasız ve yankılı olsun.\n" +
+      "- Yeni olay, yeni karakter veya yeni bilgi ekleme.\n" +
+      "- Açıklama, not, analiz, başlık, giriş veya kapanış yorumu yazma.\n" +
+      "- Sadece yeniden yazılmış metni ver.\n\n" +
+      "Dilden kaçın:\n" +
+      "- \"Derin bir yalnızlık hissetti\"\n" +
+      "- \"İçinde tarif edilemez bir acı vardı\"\n" +
+      "- \"Kader ağlarını örüyordu\"\n" +
+      "- \"Zaman durmuş gibiydi\"\n" +
+      "- \"Her şey anlam kazanmıştı\"\n" +
+      "- \"Bu onun için bir dönüm noktasıydı\"\n\n" +
+      "Çıktı dili: {lang}";
   }
 
   async function callAI(systemPrompt, userText) {
@@ -909,6 +938,7 @@ Dilden kaçın:
         data.error && data.error.message
           ? data.error.message
           : "HTTP " + res.status;
+
       throw new Error(msg);
     }
 
@@ -919,7 +949,9 @@ Dilden kaçın:
       data.choices[0].message &&
       data.choices[0].message.content;
 
-    if (!out) throw new Error("Model boş yanıt döndürdü.");
+    if (!out) {
+      throw new Error("Model boş yanıt döndürdü.");
+    }
 
     return cleanModelOutput(out);
   }
@@ -957,6 +989,7 @@ Dilden kaçın:
         data.error && data.error.message
           ? data.error.message
           : "HTTP " + res.status;
+
       throw new Error(msg);
     }
 
@@ -1016,6 +1049,7 @@ Dilden kaçın:
         data.error && data.error.message
           ? data.error.message
           : "HTTP " + res.status;
+
       throw new Error(msg);
     }
 
@@ -1042,10 +1076,191 @@ Dilden kaçın:
       .trim();
   }
 
-  async function getCurrentWordSelectionText() {
+  async function getSelectionText() {
+    try {
+      await wordRun(async function (context) {
+        const range = context.document.getSelection();
+        range.load("text");
+        await context.sync();
+
+        const input = $("hc-input");
+        if (input) input.value = range.text || "";
+
+        updateCharCount();
+        setStatus("Seçili metin alındı.", "success");
+      });
+    } catch (err) {
+      setStatus("Seçili metin alınamadı: " + err.message, "error");
+    }
+  }
+
+  async function getAllText() {
+    try {
+      await wordRun(async function (context) {
+        const body = context.document.body;
+        body.load("text");
+        await context.sync();
+
+        const input = $("hc-input");
+        if (input) input.value = body.text || "";
+
+        updateCharCount();
+        setStatus("Tüm belge metni alındı.", "success");
+      });
+    } catch (err) {
+      setStatus("Belge metni alınamadı: " + err.message, "error");
+    }
+  }
+
+  async function replaceSelection() {
+    if (!state.outputText) {
+      setStatus("Önce AI çıktısı üretmelisin.", "error");
+      return;
+    }
+
+    try {
+      await wordRun(async function (context) {
+        const range = context.document.getSelection();
+        const inserted = range.insertText(state.outputText, "Replace");
+        inserted.font.color = "#166534";
+        await context.sync();
+
+        setStatus("Seçim AI çıktısıyla değiştirildi.", "success");
+      });
+    } catch (err) {
+      setStatus("Word'e yazılamadı: " + err.message, "error");
+    }
+  }
+
+  async function appendToEnd() {
+    if (!state.outputText) {
+      setStatus("Önce AI çıktısı üretmelisin.", "error");
+      return;
+    }
+
+    try {
+      await wordRun(async function (context) {
+        context.document.body.insertParagraph(state.outputText, "End");
+        await context.sync();
+
+        setStatus("Çıktı belgenin sonuna eklendi.", "success");
+      });
+    } catch (err) {
+      setStatus("Belge sonuna eklenemedi: " + err.message, "error");
+    }
+  }
+
+  async function copyOutput() {
+    if (!state.outputText) {
+      setStatus("Kopyalanacak çıktı yok.", "error");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(state.outputText);
+      setStatus("Çıktı kopyalandı.", "success");
+    } catch (err) {
+      setStatus("Kopyalama başarısız: " + err.message, "error");
+    }
+  }
+
+  function escapeHtml(text) {
+    return String(text || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function textToHtml(text) {
+    const clean = cleanModelOutput(text);
+    const paragraphs = clean
+      .split(/\n{2,}/)
+      .map(function (p) {
+        return p.trim();
+      })
+      .filter(Boolean);
+
+    if (!paragraphs.length) return "";
+
+    return paragraphs
+      .map(function (p) {
+        return "<p>" + escapeHtml(p).replace(/\n/g, "<br>") + "</p>";
+      })
+      .join("");
+  }
+
+  async function runHumanizer() {
+    const input = $("hc-input");
+    const btn = $("btn-run");
+
+    const text = input ? input.value.trim() : "";
+    if (!text) {
+      setStatus("Lütfen metin gir veya belgeden metin al.", "error");
+      return;
+    }
+
+    const provider = state.provider;
+    const model = getSelectedModel(provider);
+    const lang = activeLang();
+    const mode = activeMode();
+
+    saveSettings();
+
+    const oldHtml = btn ? btn.innerHTML : "";
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>İşleniyor...';
+    }
+
+    setStatus(
+      providers[provider].label + " / " + model + " ile metin işleniyor...",
+      "info"
+    );
+
+    try {
+      const prompt = buildPrompt(mode, lang);
+      const result = await callAI(prompt, text);
+
+      state.outputText = result;
+
+      const output = $("hc-output");
+      const section = $("output-section");
+      const usedMode = $("used-mode");
+
+      if (output) {
+        output.innerHTML = textToHtml(result);
+        output.style.display = "block";
+      }
+
+      if (section) section.style.display = "block";
+      if (usedMode) usedMode.textContent = mode + " · " + providers[provider].label + " · " + model;
+
+      setStatus("Tamamlandı.", "success");
+    } catch (err) {
+      console.error(err);
+
+      let extra = "";
+      const msg = String(err.message || "").toLowerCase();
+
+      if (msg.includes("failed to fetch") || msg.includes("cors")) {
+        extra =
+          " Not: Bazı sağlayıcılar Office taskpane içinden doğrudan API çağrısını CORS nedeniyle engelleyebilir. Ürünleşmede backend proxy daha sağlıklı olur.";
+      }
+
+      setStatus("Hata: " + err.message + extra, "error");
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = oldHtml;
+      }
+    }
+  }
+
+  async function getSelectedTextDirect() {
     let selectedText = "";
 
-    await Word.run(async function (context) {
+    await wordRun(async function (context) {
       const range = context.document.getSelection();
       range.load("text");
       await context.sync();
@@ -1056,15 +1271,15 @@ Dilden kaçın:
     return selectedText;
   }
 
-  async function replaceCurrentWordSelection(newText) {
-    await Word.run(async function (context) {
+  async function replaceSelectedTextDirect(newText) {
+    await wordRun(async function (context) {
       const range = context.document.getSelection();
       range.load("text");
       await context.sync();
 
-      const current = String(range.text || "").trim();
+      const currentText = String(range.text || "").trim();
 
-      if (!current) {
+      if (!currentText) {
         throw new Error("Seçim kayboldu. Lütfen metni tekrar seçip yeniden deneyin.");
       }
 
@@ -1075,36 +1290,22 @@ Dilden kaçın:
     });
   }
 
-  function setButtonBusy(btn, busy, label) {
-    if (!btn) return function () {};
-
-    const oldHtml = btn.innerHTML;
-
-    if (busy) {
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>' + (label || "İşleniyor...");
-    }
-
-    return function () {
-      btn.disabled = false;
-      btn.innerHTML = oldHtml;
-    };
-  }
-
-  async function runSelectedMode(mode, clickedButton) {
+  async function runModeDirect(mode, btn) {
     if (state.busy) return;
     state.busy = true;
 
-    const restoreButton = setButtonBusy(clickedButton, true, "İşleniyor...");
+    if (!mode) mode = "OTO";
+
     const provider = state.provider;
     const model = getSelectedModel(provider);
     const lang = activeLang();
 
-    document.querySelectorAll(".mode-btn").forEach(function (b) {
-      b.classList.remove("active");
-    });
+    const oldHtml = btn ? btn.innerHTML : "";
 
-    if (clickedButton) clickedButton.classList.add("active");
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>İşleniyor...';
+    }
 
     saveSettings();
 
@@ -1114,7 +1315,7 @@ Dilden kaçın:
     );
 
     try {
-      const selectedText = await getCurrentWordSelectionText();
+      const selectedText = await getSelectedTextDirect();
 
       if (!selectedText) {
         setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
@@ -1124,7 +1325,7 @@ Dilden kaçın:
       const prompt = buildPrompt(mode, lang);
       const result = await callAI(prompt, selectedText);
 
-      await replaceCurrentWordSelection(result);
+      await replaceSelectedTextDirect(result);
 
       state.outputText = result;
       setStatus("Seçili metin doğrudan değiştirildi.", "success");
@@ -1132,28 +1333,37 @@ Dilden kaçın:
       console.error(err);
       setStatus("Hata: " + err.message, "error");
     } finally {
-      restoreButton();
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = oldHtml;
+      }
       state.busy = false;
     }
   }
 
-  async function runSelectedInstruction(clickedButton) {
+  async function runCustomInstructionDirect(btn) {
     if (state.busy) return;
 
-    const input = $("custom-instruction");
-    const instruction = input ? input.value.trim() : "";
+    const instructionEl = $("custom-instruction");
+    const instruction = instructionEl ? instructionEl.value.trim() : "";
 
     if (!instruction) {
-      setStatus("Önce seçili metne uygulanacak talimatı yazın.", "error");
+      setStatus("Önce özel talimat yazın.", "error");
       return;
     }
 
     state.busy = true;
 
-    const restoreButton = setButtonBusy(clickedButton, true, "Uygulanıyor...");
     const provider = state.provider;
     const model = getSelectedModel(provider);
     const lang = activeLang();
+
+    const oldHtml = btn ? btn.innerHTML : "";
+
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Uygulanıyor...';
+    }
 
     saveSettings();
 
@@ -1163,7 +1373,7 @@ Dilden kaçın:
     );
 
     try {
-      const selectedText = await getCurrentWordSelectionText();
+      const selectedText = await getSelectedTextDirect();
 
       if (!selectedText) {
         setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
@@ -1173,7 +1383,7 @@ Dilden kaçın:
       const prompt = buildInstructionPrompt(instruction, lang);
       const result = await callAI(prompt, selectedText);
 
-      await replaceCurrentWordSelection(result);
+      await replaceSelectedTextDirect(result);
 
       state.outputText = result;
       setStatus("Talimat seçili metne uygulandı.", "success");
@@ -1181,271 +1391,20 @@ Dilden kaçın:
       console.error(err);
       setStatus("Hata: " + err.message, "error");
     } finally {
-      restoreButton();
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = oldHtml;
+      }
       state.busy = false;
     }
   }
-async function getWordSelectedTextDirect() {
-  let selectedText = "";
 
-  await Word.run(async function (context) {
-    const range = context.document.getSelection();
-    range.load("text");
-    await context.sync();
-
-    selectedText = String(range.text || "").trim();
-  });
-
-  return selectedText;
-}
-
-async function replaceWordSelectionDirect(newText) {
-  await Word.run(async function (context) {
-    const range = context.document.getSelection();
-    range.load("text");
-    await context.sync();
-
-    const currentText = String(range.text || "").trim();
-
-    if (!currentText) {
-      throw new Error("Seçim kayboldu. Lütfen metni tekrar seçip yeniden deneyin.");
-    }
-
-    const inserted = range.insertText(newText, "Replace");
-    inserted.font.color = "#166534";
-
-    await context.sync();
-  });
-}
-
-async function runModeDirect(mode, btn) {
-  if (!mode) mode = "OTO";
-
-  const provider = state.provider;
-  const model = getSelectedModel(provider);
-  const lang = activeLang();
-
-  let oldHtml = "";
-  if (btn) {
-    oldHtml = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>İşleniyor...';
+  function updateCharCount() {
+    const input = $("hc-input");
+    const count = $("char-count");
+    if (input && count) count.textContent = String(input.value.length);
   }
 
-  saveSettings();
-
-  setStatus(
-    providers[provider].label + " / " + model + " ile seçili metin işleniyor...",
-    "info"
-  );
-
-  try {
-    const selectedText = await getWordSelectedTextDirect();
-
-    if (!selectedText) {
-      setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
-      return;
-    }
-
-    const prompt = buildPrompt(mode, lang);
-    const result = await callAI(prompt, selectedText);
-
-    await replaceWordSelectionDirect(result);
-
-    state.outputText = result;
-    setStatus("Seçili metin doğrudan değiştirildi.", "success");
-  } catch (err) {
-    console.error(err);
-    setStatus("Hata: " + err.message, "error");
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = oldHtml;
-    }
-  }
-}
-  
-  function isWordHostReady() {
-  return (
-    typeof window.Office !== "undefined" &&
-    Office.context &&
-    Office.context.host === Office.HostType.Word &&
-    typeof window.Word !== "undefined" &&
-    typeof Word.run === "function"
-  );
-}
-
-function assertWordHostReady() {
-  if (typeof window.Office === "undefined" || !Office.context) {
-    throw new Error("Office.js hazır değil. Bu paneli normal tarayıcıda değil, Word içindeki Add-in panelinden açın.");
-  }
-
-  if (Office.context.host !== Office.HostType.Word) {
-    throw new Error("Bu özellik yalnızca Microsoft Word içinde çalışır.");
-  }
-
-  if (typeof window.Word === "undefined" || typeof Word.run !== "function") {
-    throw new Error("Word API yüklenmedi. Word panelini kapatıp yeniden açın. Devam ederse Office cache temizliği gerekebilir.");
-  }
-}
-
-async function getSelectedTextFromWordDirect() {
-  assertWordHostReady();
-
-  let selectedText = "";
-
-  await Word.run(async function (context) {
-    const range = context.document.getSelection();
-    range.load("text");
-    await context.sync();
-
-    selectedText = String(range.text || "").trim();
-  });
-
-  return selectedText;
-}
-
-async function replaceSelectedTextInWordDirect(newText) {
-  assertWordHostReady();
-
-  await Word.run(async function (context) {
-    const range = context.document.getSelection();
-    range.load("text");
-    await context.sync();
-
-    const currentText = String(range.text || "").trim();
-
-    if (!currentText) {
-      throw new Error("Seçim kayboldu. Lütfen metni tekrar seçip yeniden deneyin.");
-    }
-
-    const inserted = range.insertText(newText, "Replace");
-    inserted.font.color = "#166534";
-
-    await context.sync();
-  });
-}
-
-function buildInstructionPrompt(instruction, lang) {
-  return [
-    "Sen seçili metin üzerinde kullanıcının talimatını uygulayan profesyonel bir editörsün.",
-    "",
-    "KULLANICI TALİMATI:",
-    instruction,
-    "",
-    "KURALLAR:",
-    "- Yalnızca verilen seçili metni dönüştür.",
-    "- Seçili metnin dışına çıkma.",
-    "- Yeni olay, karakter, sahne veya bilgi ekleme.",
-    "- Talimatı metnin anlamını bozmayacak şekilde uygula.",
-    "- Açıklama, not, analiz, giriş veya kapanış yorumu yazma.",
-    "- Cevap sadece dönüştürülmüş metinden oluşsun.",
-    "- Microsoft Word için temiz düz metin döndür.",
-    "- HTML etiketi ve markdown kod bloğu döndürme.",
-    "- Çıktı dili: " + lang
-  ].join("\n");
-}
-
-async function runModeDirect(mode, btn) {
-  if (!mode) mode = "OTO";
-
-  const provider = state.provider;
-  const model = getSelectedModel(provider);
-  const lang = activeLang();
-
-  const oldHtml = btn ? btn.innerHTML : "";
-
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>İşleniyor...';
-  }
-
-  saveSettings();
-
-  setStatus(
-    providers[provider].label + " / " + model + " ile seçili metin işleniyor...",
-    "info"
-  );
-
-  try {
-    const selectedText = await getSelectedTextFromWordDirect();
-
-    if (!selectedText) {
-      setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
-      return;
-    }
-
-    const prompt = buildPrompt(mode, lang);
-    const result = await callAI(prompt, selectedText);
-
-    await replaceSelectedTextInWordDirect(result);
-
-    state.outputText = result;
-    setStatus("Seçili metin doğrudan değiştirildi.", "success");
-  } catch (err) {
-    console.error(err);
-    setStatus("Hata: " + err.message, "error");
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = oldHtml;
-    }
-  }
-}
-
-async function runCustomInstructionDirect(btn) {
-  const instructionEl = $("custom-instruction");
-  const instruction = instructionEl ? instructionEl.value.trim() : "";
-
-  if (!instruction) {
-    setStatus("Önce özel talimat yazın.", "error");
-    return;
-  }
-
-  const provider = state.provider;
-  const model = getSelectedModel(provider);
-  const lang = activeLang();
-
-  const oldHtml = btn ? btn.innerHTML : "";
-
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Uygulanıyor...';
-  }
-
-  saveSettings();
-
-  setStatus(
-    providers[provider].label + " / " + model + " ile talimat uygulanıyor...",
-    "info"
-  );
-
-  try {
-    const selectedText = await getSelectedTextFromWordDirect();
-
-    if (!selectedText) {
-      setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
-      return;
-    }
-
-    const prompt = buildInstructionPrompt(instruction, lang);
-    const result = await callAI(prompt, selectedText);
-
-    await replaceSelectedTextInWordDirect(result);
-
-    state.outputText = result;
-    setStatus("Talimat seçili metne uygulandı.", "success");
-  } catch (err) {
-    console.error(err);
-    setStatus("Hata: " + err.message, "error");
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = oldHtml;
-    }
-  }
-}
-  
   function bindEvents() {
     document.querySelectorAll(".ptab").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -1453,25 +1412,28 @@ async function runCustomInstructionDirect(btn) {
       });
     });
 
-document.querySelectorAll(".mode-btn").forEach(function (btn) {
-  btn.addEventListener("click", function () {
-    document.querySelectorAll(".mode-btn").forEach(function (b) {
-      b.classList.remove("active");
+    document.querySelectorAll(".mode-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll(".mode-btn").forEach(function (b) {
+          b.classList.remove("active");
+        });
+
+        btn.classList.add("active");
+
+        const mode = btn.getAttribute("data-mode") || "OTO";
+        runModeDirect(mode, btn);
+      });
     });
-
-    btn.classList.add("active");
-
-    const mode = btn.getAttribute("data-mode") || "OTO";
-    runModeDirect(mode, btn);
-  });
-});
 
     const btnInstruction = $("btn-apply-instruction");
     if (btnInstruction) {
       btnInstruction.addEventListener("click", function () {
-        runSelectedInstruction(btnInstruction);
+        runCustomInstructionDirect(btnInstruction);
       });
     }
+
+    const input = $("hc-input");
+    if (input) input.addEventListener("input", updateCharCount);
 
     const btnSave = $("btn-save-key");
     if (btnSave) {
@@ -1488,6 +1450,24 @@ document.querySelectorAll(".mode-btn").forEach(function (btn) {
         refreshModels(state.provider, true);
       });
     }
+
+    const btnGetSelection = $("btn-get-selection");
+    if (btnGetSelection) btnGetSelection.addEventListener("click", getSelectionText);
+
+    const btnGetAll = $("btn-get-all");
+    if (btnGetAll) btnGetAll.addEventListener("click", getAllText);
+
+    const btnRun = $("btn-run");
+    if (btnRun) btnRun.addEventListener("click", runHumanizer);
+
+    const btnReplace = $("btn-replace");
+    if (btnReplace) btnReplace.addEventListener("click", replaceSelection);
+
+    const btnAppend = $("btn-append");
+    if (btnAppend) btnAppend.addEventListener("click", appendToEnd);
+
+    const btnCopy = $("btn-copy");
+    if (btnCopy) btnCopy.addEventListener("click", copyOutput);
 
     Object.keys(providers).forEach(function (provider) {
       const p = providers[provider];
@@ -1512,13 +1492,21 @@ document.querySelectorAll(".mode-btn").forEach(function (btn) {
     loadSettings();
     initFallbackModels();
     bindEvents();
+    updateCharCount();
     setProvider(state.provider || "openrouter");
 
     setModelStatus("Model listeleri hazır. OpenRouter önerilir; güncel modeller için Modelleri Yenile.", "info");
+
+    if (!wordApiReady()) {
+      setStatus(
+        "Word API henüz hazır görünmüyor. Paneli normal tarayıcıda açtıysanız seçim işlemleri çalışmaz. Word içinden açtıysanız paneli kapatıp yeniden açın.",
+        "error"
+      );
+    }
   }
 
-  if (window.Office && Office.onReady) {
-    Office.onReady(function () {
+  if (window.Office && window.Office.onReady) {
+    window.Office.onReady(function () {
       init();
     });
   } else {
