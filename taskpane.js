@@ -1264,6 +1264,188 @@ async function runModeDirect(mode, btn) {
     }
   }
 }
+  
+  function isWordHostReady() {
+  return (
+    typeof window.Office !== "undefined" &&
+    Office.context &&
+    Office.context.host === Office.HostType.Word &&
+    typeof window.Word !== "undefined" &&
+    typeof Word.run === "function"
+  );
+}
+
+function assertWordHostReady() {
+  if (typeof window.Office === "undefined" || !Office.context) {
+    throw new Error("Office.js hazır değil. Bu paneli normal tarayıcıda değil, Word içindeki Add-in panelinden açın.");
+  }
+
+  if (Office.context.host !== Office.HostType.Word) {
+    throw new Error("Bu özellik yalnızca Microsoft Word içinde çalışır.");
+  }
+
+  if (typeof window.Word === "undefined" || typeof Word.run !== "function") {
+    throw new Error("Word API yüklenmedi. Word panelini kapatıp yeniden açın. Devam ederse Office cache temizliği gerekebilir.");
+  }
+}
+
+async function getSelectedTextFromWordDirect() {
+  assertWordHostReady();
+
+  let selectedText = "";
+
+  await Word.run(async function (context) {
+    const range = context.document.getSelection();
+    range.load("text");
+    await context.sync();
+
+    selectedText = String(range.text || "").trim();
+  });
+
+  return selectedText;
+}
+
+async function replaceSelectedTextInWordDirect(newText) {
+  assertWordHostReady();
+
+  await Word.run(async function (context) {
+    const range = context.document.getSelection();
+    range.load("text");
+    await context.sync();
+
+    const currentText = String(range.text || "").trim();
+
+    if (!currentText) {
+      throw new Error("Seçim kayboldu. Lütfen metni tekrar seçip yeniden deneyin.");
+    }
+
+    const inserted = range.insertText(newText, "Replace");
+    inserted.font.color = "#166534";
+
+    await context.sync();
+  });
+}
+
+function buildInstructionPrompt(instruction, lang) {
+  return [
+    "Sen seçili metin üzerinde kullanıcının talimatını uygulayan profesyonel bir editörsün.",
+    "",
+    "KULLANICI TALİMATI:",
+    instruction,
+    "",
+    "KURALLAR:",
+    "- Yalnızca verilen seçili metni dönüştür.",
+    "- Seçili metnin dışına çıkma.",
+    "- Yeni olay, karakter, sahne veya bilgi ekleme.",
+    "- Talimatı metnin anlamını bozmayacak şekilde uygula.",
+    "- Açıklama, not, analiz, giriş veya kapanış yorumu yazma.",
+    "- Cevap sadece dönüştürülmüş metinden oluşsun.",
+    "- Microsoft Word için temiz düz metin döndür.",
+    "- HTML etiketi ve markdown kod bloğu döndürme.",
+    "- Çıktı dili: " + lang
+  ].join("\n");
+}
+
+async function runModeDirect(mode, btn) {
+  if (!mode) mode = "OTO";
+
+  const provider = state.provider;
+  const model = getSelectedModel(provider);
+  const lang = activeLang();
+
+  const oldHtml = btn ? btn.innerHTML : "";
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>İşleniyor...';
+  }
+
+  saveSettings();
+
+  setStatus(
+    providers[provider].label + " / " + model + " ile seçili metin işleniyor...",
+    "info"
+  );
+
+  try {
+    const selectedText = await getSelectedTextFromWordDirect();
+
+    if (!selectedText) {
+      setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
+      return;
+    }
+
+    const prompt = buildPrompt(mode, lang);
+    const result = await callAI(prompt, selectedText);
+
+    await replaceSelectedTextInWordDirect(result);
+
+    state.outputText = result;
+    setStatus("Seçili metin doğrudan değiştirildi.", "success");
+  } catch (err) {
+    console.error(err);
+    setStatus("Hata: " + err.message, "error");
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
+    }
+  }
+}
+
+async function runCustomInstructionDirect(btn) {
+  const instructionEl = $("custom-instruction");
+  const instruction = instructionEl ? instructionEl.value.trim() : "";
+
+  if (!instruction) {
+    setStatus("Önce özel talimat yazın.", "error");
+    return;
+  }
+
+  const provider = state.provider;
+  const model = getSelectedModel(provider);
+  const lang = activeLang();
+
+  const oldHtml = btn ? btn.innerHTML : "";
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Uygulanıyor...';
+  }
+
+  saveSettings();
+
+  setStatus(
+    providers[provider].label + " / " + model + " ile talimat uygulanıyor...",
+    "info"
+  );
+
+  try {
+    const selectedText = await getSelectedTextFromWordDirect();
+
+    if (!selectedText) {
+      setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
+      return;
+    }
+
+    const prompt = buildInstructionPrompt(instruction, lang);
+    const result = await callAI(prompt, selectedText);
+
+    await replaceSelectedTextInWordDirect(result);
+
+    state.outputText = result;
+    setStatus("Talimat seçili metne uygulandı.", "success");
+  } catch (err) {
+    console.error(err);
+    setStatus("Hata: " + err.message, "error");
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
+    }
+  }
+}
+  
   function bindEvents() {
     document.querySelectorAll(".ptab").forEach(function (btn) {
       btn.addEventListener("click", function () {
