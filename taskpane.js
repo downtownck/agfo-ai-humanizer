@@ -1185,7 +1185,85 @@ Dilden kaçın:
       state.busy = false;
     }
   }
+async function getWordSelectedTextDirect() {
+  let selectedText = "";
 
+  await Word.run(async function (context) {
+    const range = context.document.getSelection();
+    range.load("text");
+    await context.sync();
+
+    selectedText = String(range.text || "").trim();
+  });
+
+  return selectedText;
+}
+
+async function replaceWordSelectionDirect(newText) {
+  await Word.run(async function (context) {
+    const range = context.document.getSelection();
+    range.load("text");
+    await context.sync();
+
+    const currentText = String(range.text || "").trim();
+
+    if (!currentText) {
+      throw new Error("Seçim kayboldu. Lütfen metni tekrar seçip yeniden deneyin.");
+    }
+
+    const inserted = range.insertText(newText, "Replace");
+    inserted.font.color = "#166534";
+
+    await context.sync();
+  });
+}
+
+async function runModeDirect(mode, btn) {
+  if (!mode) mode = "OTO";
+
+  const provider = state.provider;
+  const model = getSelectedModel(provider);
+  const lang = activeLang();
+
+  let oldHtml = "";
+  if (btn) {
+    oldHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>İşleniyor...';
+  }
+
+  saveSettings();
+
+  setStatus(
+    providers[provider].label + " / " + model + " ile seçili metin işleniyor...",
+    "info"
+  );
+
+  try {
+    const selectedText = await getWordSelectedTextDirect();
+
+    if (!selectedText) {
+      setStatus("Önce Word içinde dönüştürülecek metni seçin.", "error");
+      return;
+    }
+
+    const prompt = buildPrompt(mode, lang);
+    const result = await callAI(prompt, selectedText);
+
+    await replaceWordSelectionDirect(result);
+
+    state.outputText = result;
+    setStatus("Seçili metin doğrudan değiştirildi.", "success");
+  } catch (err) {
+    console.error(err);
+    setStatus("Hata: " + err.message, "error");
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
+    }
+  }
+}
   function bindEvents() {
     document.querySelectorAll(".ptab").forEach(function (btn) {
       btn.addEventListener("click", function () {
