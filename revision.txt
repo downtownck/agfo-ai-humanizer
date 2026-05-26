@@ -1,0 +1,23 @@
+AGFO AI Humanizer — Revision Log
+
+Version: 4.3.0
+Date: 2026-05-26
+Scope: Word / Office.js add-in repository update
+
+Changes:
+- WordPress plugin örneğindeki AGFO Novel Humanizer preset/prompt deneyimi Word add-in paneline uyarlandı.
+- Tek Preset, Çoklu Preset ve Custom Prompt akışları eklendi.
+- Preset kütüphanesi Türk Edebiyatı, Dünya Edebiyatı, Ton & Atmosfer, Özel Üsluplar ve Akademik gruplarıyla taskpane.js içine taşındı.
+- Bağlam ve ek talimat alanı eklendi.
+- Prompt önizleme ve prompt kopyalama eklendi.
+- taskpane.html yeniden düzenlenerek metin alma, çıktı üretme ve Word'e geri yazma akışı görünür hale getirildi.
+- manifest.xml sürümü 4.3.0 olarak güncellendi.
+- Add-in içindeki bağımsız AI Manager/provider/model/key yapısı korundu.
+- WordPress AGFO AI Plugin bağımlılığı eklenmedi.
+
+Changed files:
+- manifest.xml
+- taskpane.html
+- taskpane.js
+- README.md
+- revision.txt

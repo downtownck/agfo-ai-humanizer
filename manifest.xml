@@ -7,7 +7,7 @@
   xsi:type="TaskPaneApp">
 
   <Id>a1b2c3d4-e5f6-7890-abcd-ef1234567890</Id>
-  <Version>4.0.4</Version>
+  <Version>4.3.0</Version>
   <ProviderName>AGFOCERT / Cemal Gurkan Kara</ProviderName>
   <DefaultLocale>tr-TR</DefaultLocale>
 

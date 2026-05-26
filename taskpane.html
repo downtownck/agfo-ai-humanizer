@@ -5,141 +5,64 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>AGFO AI Humanizer</title>
   <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
-
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:13px;color:#1e293b;background:#f8fafc;height:100vh;display:flex;flex-direction:column}
-    .hdr{background:#0f172a;color:#fff;padding:12px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0}
-    .hdr h1{font-size:15px;font-weight:700}
-    .hdr-icon{font-size:18px}
-    .body{flex:1;overflow-y:auto;padding:12px}
-    .section{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px;margin-bottom:10px}
-    .section-title{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-    label{display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:4px}
-    input,select,textarea{width:100%;border:1.5px solid #cbd5e1;border-radius:8px;padding:8px 10px;font:13px/1.4 inherit;color:#1e293b;background:#fff;outline:none;transition:border-color .2s}
-    input:focus,select:focus,textarea:focus{border-color:#1d4ed8}
-    textarea{resize:vertical;min-height:90px}
-    .provider-tabs{display:flex;gap:4px;margin-bottom:8px}
-    .ptab{flex:1;padding:6px 4px;border:1.5px solid #cbd5e1;background:#fff;border-radius:7px;cursor:pointer;font-size:11px;font-weight:700;color:#64748b;text-align:center;transition:all .2s}
-    .ptab.active{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
-    .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-    .mode-btn{border:1.5px solid #cbd5e1;background:#fff;border-radius:8px;padding:7px 5px;cursor:pointer;font-size:11px;font-weight:700;color:#334155;text-align:center;transition:all .2s}
-    .mode-btn.active{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
-    .mode-btn:hover:not(.active){background:#f1f5f9}
-    .mode-btn:disabled{opacity:.65;cursor:wait}
-    .btn{width:100%;padding:9px;border:none;border-radius:9px;cursor:pointer;font-size:13px;font-weight:700;transition:all .2s;margin-top:6px}
-    .btn-primary{background:#1d4ed8;color:#fff}
-    .btn-primary:hover{background:#1e40af}
-    .btn-primary:disabled{opacity:.65;cursor:wait}
-    .btn-secondary{background:#f1f5f9;color:#334155;border:1.5px solid #cbd5e1}
-    .btn-secondary:hover{background:#e2e8f0}
-    .hint{font-size:12px;line-height:1.45;background:#fffbeb;border:1px solid #fbbf24;color:#92400e;border-radius:8px;padding:9px;margin-top:8px}
-    .status{font-size:11px;padding:7px 10px;border-radius:7px;margin-top:8px;display:none;line-height:1.45}
-    .status.info{background:#eff6ff;color:#1d4ed8;display:block}
-    .status.error{background:#fef2f2;color:#dc2626;display:block}
-    .status.success{background:#f0fdf4;color:#16a34a;display:block}
-    .spinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
-    @keyframes spin{to{transform:rotate(360deg)}}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:13px;color:#172033;background:#f5f7fb;height:100vh;display:flex;flex-direction:column}
+    .hdr{background:linear-gradient(135deg,#111827,#23305d);color:#fff;padding:13px 14px;display:flex;align-items:center;gap:9px;flex-shrink:0;box-shadow:0 2px 10px rgba(15,23,42,.22)}
+    .hdr h1{font-size:15px;font-weight:800;letter-spacing:.1px}.hdr small{display:block;font-size:10px;opacity:.76;font-weight:600;margin-top:2px}.hdr-icon{font-size:19px}.version-pill{margin-left:auto;font-size:10px;background:rgba(255,255,255,.16);padding:3px 7px;border-radius:999px}
+    .body{flex:1;overflow-y:auto;padding:12px}.section{background:#fff;border:1px solid #e3e8f2;border-radius:12px;padding:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(15,23,42,.035)}
+    .section-title{font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .mini-note{font-size:10px;color:#94a3b8;text-transform:none;letter-spacing:0;font-weight:700}label{display:block;font-size:11px;font-weight:800;color:#475569;margin-bottom:4px}
+    input,select,textarea{width:100%;border:1.5px solid #cbd5e1;border-radius:9px;padding:8px 10px;font:13px/1.45 inherit;color:#1e293b;background:#fff;outline:none;transition:border-color .2s,box-shadow .2s}input:focus,select:focus,textarea:focus{border-color:#4f63d8;box-shadow:0 0 0 2px rgba(79,99,216,.09)}textarea{resize:vertical;min-height:86px}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}.provider-tabs,.workflow-tabs{display:flex;gap:5px;margin-bottom:8px}.ptab,.wtab{flex:1;padding:7px 4px;border:1.5px solid #cbd5e1;background:#fff;border-radius:8px;cursor:pointer;font-size:11px;font-weight:800;color:#64748b;text-align:center;transition:all .2s}.ptab.active,.wtab.active{background:#4f63d8;border-color:#4f63d8;color:#fff}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.btn{width:100%;padding:9px;border:none;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;transition:all .2s;margin-top:6px}.btn-primary{background:#4f63d8;color:#fff}.btn-primary:hover{background:#4054c4}.btn-primary:disabled{opacity:.65;cursor:wait}.btn-secondary{background:#f1f5f9;color:#334155;border:1.5px solid #cbd5e1}.btn-secondary:hover{background:#e2e8f0}.btn-small{padding:7px;font-size:11px}.hint{font-size:12px;line-height:1.45;background:#fffbeb;border:1px solid #fbbf24;color:#92400e;border-radius:9px;padding:9px;margin-top:8px}.status{font-size:11px;padding:8px 10px;border-radius:8px;margin-top:8px;display:none;line-height:1.45}.status.info{background:#eff6ff;color:#1d4ed8;display:block}.status.error{background:#fef2f2;color:#dc2626;display:block}.status.success{background:#f0fdf4;color:#16a34a;display:block}.spinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}@keyframes spin{to{transform:rotate(360deg)}}
+    .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}.mode-btn{border:1.5px solid #cbd5e1;background:#fff;border-radius:9px;padding:7px 5px;cursor:pointer;font-size:11px;font-weight:800;color:#334155;text-align:center;transition:all .2s}.mode-btn.active{background:#4f63d8;border-color:#4f63d8;color:#fff}.mode-btn:hover:not(.active){background:#f1f5f9}.mode-btn:disabled{opacity:.65;cursor:wait}
+    .preset-cat{margin-top:9px;border-top:1px solid #eef2f7;padding-top:8px}.preset-cat:first-child{border-top:none;margin-top:0;padding-top:0}.preset-cat-title{font-size:10px;color:#4f63d8;font-weight:900;text-transform:uppercase;margin-bottom:6px}.chip-row{display:flex;flex-wrap:wrap;gap:5px}.preset-chip{border:1.5px solid #d6ddeb;border-radius:999px;background:#fff;color:#334155;padding:5px 9px;font-size:11px;font-weight:800;cursor:pointer;transition:all .18s}.preset-chip:hover{border-color:#4f63d8;background:#f3f5ff}.preset-chip.selected{border-color:#4f63d8;background:#4f63d8;color:#fff}.workflow-panel{display:none}.workflow-panel.active{display:block}.selected-summary{font-size:11px;color:#64748b;margin-top:7px}.soft-row{display:flex;gap:6px}.soft-row .btn{margin-top:0}.counter-row{display:flex;justify-content:space-between;align-items:center;color:#94a3b8;font-size:10px;margin-top:4px}.output-box{display:none;background:#f8fafc;border:1px solid #dce4f0;border-radius:10px;padding:11px;max-height:260px;overflow:auto;line-height:1.55}.output-box p{margin:0 0 8px}.output-box p:last-child{margin-bottom:0}.output-meta{font-size:10px;color:#64748b;margin-bottom:7px;font-weight:800}.collapse-toggle{width:100%;border:0;background:#f8fafc;color:#475569;border-radius:9px;padding:8px 10px;text-align:left;font-size:11px;font-weight:900;cursor:pointer}.collapse-area{display:none;margin-top:8px}.danger-lite{font-size:10px;color:#b45309;margin-top:6px;line-height:1.35}.version-foot{font-size:9px;color:#94a3b8;text-align:center;margin:10px 0 4px}
   </style>
 </head>
-
 <body>
-  <div class="hdr">
-    <span class="hdr-icon">&#x1F9E0;</span>
-    <h1>AGFO AI Humanizer</h1>
-  </div>
-
+  <div class="hdr"><span class="hdr-icon">&#x1F9E0;</span><div><h1>AGFO AI Humanizer</h1><small>Word Add-in · WP örnekli preset mimarisi</small></div><span class="version-pill">v4.3.0</span></div>
   <div class="body">
-
     <div class="section">
-      <div class="section-title">&#x2699;&#xFE0F; API Ayarları</div>
-
-      <div class="provider-tabs">
-        <button class="ptab active" data-provider="openrouter">OpenRouter</button>
-        <button class="ptab" data-provider="openai">OpenAI</button>
-        <button class="ptab" data-provider="claude">Claude</button>
-        <button class="ptab" data-provider="gemini">Gemini</button>
-      </div>
-
-      <div id="api-openrouter">
-        <label>OpenRouter API Key</label>
-        <input type="password" id="key-openrouter" placeholder="sk-or-..."/>
-        <label style="margin-top:8px">Model</label>
-        <select id="model-openrouter"></select>
-      </div>
-
-      <div id="api-openai" style="display:none">
-        <label>OpenAI API Key</label>
-        <input type="password" id="key-openai" placeholder="sk-..."/>
-        <label style="margin-top:8px">Model</label>
-        <select id="model-openai"></select>
-      </div>
-
-      <div id="api-claude" style="display:none">
-        <label>Claude API Key</label>
-        <input type="password" id="key-claude" placeholder="sk-ant-..."/>
-        <label style="margin-top:8px">Model</label>
-        <select id="model-claude"></select>
-      </div>
-
-      <div id="api-gemini" style="display:none">
-        <label>Gemini API Key</label>
-        <input type="password" id="key-gemini" placeholder="AIza..."/>
-        <label style="margin-top:8px">Model</label>
-        <select id="model-gemini"></select>
-      </div>
-
-      <button class="btn btn-secondary" id="btn-refresh-models" style="margin-top:8px">&#x1F504; Modelleri Yenile</button>
-      <button class="btn btn-secondary" id="btn-save-key" style="margin-top:5px">&#x1F4BE; Ayarları Kaydet</button>
-
-      <div class="status info" id="model-status" style="margin-top:8px;display:none"></div>
+      <div class="section-title">&#x2699;&#xFE0F; API Ayarları <span class="mini-note">Bağımsız AI Manager korunur</span></div>
+      <div class="provider-tabs"><button class="ptab active" data-provider="openrouter">OpenRouter</button><button class="ptab" data-provider="openai">OpenAI</button><button class="ptab" data-provider="claude">Claude</button><button class="ptab" data-provider="gemini">Gemini</button></div>
+      <div id="api-openrouter"><label>OpenRouter API Key</label><input type="password" id="key-openrouter" placeholder="sk-or-..."/><label style="margin-top:8px">Model</label><select id="model-openrouter"></select></div>
+      <div id="api-openai" style="display:none"><label>OpenAI API Key</label><input type="password" id="key-openai" placeholder="sk-..."/><label style="margin-top:8px">Model</label><select id="model-openai"></select></div>
+      <div id="api-claude" style="display:none"><label>Claude API Key</label><input type="password" id="key-claude" placeholder="sk-ant-..."/><label style="margin-top:8px">Model</label><select id="model-claude"></select></div>
+      <div id="api-gemini" style="display:none"><label>Gemini API Key</label><input type="password" id="key-gemini" placeholder="AIza..."/><label style="margin-top:8px">Model</label><select id="model-gemini"></select></div>
+      <div class="soft-row" style="margin-top:8px"><button class="btn btn-secondary btn-small" id="btn-refresh-models">&#x1F504; Modelleri Yenile</button><button class="btn btn-secondary btn-small" id="btn-save-key">&#x1F4BE; Kaydet</button></div>
+      <div class="status info" id="model-status" style="display:none"></div>
     </div>
 
     <div class="section">
-      <div class="section-title">&#x1F4DD; Seçili Metin</div>
-
-      <label>Dil</label>
-      <select id="lang-select">
-        <option value="Turkish">Türkçe</option>
-        <option value="English">English</option>
-        <option value="German">Deutsch</option>
-        <option value="French">Français</option>
-        <option value="Spanish">Español</option>
-      </select>
-
-      <div class="hint">
-        Word içinde metni seçin. Aşağıdaki modlardan birine bastığınızda seçili metin doğrudan AI çıktısıyla değiştirilir.
-      </div>
+      <div class="section-title">&#x1F4DD; Belge Metni <span class="mini-note"><span id="char-count">0</span> karakter</span></div>
+      <label>Dil</label><select id="lang-select"><option value="Turkish">Türkçe</option><option value="English">English</option><option value="German">Deutsch</option><option value="French">Français</option><option value="Spanish">Español</option></select>
+      <div class="soft-row" style="margin-top:8px"><button class="btn btn-secondary btn-small" id="btn-get-selection">Seçili Metni Al</button><button class="btn btn-secondary btn-small" id="btn-get-all">Tüm Belgeyi Al</button></div>
+      <label style="margin-top:8px">İşlenecek metin</label><textarea id="hc-input" class="mono" placeholder="Word içinde metin seçip 'Seçili Metni Al' butonuna basın veya metni buraya yapıştırın."></textarea>
+      <div class="hint">Bu sürüm seçili metni otomatik ezmez. Önce çıktı üretir; sonra Word'e geri yazmak için Değiştir, Sona Ekle veya Kopyala kullanılır.</div>
     </div>
 
     <div class="section">
-      <div class="section-title">&#x1F3DB;&#xFE0F; Mod</div>
-
-      <div class="mode-grid">
-        <button class="mode-btn" data-mode="OTO">&#x1F916; OTO</button>
-        <button class="mode-btn" data-mode="GENEL">&#x270D;&#xFE0F; Genel</button>
-        <button class="mode-btn" data-mode="YAPISAL">&#x1F3D7;&#xFE0F; Yapısal</button>
-        <button class="mode-btn" data-mode="TON">&#x1F399;&#xFE0F; Ton</button>
-        <button class="mode-btn" data-mode="AKADEMIK">&#x1F393; Akademik</button>
-        <button class="mode-btn" data-mode="KELIME">&#x1F524; Kelime</button>
-        <button class="mode-btn" data-mode="KATMANLI">&#x1F9C5; Katmanlı</button>
-        <button class="mode-btn" data-mode="BURST">&#x26A1; Burst</button>
-        <button class="mode-btn" data-mode="CGK_DRAMA">&#x1F300; CGK Drama</button>
-        <button class="mode-btn" data-mode="CGK_AKADEMIK">&#x1F4D0; CGK Akademik</button>
-        <button class="mode-btn" data-mode="SIMPLE">&#x1F9F9; Simple</button>
-        <button class="mode-btn" data-mode="KUPKURU">&#x1FA93; Kupkuru</button>
-      </div>
+      <div class="section-title">&#x1F9EC; Humanizer Akışı</div>
+      <div class="workflow-tabs"><button class="wtab active" data-workflow="single">Tek Preset</button><button class="wtab" data-workflow="multi">Çoklu</button><button class="wtab" data-workflow="custom">Custom</button></div>
+      <div id="workflow-single" class="workflow-panel active"><label>Preset</label><select id="preset-select"></select><div id="preset-desc" class="selected-summary"></div></div>
+      <div id="workflow-multi" class="workflow-panel"><div id="preset-library"></div><div id="selected-presets" class="selected-summary">Henüz preset seçilmedi.</div></div>
+      <div id="workflow-custom" class="workflow-panel"><label>Custom Prompt</label><textarea id="custom-prompt" placeholder="Örn: Sen Tanpınar tadında ama daha sade yazan bir editörsün..."></textarea></div>
+      <button class="collapse-toggle" id="toggle-context" type="button" style="margin-top:9px">+ Bağlam ve ek talimat</button>
+      <div class="collapse-area" id="context-area"><label>Bağlam</label><textarea id="context-note" rows="3" placeholder="Örn: Bu bölüm romanın giriş sahnesi; anlatıcı üçüncü tekil."></textarea><label style="margin-top:8px">Ek talimat</label><textarea id="extra-instruction" rows="3" placeholder="Örn: Diyalogları daha doğal yap, metaforu azalt, akademik tonu koru."></textarea></div>
     </div>
-<div class="section">
-  <div class="section-title">&#x1F4AC; Seçili Metne Talimat</div>
-  <label>Özel talimat</label>
-  <textarea id="custom-instruction" placeholder="Örn: Daha kısa yap, daha resmi yaz, karakter sesini koru, denetçi diliyle sadeleştir..."></textarea>
-  <button class="btn btn-primary" id="btn-apply-instruction">&#x1F527; Talimatı Seçili Metne Uygula</button>
-</div>
-    <div class="status" id="status-msg"></div>
 
+    <div class="section">
+      <div class="section-title">&#x1F3DB;&#xFE0F; Hızlı Mod</div>
+      <div class="mode-grid"><button class="mode-btn active" data-mode="OTO">&#x1F916; OTO</button><button class="mode-btn" data-mode="GENEL">&#x270D;&#xFE0F; Genel</button><button class="mode-btn" data-mode="YAPISAL">&#x1F3D7;&#xFE0F; Yapısal</button><button class="mode-btn" data-mode="TON">&#x1F399;&#xFE0F; Ton</button><button class="mode-btn" data-mode="AKADEMIK">&#x1F393; Akademik</button><button class="mode-btn" data-mode="KELIME">&#x1F524; Kelime</button><button class="mode-btn" data-mode="KATMANLI">&#x1F9C5; Katmanlı</button><button class="mode-btn" data-mode="BURST">&#x26A1; Burst</button><button class="mode-btn" data-mode="CGK_DRAMA">&#x1F300; CGK Drama</button><button class="mode-btn" data-mode="CGK_AKADEMIK">&#x1F4D0; CGK Akademik</button><button class="mode-btn" data-mode="SIMPLE">&#x1F9F9; Simple</button><button class="mode-btn" data-mode="KUPKURU">&#x1FA93; Kupkuru</button></div>
+    </div>
+
+    <div class="section"><div class="section-title">&#x1F527; Seçili Metne Talimat</div><label>Özel talimat</label><textarea id="custom-instruction" placeholder="Örn: Daha kısa yap, daha resmi yaz, karakter sesini koru, denetçi diliyle sadeleştir..."></textarea><button class="btn btn-primary" id="btn-apply-instruction">Talimatı Metne Uygula</button></div>
+
+    <div class="section"><div class="section-title">&#x26A1; İşlem</div><button class="btn btn-primary" id="btn-run">İnsanlaştır / Yeniden Yaz</button><div class="soft-row" style="margin-top:6px"><button class="btn btn-secondary btn-small" id="btn-prompt-preview">Prompt Önizle</button><button class="btn btn-secondary btn-small" id="btn-copy-prompt">Prompt Kopyala</button></div><textarea id="prompt-preview" class="mono" rows="8" readonly style="display:none;margin-top:8px"></textarea></div>
+
+    <div class="section" id="output-section" style="display:none"><div class="section-title">&#x2705; Çıktı <span id="used-mode" class="mini-note"></span></div><div id="hc-output" class="output-box"></div><div class="soft-row" style="margin-top:8px"><button class="btn btn-primary btn-small" id="btn-replace">Seçimi Değiştir</button><button class="btn btn-secondary btn-small" id="btn-append">Sona Ekle</button><button class="btn btn-secondary btn-small" id="btn-copy">Kopyala</button></div><div class="danger-lite">Word'e yazmadan önce çıktıyı kontrol edin. Değiştir butonu aktif seçim alanını AI çıktısıyla değiştirir.</div></div>
+
+    <div class="status" id="status-msg"></div><div class="version-foot">AGFO AI Humanizer Word Add-in v4.3.0</div>
   </div>
-
-  <script src="taskpane.js?v=4.2.0"></script>
+  <script src="taskpane.js?v=4.3.0"></script>
 </body>
 </html>

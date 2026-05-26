@@ -71,6 +71,53 @@
     }
   };
 
+
+  var SETTINGS_VERSION = "4.3.0";
+
+  var AGFO_ANTI_AI_RULES = [
+    "Türkçede yapay zekâ kokan, çeviri tadı veren, şişirilmiş ve klişe anlatımdan kaçın.",
+    "Üçlü tekrarları kır: 'X, Y ve Z' listelerini ikiye indir veya böl.",
+    "Paragrafı olumsuz yüklemle açma; yokluğu olumlu bir imgeyle göster.",
+    "Yapay bağlaçları azalt: üstelik, dahası, nitekim, bilakis, mamafih, keza.",
+    "Klişe duygu ifadelerini davranış ve ayrıntıyla değiştir.",
+    "Soyut sıçramadan önce somut sahne, duyusal temas veya bağlam kur.",
+    "Gereksiz pekiştiricileri sil: çok, gerçekten, oldukça, adeta, sanki.",
+    "Bir paragrafta en fazla bir güçlü imge kullan; metafor sahneden doğsun.",
+    "Okura güven; gösterilen sahneyi açıklayan sonuç cümlelerini azalt.",
+    "Şüphede kaldığında sil; silindiğinde anlam eksilmiyorsa cümle fazladır."
+  ].join("\n- ");
+
+  var PRESET_GROUPS = {
+    "Türk Edebiyatı": ["istanbul_nostalji", "deniz_hikayesi", "epik_anlati", "felsefi_monolog", "cemal_gurkan_kara"],
+    "Dünya Edebiyatı": ["noir_gerilim", "buyulu_gercekcilik", "modern_surrealizm", "trajik_drama"],
+    "Ton & Atmosfer": ["dogal_akis", "edebi_uslup", "duygusal", "dramatik", "betimleyici", "diyalog_odakli"],
+    "Özel Üsluplar": ["minimalist", "komik", "karamistik", "romantik"],
+    "Akademik": ["cemal_gurkan_kara_akademik"]
+  };
+
+  var PRESET_LIBRARY = {
+    istanbul_nostalji: { icon:"🏛️", name:"İstanbul Nostaljisi", writer:"Orhan Pamuk", anti:true, desc:"Melankolik İstanbul atmosferi", guide:"Melankolik ve nostaljik ton kur. İstanbul atmosferini geçmiş özlemi, sokak ayrıntıları ve içe dönük bakışla taşı; süs için değil hafıza için betimle." },
+    deniz_hikayesi: { icon:"🌊", name:"Deniz Hikayesi", writer:"Sait Faik Abasıyanık", anti:true, desc:"Lirik ve sade deniz anlatısı", guide:"Sade ama şiirsel bir dil kullan. Deniz, kıyı, balıkçı, rüzgâr ve gündelik insan ayrıntılarını abartmadan, sıcak bir gözlemle yaz." },
+    epik_anlati: { icon:"🏔️", name:"Epik Anlatı", writer:"Yaşar Kemal", anti:true, desc:"Güçlü doğa ve destansı ritim", guide:"Doğayı canlı bir güç gibi hissettir. Epik ritim kur ama metne yeni olay ekleme; mevcut sahnenin büyüklüğünü somut ayrıntılarla yükselt." },
+    felsefi_monolog: { icon:"🤔", name:"Felsefi İç Monolog", writer:"Oğuz Atay", anti:true, desc:"Bilinç akışı ve ironik iç ses", guide:"İç sesi canlı tut. Felsefi sorgulamayı karakterin zihninden geçir; açıklayıcı makale tonuna kaçmadan, hafif ironi ve kırık ritim kullan." },
+    cemal_gurkan_kara: { icon:"🌀", name:"Cemal Gürkan Kara", writer:"Cemal Gürkan Kara", anti:true, desc:"Katmanlı düşünce ve organik sentez", guide:"Sahne → algı → iç tepki → kavrayış akışını kur. Fiziksel, sosyal ve kavramsal katmanları aynı cümleye yığma; anlam sahneden yükselsin. Süslü değil, doğal, katmanlı ve yönü olan metin üret." },
+    noir_gerilim: { icon:"🌑", name:"Noir Gerilim", writer:"Ernest Hemingway", anti:true, desc:"Minimal, karanlık, kontrollü gerilim", guide:"Kısa ve kontrollü cümleler kullan. Karanlık atmosferi fazla açıklamadan, nesne ve hareket üzerinden kur. Duyguyu adlandırma." },
+    buyulu_gercekcilik: { icon:"🦋", name:"Büyülü Gerçekçilik", writer:"Gabriel García Márquez", anti:true, desc:"Gündelik ile olağandışının birleşimi", guide:"Olağan dışı ayrıntı varsa onu açıklama; gündelik hayatın doğal parçasıymış gibi taşı. Lirik akışı koru, ama yeni büyülü olay ekleme." },
+    modern_surrealizm: { icon:"🐱", name:"Modern Sürrealizm", writer:"Haruki Murakami", anti:true, desc:"Sakin, yalnız ve gizemli atmosfer", guide:"Sakin, berrak ve hafif gizemli bir ton kur. Gündelik ayrıntı ile tuhaf sezgiyi yan yana getir; açıklamayı azalt." },
+    trajik_drama: { icon:"💔", name:"Trajik Drama", writer:"Fyodor Dostoyevski", anti:true, desc:"Psikolojik yoğunluk ve ahlaki gerilim", guide:"Karakterin iç çatışmasını güçlendir. Ahlaki gerilimi doğrudan vaazla değil, tereddüt, beden ve küçük kararlar üzerinden göster." },
+    dogal_akis: { icon:"💬", name:"Doğal Akış", writer:"Genel", anti:true, desc:"Günlük dile yakın akıcılık", guide:"Günlük konuşma diline yakın, sade ve akıcı yaz. Yapay geçişleri, şablon cümleleri ve çeviri tonunu temizle." },
+    edebi_uslup: { icon:"📚", name:"Edebi Üslup", writer:"Genel", anti:true, desc:"Şiirsel ama kontrollü dil", guide:"Dili zenginleştir ama şişirme. Bir paragrafta tek güçlü imge kullan; metafor sahneden doğsun." },
+    duygusal: { icon:"❤️", name:"Duygusal", writer:"Genel", anti:true, desc:"İç dünya ve empati", guide:"Duyguyu doğrudan adlandırmak yerine davranış, ritim ve küçük beden ayrıntılarıyla hissettir. Aşırı melodramdan kaçın." },
+    dramatik: { icon:"🎭", name:"Dramatik", writer:"Genel", anti:true, desc:"Gerilim ve çatışma", guide:"Gerilim, çatışma ve tempo oluştur. Cümle ritmini çeşitlendir; yeni olay eklemeden mevcut çatışmayı belirginleştir." },
+    betimleyici: { icon:"🎨", name:"Betimleyici", writer:"Genel", anti:false, desc:"Duyusal betimleme", guide:"Görsel, işitsel ve dokunsal ayrıntılar ekle. Betimleme metni yavaşlatmasın; sahneye hizmet etsin." },
+    diyalog_odakli: { icon:"💭", name:"Diyalog Odaklı", writer:"Genel", anti:true, desc:"Doğal ve karakteristik konuşmalar", guide:"Diyalogları doğal, kısa ve karaktere ait kıl. Her replikten sonra 'dedi/söyledi' zinciri kurma; jest ve boşluk kullan." },
+    minimalist: { icon:"⚪", name:"Minimalist", writer:"Hemingway", anti:true, desc:"Az kelime, çok anlam", guide:"Az kelimeyle çok anlam kur. Gereksiz sıfat, metafor ve açıklamayı sil. Cümleleri kısa ama cansız olmayacak şekilde düzenle." },
+    komik: { icon:"😄", name:"Komik/Eğlenceli", writer:"Genel", anti:true, desc:"Hafif ve mizahi ton", guide:"Mizahı doğal ritimden çıkar. Espriyi açıklama; hafif, canlı ve okunur bir ton kur." },
+    karamistik: { icon:"🌑", name:"Karamistik/Karanlık", writer:"Genel", anti:true, desc:"Gölge, gizem ve karanlık atmosfer", guide:"Karanlık atmosferi gölge, ses ve nesne ayrıntılarıyla taşı. Abartılı gotik klişelerden uzak dur." },
+    romantik: { icon:"🌹", name:"Romantik", writer:"Genel", anti:true, desc:"Lirik ve ölçülü romantik ton", guide:"Romantik tonu zarif tut. Aşırı süs, büyük söz ve klişe aşk cümlelerinden kaçın; duyguyu sahnenin içinden ver." },
+    cemal_gurkan_kara_akademik: { icon:"📐", name:"Cemal Gürkan Kara — Akademik", writer:"Cemal Gürkan Kara", anti:true, desc:"Doğal akademik Türkçe", guide:"Bilimsel içeriği sade, katmanlı ve doğal bir dille aktar. Veriyi öne çıkar, yorumu verinin içinden üret. Paragrafı olumsuz yüklemle açma, arka arkaya iki paragrafı 'Bu...' ile başlatma, üçlü akademik listeleri böl, yapay akademik kalıpları sadeleştir." }
+  };
+
   function $(id) {
     return document.getElementById(id);
   }
@@ -644,8 +691,103 @@
     refreshModels(provider, false);
   }
 
+  function activeWorkflow() {
+    var btn = document.querySelector(".wtab.active");
+    return btn ? btn.getAttribute("data-workflow") : "single";
+  }
+
+  function selectedPresetKeys() {
+    return [].slice.call(document.querySelectorAll(".preset-chip.selected")).map(function (el) {
+      return el.getAttribute("data-preset");
+    }).filter(function (key) { return !!PRESET_LIBRARY[key]; });
+  }
+
+  function presetPromptForKey(key) {
+    var preset = PRESET_LIBRARY[key];
+    if (!preset) return "";
+    var lines = [
+      "### " + preset.icon + " " + preset.name + " (" + preset.writer + ")",
+      preset.guide
+    ];
+    if (preset.anti) {
+      lines.push("Anti-AI denetimi uygula:\n- " + AGFO_ANTI_AI_RULES);
+    }
+    return lines.join("\n\n");
+  }
+
+  function buildPresetPrompt(lang) {
+    var workflow = activeWorkflow();
+    var keys = [];
+    var title = "";
+
+    if (workflow === "custom") {
+      var custom = $("custom-prompt") ? $("custom-prompt").value.trim() : "";
+      if (!custom) return "";
+      title = "Custom Prompt";
+      return [
+        "Sen profesyonel bir metin editörüsün.",
+        "",
+        "## KULLANICI TARAFINDAN TANIMLANAN ÜSLUP",
+        custom,
+        "",
+        "## Anti-AI denetimi",
+        "- " + AGFO_ANTI_AI_RULES,
+        "",
+        "Çıktı dili: " + lang
+      ].join("\n");
+    }
+
+    if (workflow === "multi") {
+      keys = selectedPresetKeys();
+      if (!keys.length) return "";
+      title = keys.map(function (k) { return PRESET_LIBRARY[k].name; }).join(" + ");
+      return [
+        "Sen çok katmanlı bir metin editörüsün.",
+        "Aşağıdaki üslupları tek metinde organik biçimde harmanla; hiçbirini mekanik biçimde taklit etme.",
+        "",
+        "## Seçilen Üsluplar: " + title,
+        keys.map(presetPromptForKey).join("\n\n---\n\n"),
+        "",
+        "## Harmanlama kuralı",
+        "Metnin anlamını, olay sırasını ve kapsamını koru. Üslupları dışarıdan yapıştırma; mevcut metnin ihtiyacına göre erit.",
+        "",
+        "Çıktı dili: " + lang
+      ].join("\n");
+    }
+
+    var select = $("preset-select");
+    var key = select ? select.value : "";
+    if (!key || !PRESET_LIBRARY[key]) return "";
+    var preset = PRESET_LIBRARY[key];
+    return [
+      "Sen " + preset.writer + " referansını bilen profesyonel bir editörsün.",
+      "Metni birebir taklit amacıyla değil, aşağıdaki üslup ilkelerini gözeterek dönüştür.",
+      "",
+      "## Seçilen Preset: " + preset.icon + " " + preset.name,
+      presetPromptForKey(key),
+      "",
+      "## Son talimat",
+      "Metni gerçek bir insan yazmış gibi doğal, akıcı ve özgün hale getir. Anlamı koru, yeni bilgi ekleme.",
+      "",
+      "Çıktı dili: " + lang
+    ].join("\n");
+  }
+
   function buildPrompt(mode, lang) {
-    return agfoGetPrompt(mode, lang);
+    var presetPrompt = buildPresetPrompt(lang);
+    var prompt = presetPrompt || agfoGetPrompt(mode, lang);
+    var contextEl = $("context-note");
+    var extraEl = $("extra-instruction");
+    var context = contextEl ? contextEl.value.trim() : "";
+    var extra = extraEl ? extraEl.value.trim() : "";
+
+    if (context) prompt += "\n\n## BAĞLAM\n" + context;
+    if (extra) prompt += "\n\n## EK TALİMAT\n" + extra;
+
+    prompt += "\n\nWORD ADD-IN UYUMU:\n";
+    prompt += "- Çıktı Microsoft Word'e doğrudan yapıştırılabilir temiz düz metin olsun.\n";
+    prompt += "- HTML, markdown tablo, kod bloğu veya açıklama üretme.";
+    return prompt;
   }
 
   function buildInstructionPrompt(instruction, lang) {
@@ -1292,6 +1434,118 @@
     if (input && count) count.textContent = String(input.value.length);
   }
 
+
+  function populatePresetUI() {
+    var select = $("preset-select");
+    if (select) {
+      select.innerHTML = "";
+      Object.keys(PRESET_LIBRARY).forEach(function (key) {
+        var p = PRESET_LIBRARY[key];
+        var opt = document.createElement("option");
+        opt.value = key;
+        opt.textContent = p.icon + " " + p.name;
+        select.appendChild(opt);
+      });
+      if (!select.value && select.options.length) select.selectedIndex = 0;
+    }
+
+    var lib = $("preset-library");
+    if (lib) {
+      lib.innerHTML = "";
+      Object.keys(PRESET_GROUPS).forEach(function (cat) {
+        var wrap = document.createElement("div");
+        wrap.className = "preset-cat";
+        var title = document.createElement("div");
+        title.className = "preset-cat-title";
+        title.textContent = cat;
+        var row = document.createElement("div");
+        row.className = "chip-row";
+        PRESET_GROUPS[cat].forEach(function (key) {
+          var p = PRESET_LIBRARY[key];
+          if (!p) return;
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "preset-chip";
+          btn.setAttribute("data-preset", key);
+          btn.textContent = p.icon + " " + p.name;
+          row.appendChild(btn);
+        });
+        wrap.appendChild(title);
+        wrap.appendChild(row);
+        lib.appendChild(wrap);
+      });
+    }
+    updatePresetDescription();
+    updateSelectedPresetSummary();
+  }
+
+  function updatePresetDescription() {
+    var select = $("preset-select");
+    var desc = $("preset-desc");
+    if (!select || !desc) return;
+    var p = PRESET_LIBRARY[select.value];
+    desc.textContent = p ? p.desc + " · " + p.writer : "";
+  }
+
+  function updateSelectedPresetSummary() {
+    var el = $("selected-presets");
+    if (!el) return;
+    var keys = selectedPresetKeys();
+    if (!keys.length) {
+      el.textContent = "Henüz preset seçilmedi.";
+      return;
+    }
+    el.textContent = keys.map(function (k) { return PRESET_LIBRARY[k].icon + " " + PRESET_LIBRARY[k].name; }).join(" + ");
+  }
+
+  function setWorkflow(workflow) {
+    document.querySelectorAll(".wtab").forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-workflow") === workflow);
+    });
+    document.querySelectorAll(".workflow-panel").forEach(function (panel) {
+      panel.classList.toggle("active", panel.id === "workflow-" + workflow);
+    });
+    setStatus("Akış seçildi: " + workflow, "info");
+  }
+
+  function buildFullPromptPreview() {
+    var text = $("hc-input") ? $("hc-input").value.trim() : "";
+    var lang = activeLang();
+    var mode = activeMode();
+    var prompt = buildPrompt(mode, lang);
+    return [
+      "# AGFO AI HUMANIZER WORD ADD-IN PROMPT",
+      "",
+      "## SYSTEM PROMPT",
+      prompt,
+      "",
+      "## İŞLENECEK METİN",
+      text || "[Metin henüz girilmedi]"
+    ].join("\n");
+  }
+
+  function showPromptPreview() {
+    var box = $("prompt-preview");
+    if (!box) return;
+    box.value = buildFullPromptPreview();
+    box.style.display = box.style.display === "none" ? "block" : "none";
+  }
+
+  async function copyPromptPreview() {
+    var prompt = buildFullPromptPreview();
+    try {
+      await navigator.clipboard.writeText(prompt);
+      var box = $("prompt-preview");
+      if (box) {
+        box.value = prompt;
+        box.style.display = "block";
+      }
+      setStatus("Prompt kopyalandı.", "success");
+    } catch (err) {
+      setStatus("Prompt kopyalanamadı: " + err.message, "error");
+    }
+  }
+
   function bindEvents() {
     document.querySelectorAll(".ptab").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -1309,6 +1563,40 @@
         setStatus("Mod seçildi: " + (btn.getAttribute("data-mode") || "OTO"), "info");
       });
     });
+
+
+    document.querySelectorAll(".wtab").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setWorkflow(btn.getAttribute("data-workflow") || "single");
+      });
+    });
+
+    var presetSelect = $("preset-select");
+    if (presetSelect) presetSelect.addEventListener("change", updatePresetDescription);
+
+    document.querySelectorAll(".preset-chip").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        btn.classList.toggle("selected");
+        updateSelectedPresetSummary();
+      });
+    });
+
+    var toggleContext = $("toggle-context");
+    if (toggleContext) {
+      toggleContext.addEventListener("click", function () {
+        var area = $("context-area");
+        if (!area) return;
+        var open = area.style.display === "block";
+        area.style.display = open ? "none" : "block";
+        toggleContext.textContent = (open ? "+" : "−") + " Bağlam ve ek talimat";
+      });
+    }
+
+    var btnPromptPreview = $("btn-prompt-preview");
+    if (btnPromptPreview) btnPromptPreview.addEventListener("click", showPromptPreview);
+
+    var btnCopyPrompt = $("btn-copy-prompt");
+    if (btnCopyPrompt) btnCopyPrompt.addEventListener("click", copyPromptPreview);
 
     var input = $("hc-input");
     if (input) input.addEventListener("input", updateCharCount);
@@ -1376,6 +1664,7 @@
 
     loadSettings();
     initFallbackModels();
+    populatePresetUI();
     bindEvents();
     updateCharCount();
     setProvider(state.provider || "openrouter");
