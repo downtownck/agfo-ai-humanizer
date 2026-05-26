@@ -7,7 +7,7 @@
   xsi:type="TaskPaneApp">
 
   <Id>a1b2c3d4-e5f6-7890-abcd-ef1234567890</Id>
-  <Version>4.3.2</Version>
+  <Version>4.3.3</Version>
   <ProviderName>AGFOCERT / Cemal Gurkan Kara</ProviderName>
   <DefaultLocale>tr-TR</DefaultLocale>
 
@@ -16,7 +16,7 @@
 
   <IconUrl DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/assets/icon-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/assets/icon-80.png"/>
-  <SupportUrl DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/?v=4.3.2"/>
+  <SupportUrl DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/?v=4.3.3"/>
 
   <AppDomains>
     <AppDomain>https://downtownck.github.io</AppDomain>
@@ -33,7 +33,7 @@
   </Requirements>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/taskpane.html?v=4.3.2"/>
+    <SourceLocation DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/taskpane.html?v=4.3.3"/>
   </DefaultSettings>
 
   <Permissions>ReadWriteDocument</Permissions>
@@ -102,8 +102,8 @@
       </bt:Images>
 
       <bt:Urls>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/taskpane.html?v=4.3.2"/>
-        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/?v=4.3.2"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/taskpane.html?v=4.3.3"/>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://downtownck.github.io/agfo-ai-humanizer/?v=4.3.3"/>
       </bt:Urls>
 
       <bt:ShortStrings>
