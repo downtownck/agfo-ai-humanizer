@@ -1,3 +1,7 @@
+Version: 4.3.3
+Date: 2026-05-26
+Summary: Prompt katmanı düzeltildi. Seçilen yazar rehberi artık buildPrompt içinde gerçek system prompta ekleniyor. Hızlı humanizer modu ile hazır üslup/custom/yazar rehberi ayrıldı; UI etiketleri “İşlem Modu” ve “Üslup Kaynağı” olarak sadeleştirildi. Cache-busting parametreleri 4.3.3 olarak güncellendi.
+
 Version: 4.3.2
 Date: 2026-05-26
 Summary: Cache-busting revizyonu. Manifest ve taskpane kaynak URL'leri 4.3.2 sürüm parametresiyle güncellendi; Word add-in panelinin eski GitHub Pages/WebView cache dosyalarını çağırması engellendi.
