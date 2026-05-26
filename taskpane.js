@@ -18,6 +18,9 @@
   var state = {
     provider: "openrouter",
     outputText: "",
+    authorKey: "",
+    authorGuide: "",
+    authorGuideLoaded: false,
     initialized: false
   };
 
@@ -72,7 +75,7 @@
   };
 
 
-  var SETTINGS_VERSION = "4.3.0";
+  var SETTINGS_VERSION = "4.3.2";
 
   var AGFO_ANTI_AI_RULES = [
     "Türkçede yapay zekâ kokan, çeviri tadı veren, şişirilmiş ve klişe anlatımdan kaçın.",
@@ -116,6 +119,42 @@
     karamistik: { icon:"🌑", name:"Karamistik/Karanlık", writer:"Genel", anti:true, desc:"Gölge, gizem ve karanlık atmosfer", guide:"Karanlık atmosferi gölge, ses ve nesne ayrıntılarıyla taşı. Abartılı gotik klişelerden uzak dur." },
     romantik: { icon:"🌹", name:"Romantik", writer:"Genel", anti:true, desc:"Lirik ve ölçülü romantik ton", guide:"Romantik tonu zarif tut. Aşırı süs, büyük söz ve klişe aşk cümlelerinden kaçın; duyguyu sahnenin içinden ver." },
     cemal_gurkan_kara_akademik: { icon:"📐", name:"Cemal Gürkan Kara — Akademik", writer:"Cemal Gürkan Kara", anti:true, desc:"Doğal akademik Türkçe", guide:"Bilimsel içeriği sade, katmanlı ve doğal bir dille aktar. Veriyi öne çıkar, yorumu verinin içinden üret. Paragrafı olumsuz yüklemle açma, arka arkaya iki paragrafı 'Bu...' ile başlatma, üçlü akademik listeleri böl, yapay akademik kalıpları sadeleştir." }
+  };
+
+  var AUTHOR_GUIDE_MAX_CHARS = 16000;
+  var AUTHOR_LIBRARY = {
+    none: { name:"Yazar rehberi yok", file:"", desc:"Prompta ek yazar rehberi eklenmez." },
+    adem_isik__cemal_gurkan_kara: { name:"Âdem Işık — Cemal Gürkan Kara", file:"authors/adem_isik__cemal_gurkan_kara.txt", desc:"adem_isik__cemal_gurkan_kara.txt" },
+    camus: { name:"Albert Camus", file:"authors/camus.txt", desc:"camus.txt" },
+    cemal_gurkan_kara_rafine_1: { name:"Cemal Gürkan Kara — Rafine", file:"authors/cemal_gurkan_kara_rafine_1.txt", desc:"cemal_gurkan_kara_rafine_1.txt" },
+    chaplin: { name:"Charlie Chaplin", file:"authors/chaplin.txt", desc:"chaplin.txt" },
+    dostoyevski: { name:"Fyodor Dostoyevski", file:"authors/dostoyevski.txt", desc:"dostoyevski.txt" },
+    dumas: { name:"Alexandre Dumas", file:"authors/dumas.txt", desc:"dumas.txt" },
+    fanon__said__gramsci: { name:"Fanon · Said · Gramsci", file:"authors/fanon__said__gramsci.txt", desc:"fanon__said__gramsci.txt" },
+    flaubert: { name:"Gustave Flaubert", file:"authors/flaubert.txt", desc:"flaubert.txt" },
+    goethe: { name:"Goethe", file:"authors/goethe.txt", desc:"goethe.txt" },
+    hemingway: { name:"Ernest Hemingway", file:"authors/hemingway.txt", desc:"hemingway.txt" },
+    hugo: { name:"Victor Hugo", file:"authors/hugo.txt", desc:"hugo.txt" },
+    kafka: { name:"Franz Kafka", file:"authors/kafka.txt", desc:"kafka.txt" },
+    london: { name:"Jack London", file:"authors/london.txt", desc:"london.txt" },
+    marilynne_robinson: { name:"Marilynne Robinson", file:"authors/marilynne_robinson.txt", desc:"marilynne_robinson.txt" },
+    marquez: { name:"Gabriel García Márquez", file:"authors/marquez.txt", desc:"marquez.txt" },
+    mccarthy: { name:"Cormac McCarthy", file:"authors/mccarthy.txt", desc:"mccarthy.txt" },
+    mitchell: { name:"Margaret Mitchell", file:"authors/mitchell.txt", desc:"mitchell.txt" },
+    nietzsche: { name:"Nietzsche", file:"authors/nietzsche.txt", desc:"nietzsche.txt" },
+    oguz_atay: { name:"Oğuz Atay", file:"authors/oguz_atay.txt", desc:"oguz_atay.txt" },
+    omer_seyfettin: { name:"Ömer Seyfettin", file:"authors/omer_seyfettin.txt", desc:"omer_seyfettin.txt" },
+    ozdenoren: { name:"Rasim Özdenören", file:"authors/ozdenoren.txt", desc:"ozdenoren.txt" },
+    peyami_safa: { name:"Peyami Safa", file:"authors/peyami_safa.txt", desc:"peyami_safa.txt" },
+    poe: { name:"Edgar Allan Poe", file:"authors/poe.txt", desc:"poe.txt" },
+    proust: { name:"Marcel Proust", file:"authors/proust.txt", desc:"proust.txt" },
+    stevenson: { name:"Robert Louis Stevenson", file:"authors/stevenson.txt", desc:"stevenson.txt" },
+    tanpinar: { name:"Ahmet Hamdi Tanpınar", file:"authors/tanpinar.txt", desc:"tanpinar.txt" },
+    tesfaye_alemu__pangu: { name:"Tesfaye Alemu — PANGU", file:"authors/tesfaye_alemu__pangu.txt", desc:"tesfaye_alemu__pangu.txt" },
+    tolstoy: { name:"Lev Tolstoy", file:"authors/tolstoy.txt", desc:"tolstoy.txt" },
+    twain: { name:"Mark Twain", file:"authors/twain.txt", desc:"twain.txt" },
+    woolf: { name:"Virginia Woolf", file:"authors/woolf.txt", desc:"woolf.txt" },
+    yalom: { name:"Irvin D. Yalom", file:"authors/yalom.txt", desc:"yalom.txt" }
   };
 
   function $(id) {
@@ -185,6 +224,8 @@
   }
 
   function activeMode() {
+    var select = $("quick-mode-select");
+    if (select && select.value) return select.value;
     var btn = document.querySelector(".mode-btn.active");
     return btn ? btn.getAttribute("data-mode") : "OTO";
   }
@@ -689,6 +730,77 @@
     });
 
     refreshModels(provider, false);
+  }
+
+
+  function activeAuthorKey() {
+    var select = $("author-select");
+    return select && select.value ? select.value : "none";
+  }
+
+  function updateAuthorMeta(message, type) {
+    var meta = $("author-meta");
+    if (!meta) return;
+    meta.textContent = message || "Yazar rehberi seçilirse prompta bağlamsal stil kılavuzu olarak eklenir.";
+    meta.style.color = type === "error" ? "#dc2626" : (type === "success" ? "#16a34a" : "#64748b");
+  }
+
+  async function loadSelectedAuthorGuide(silent) {
+    var key = activeAuthorKey();
+    if (!key || key === "none") {
+      state.authorKey = "none";
+      state.authorGuide = "";
+      state.authorGuideLoaded = true;
+      updateAuthorMeta("Yazar rehberi kapalı.", "info");
+      return "";
+    }
+
+    var item = AUTHOR_LIBRARY[key];
+    if (!item || !item.file) return "";
+
+    if (state.authorKey === key && state.authorGuideLoaded) return state.authorGuide;
+
+    updateAuthorMeta(item.name + " rehberi yükleniyor...", "info");
+    try {
+      var response = await fetch(item.file, { cache: "no-store" });
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      var text = await response.text();
+      state.authorKey = key;
+      state.authorGuideLoaded = true;
+      state.authorGuide = text.length > AUTHOR_GUIDE_MAX_CHARS
+        ? text.slice(0, AUTHOR_GUIDE_MAX_CHARS) + "\n\n[Not: Rehber çok uzun olduğu için prompt güvenliği amacıyla ilk " + AUTHOR_GUIDE_MAX_CHARS + " karakter kullanıldı.]"
+        : text;
+      if (!silent) setStatus(item.name + " yazar rehberi yüklendi.", "success");
+      updateAuthorMeta(item.name + " yüklendi · " + Math.min(text.length, AUTHOR_GUIDE_MAX_CHARS) + "/" + text.length + " karakter prompta eklenecek.", "success");
+      return state.authorGuide;
+    } catch (err) {
+      state.authorKey = key;
+      state.authorGuideLoaded = false;
+      state.authorGuide = "";
+      updateAuthorMeta("Yazar rehberi yüklenemedi: " + err.message, "error");
+      if (!silent) setStatus("Yazar rehberi yüklenemedi: " + err.message, "error");
+      return "";
+    }
+  }
+
+  async function ensureAuthorGuideLoaded() {
+    var key = activeAuthorKey();
+    if (!key || key === "none") return "";
+    if (state.authorKey === key && state.authorGuideLoaded) return state.authorGuide;
+    return loadSelectedAuthorGuide(true);
+  }
+
+  function buildAuthorPromptBlock() {
+    var key = activeAuthorKey();
+    if (!key || key === "none" || !state.authorGuide) return "";
+    var item = AUTHOR_LIBRARY[key] || { name: key };
+    return [
+      "## SEÇİLİ YAZAR REHBERİ: " + item.name,
+      "Aşağıdaki rehberi birebir taklit için değil; ritim, cümle disiplini, atmosfer ve anti-AI kontrolü için bağlamsal stil kılavuzu olarak kullan.",
+      "Metnin anlamını, olay sırasını ve kapsamını koru; yeni bilgi ekleme.",
+      "",
+      state.authorGuide
+    ].join("\n");
   }
 
   function activeWorkflow() {
@@ -1327,6 +1439,7 @@
     );
 
     try {
+      await ensureAuthorGuideLoaded();
       var prompt = buildPrompt(mode, lang);
       var result = await callAI(prompt, text);
 
@@ -1475,6 +1588,18 @@
         lib.appendChild(wrap);
       });
     }
+    var authorSelect = $("author-select");
+    if (authorSelect) {
+      authorSelect.innerHTML = "";
+      Object.keys(AUTHOR_LIBRARY).forEach(function (key) {
+        var a = AUTHOR_LIBRARY[key];
+        var opt = document.createElement("option");
+        opt.value = key;
+        opt.textContent = a.name;
+        authorSelect.appendChild(opt);
+      });
+    }
+
     updatePresetDescription();
     updateSelectedPresetSummary();
   }
@@ -1499,6 +1624,8 @@
   }
 
   function setWorkflow(workflow) {
+    var workflowSelect = $("workflow-select");
+    if (workflowSelect && workflowSelect.value !== workflow) workflowSelect.value = workflow;
     document.querySelectorAll(".wtab").forEach(function (b) {
       b.classList.toggle("active", b.getAttribute("data-workflow") === workflow);
     });
@@ -1508,7 +1635,8 @@
     setStatus("Akış seçildi: " + workflow, "info");
   }
 
-  function buildFullPromptPreview() {
+  async function buildFullPromptPreview() {
+    await ensureAuthorGuideLoaded();
     var text = $("hc-input") ? $("hc-input").value.trim() : "";
     var lang = activeLang();
     var mode = activeMode();
@@ -1524,15 +1652,15 @@
     ].join("\n");
   }
 
-  function showPromptPreview() {
+  async function showPromptPreview() {
     var box = $("prompt-preview");
     if (!box) return;
-    box.value = buildFullPromptPreview();
+    box.value = await buildFullPromptPreview();
     box.style.display = box.style.display === "none" ? "block" : "none";
   }
 
   async function copyPromptPreview() {
-    var prompt = buildFullPromptPreview();
+    var prompt = await buildFullPromptPreview();
     try {
       await navigator.clipboard.writeText(prompt);
       var box = $("prompt-preview");
@@ -1555,15 +1683,35 @@
 
     document.querySelectorAll(".mode-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        document.querySelectorAll(".mode-btn").forEach(function (b) {
-          b.classList.remove("active");
-        });
-
+        document.querySelectorAll(".mode-btn").forEach(function (b) { b.classList.remove("active"); });
         btn.classList.add("active");
-        setStatus("Mod seçildi: " + (btn.getAttribute("data-mode") || "OTO"), "info");
+        var modeSelect = $("quick-mode-select");
+        if (modeSelect) modeSelect.value = btn.getAttribute("data-mode") || "OTO";
+        setStatus("Mod seçildi: " + activeMode(), "info");
       });
     });
 
+    var quickModeSelect = $("quick-mode-select");
+    if (quickModeSelect) quickModeSelect.addEventListener("change", function () {
+      setStatus("Mod seçildi: " + activeMode(), "info");
+    });
+
+    var workflowSelect = $("workflow-select");
+    if (workflowSelect) workflowSelect.addEventListener("change", function () {
+      setWorkflow(workflowSelect.value || "single");
+    });
+
+    var btnLoadAuthor = $("btn-load-author");
+    if (btnLoadAuthor) btnLoadAuthor.addEventListener("click", function () { loadSelectedAuthorGuide(false); });
+
+    var authorSelect = $("author-select");
+    if (authorSelect) authorSelect.addEventListener("change", function () {
+      state.authorKey = "";
+      state.authorGuide = "";
+      state.authorGuideLoaded = false;
+      var item = AUTHOR_LIBRARY[activeAuthorKey()];
+      updateAuthorMeta(item ? item.name + " seçildi. İşlem sırasında otomatik yüklenecek." : "Yazar rehberi kapalı.", "info");
+    });
 
     document.querySelectorAll(".wtab").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -1580,6 +1728,28 @@
         updateSelectedPresetSummary();
       });
     });
+
+    var togglePresetLibrary = $("toggle-preset-library");
+    if (togglePresetLibrary) {
+      togglePresetLibrary.addEventListener("click", function () {
+        var area = $("preset-library-area");
+        if (!area) return;
+        var open = area.style.display === "block";
+        area.style.display = open ? "none" : "block";
+        togglePresetLibrary.textContent = (open ? "+" : "−") + " Preset kütüphanesini aç";
+      });
+    }
+
+    var toggleAuthor = $("toggle-author");
+    if (toggleAuthor) {
+      toggleAuthor.addEventListener("click", function () {
+        var area = $("author-area");
+        if (!area) return;
+        var open = area.style.display === "block";
+        area.style.display = open ? "none" : "block";
+        toggleAuthor.textContent = (open ? "+" : "−") + " Yazar rehberi";
+      });
+    }
 
     var toggleContext = $("toggle-context");
     if (toggleContext) {

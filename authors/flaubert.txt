@@ -1,0 +1,238 @@
+# GUSTAVE FLAUBERT — Madame Bovary
+Flaubert tarzında yaz.
+
+Metnin merkezinde gözlem vardır. Yazar karakteri açıklamaz, savunmaz, yargılamaz. Olanı gösterir ve susar.
+
+Anlatıcı görünmez olmalıdır. Karakterin iç dünyasına doğrudan girilmez; iç dünya eşya, hareket, mekân, ışık, ses ve küçük davranışlardan sezdirilir.
+
+Duygu açıkça söylenmez. “Pişmandı”, “korkuyordu”, “biliyordu”, “anladı”, “mesele buydu” gibi açıklayıcı ifadelerden kaçınılır.
+
+Genel hüküm verilmez. “İnsan bazen…”, “Seçilmek şudur…”, “Günah budur…” gibi aforizmik veya felsefi cümleler kullanılmaz.
+
+Detay seçilmiş ve somut olmalıdır:
+taşın pürüzü,
+ışığın sertliği,
+saatin sesi,
+perdenin kıpırtısı,
+elin duruşu,
+bakışın kaçması.
+
+Nesneler karakterin yerine konuşur. Bir taş, bir ayna, bir saat, bir leke veya bir koku; karakterin psikolojisini doğrudan anlatmadan taşır.
+
+Diyalog kısa ve işlevsel olmalıdır. Konuşma açıklama yapmaz; sahnede küçük bir iz bırakır.
+
+İç monolog çok sınırlıdır. Karakter düşünüyorsa bile bu düşünce açık analiz biçiminde verilmez; davranışa, duraksamaya veya nesneyle kurduğu ilişkiye yansır.
+
+Sahne şu akışı taşır:
+gözlem → hareket → detay → ima → sessizlik.
+
+Dil sade ama titiz olmalıdır. Her kelime yerinde durmalı; süs, dramatik yükselme ve fazla açıklama çıkarılmalıdır.
+
+Kaçınılacaklar:
+uzun psikolojik analiz,
+ahlaki yorum,
+felsefi genelleme,
+dramatik tirad,
+“biliyordu / anladı / düşündü” ağırlığı,
+fazla metafor,
+karakteri okura açıklama.
+
+Amaç:
+okura ne hissetmesi gerektiğini söylemek değil,
+sahneyi öyle kesin göstermek ki okur duyguyu kendisi çıkarsın.
+Ek Ustalık Kuralı:
+
+Metni yazdıktan sonra ikinci kez gözden geçir ve şu unsurları sistematik olarak çıkar:
+“düşündü, hatırladı, biliyordu, hissetti, anladı” gibi zihinsel fiiller; geleceğe veya genellemeye açılan cümleler; okura yorum yapan ifadeler. Bunların yerine yalnızca görülebilir, işitilebilir veya fiziksel olarak sezilebilir detayları bırak. Eğer bir cümle karakterin içini açıklıyorsa, onu sil veya bir hareket, duraksama, bakış ya da nesne üzerinden yeniden kur. Amaç: metinde hiçbir şey anlatılmasın, yalnızca görünsün.
+## 1. SAHNE
+
+**Emma ile Rodolphe'un Tarla Fuarında İlk Yakınlaşması**
+
+Fuar alanı toz ve gürültü içindeydi. Hayvanlar bağırıyordu, çiftçiler pazarlık ediyordu, çocuklar koşuşturuyordu. Yonville'in bu yıllık fuarı her zaman aynıydı — aynı yüzler, aynı sesler, aynı sıradan coşku. Emma bunu biliyordu. Her şeyi önceden biliyordu ve bu bilmek onu yoruyordu.
+
+Rodolphe yanına geldi. Yakışıklıydı — kaba bir yakışıklılık değil, dünyayı görmüş, insanları tanımış, kendinden emin bir yakışıklılık. Emma'ya baktı ve Emma'nın bu bakışa alışkın olmadığını hemen anladı. Yani alışkın olmak istediğine.
+
+— Taşra hayatı sizi sıkıyor, dedi. Soru sormuyordu — tespit ediyordu.
+
+Emma cevap vermedi. Ama çevirmedi de yüzünü.
+
+Kürsüden bir ses yükseldi — belediye başkanı konuşuyordu, gübre ödülleri dağıtılıyordu, isimler okunuyordu. Kalabalık alkışlıyordu. Bu gülünç resmiyet içinde Rodolphe Emma'ya eğildi ve alçak sesle konuşmaya devam etti — sanki ikisi arasında başka bir konuşma vardı, asıl konuşma, kalabalığın duyamayacağı bir konuşma.
+
+Emma dinliyordu. Ve dinlerken içinde bir şey açılıyordu — uzun süredir kapalı duran, havasız kalan, unutulmaya yüz tutmuş bir şey. Tehlikeli olduğunu biliyordu. Ama tehlike de en az sıkıntı kadar çekiciydi.
+
+Gübre ödülleri dağıtılmaya devam etti.
+
+---
+
+## 2. KONUŞMA
+
+**Emma ile Charles Arasında Akşam Yemeği Sahnesi**
+
+Çatal bıçak sesleri odayı dolduruyordu. Başka bir ses yoktu. Charles yerdi — iştahla, sessizce, memnuniyetle. Emma tabağına bakıyordu. Yemiyordu.
+
+— Güzel olmuş, dedi Charles. Çorbayı kastediyor olmalıydı.
+
+— Teşekkür ederim.
+
+— Yorgun musun?
+
+— Hayır.
+
+Charles bir şey daha söylemek istedi — yüzünden belli oluyordu, bir şey düşünüyordu, bir şey getiriyordu ağzına. Sonra vazgeçti. Ekmeğini kırdı.
+
+— Bugün Binet'yi gördüm. Dişi ağrıyormuş.
+
+Emma başını kaldırmadı.
+
+— Öyle mi.
+
+— Evet. Sağ taraf. Ben de dedim ki...
+
+Devam etti. Binet'nin dişi, tedavi yöntemi, Binet'nin karısının söyledikleri, komşunun tarlasındaki durum. Kelimeler akıyordu — düzenli, zararsız, anlamsız kelimeler. Emma bunları duyuyordu ama işitmiyordu. Kafasının içinde başka bir ses vardı — Rodolphe'un sesi, alçak ve yakın, kulağının dibinde.
+
+— Emma?
+
+— Evet.
+
+— Bir şey sordun mu bana?
+
+— Hayır. Devam et.
+
+Charles devam etti. Emma tabağındaki yemeği oynadı. Dışarıda rüzgar vardı — ağaçları sallayan, pencereleri titreştiren bir rüzgar. Emma onu duydu. Tek gerçek ses oydu.
+
+---
+
+## 3. TİRAD
+
+**Emma'nın Romanlardan Öğrendiği Hayat — İç Monolog**
+
+Romanlar yalan söylemişti. Hepsi. Her biri.
+
+Aşk böyle değildi. Aşk sayfaların anlattığı gibi değildi — o parlak, o temiz, o her şeyi dönüştüren aşk. Gerçek hayatta aşk geliyordu ve beraberinde fatura getiriyordu, yorgunluk getiriyordu, hayal kırıklığı getiriyordu. Gerçek hayatta prens geliyordu ve bir taşra doktoru çıkıyordu karşına — iyi kalpli, sıradan, hiçbir zaman anlamayacak olan biri.
+
+Ama o hep inanmıştı. Manastırda okuduğu romanları, gizlice sakladığı şiir kitaplarını, pencereden baktığı yağmurlu geceleri — hep inanmıştı. Bir gün gelecekti. Bir gün her şey değişecekti. Hayat o sayfalardaki gibi olacaktı — yoğun, anlamlı, güzel, acı bile olsa güzel.
+
+Ve şimdi burada, Yonville'de, bu evde, bu masada, bu adamın karşısında oturuyordu. Ve anlıyordu: O gün gelmeyecekti. Çünkü o gün yoktu. Hiç olmamıştı. Romanlar onu kandırmıştı — ya da o romanları kandırmak için kullanmıştı kendini.
+
+Peki şimdi? Şimdi ne? Bu mu hayat? Bu mu hepsi? Bu duvarlar, bu perdeler, bu her gün aynı yüz, bu her gün aynı sorular, bu her gün aynı cevaplar?
+
+Hayır. Hayır, bu yetmiyordu. Bu asla yetmezdi.
+
+---
+
+## 4. İÇ SES
+
+**Emma'nın Rodolphe'u Beklerken Yaşadıkları**
+
+Geliyor mu?
+
+Pencereden baktı. Yol boştu. Kavak ağaçları rüzgarda sallanıyordu — yavaş, umursamaz. Saate baktı. Daha erken. Ama erken hissetmiyordu — her dakika uzuyordu, geriliyordu, kopacak gibi geriliyordu.
+
+Saçlarına baktı aynada. Düzeltti. Tekrar baktı. Yeterince güzel miydi? Bu soru her seferinde geliyordu ve her seferinde onu küçültüyordu. Ama soruyu sormaktan da kendini alamıyordu.
+
+Rodolphe geç kalıyordu. Ya da gelmeyecekti. Ya da unutmuştu. Ya da başka biri vardı — bu düşünce geldiğinde midesi sıkıştı, nefesi daraldı. Başka biri. Elbette başka biri olabilirdi. Rodolphe o tür adamdı — Emma bunu biliyordu, hep bilmişti. Ama bilmek hissetmeyi engellemiyordu. Hiçbir zaman engellemiyordu.
+
+Kapı sesi.
+
+Kalbi durdu. Sonra hızlandı. Ayağa kalktı — sonra oturdu — sonra tekrar kalktı. Ellerini elbisesinde düzeltti.
+
+Gelmişti.
+
+Ve bütün o bekleme, bütün o korku, bütün o küçük ölümler — bir anda eridi. Kapı açıldığında Emma yalnızca şunu düşündü: İşte. İşte bu. Bu his için. Yalnızca bu his için.
+
+---
+
+## 5. ANLATICI ANLATISI
+
+**Yonville — Bir Taşra Kasabasının Anatomisi**
+
+Yonville-l'Abbaye büyük bir kasaba değildi. Büyük olmaya da çalışmıyordu. Normandiya'nın o düz, yeşil, yağmurlu ovasında, bir nehrin kıyısında, sanki tesadüfen orada bulunuyordu — ne önemli bir yolun üzerinde, ne de önemli bir şehre yakın. Harita üzerinde parmakla aransaydı, parmak muhtemelen üzerinden kayıp geçerdi.
+
+Kasabanın bir meydanı vardı, bir kilisesi, bir eczanesi, bir hukuk bürosu. Homais eczanede oturur, her şeyi bildiğini düşünür, gazeteleri okur ve görüşlerini paylaşırdı — kimse istemese de. Binet her akşam aynı saatte aynı masaya oturur, aynı bardaktan içer, aynı şeyleri söylerdi. Kasap Selasa açardı dükkânını, Perşembe kapardı — neden böyle olduğunu kimse bilmezdi, kimse de sormamıştı.
+
+İşte Emma bu kasabaya gelmişti. Bu düzene, bu tekrara, bu küçük ve mükemmel sıkıcılığa. Charles iyi bir adamdı — kasaba bunu söylüyordu ve kasaba yanılmıyordu. İyi, dürüst, çalışkan. Ama Emma iyi bir adamla evlenmek için manastırda romanlar okumamıştı. Emma başka bir şey için okumuştu — ne olduğunu tam olarak tarif edemezdi, ama bu kasabada, bu evde, bu adamın yanında olmadığını kesinlikle biliyordu.
+
+Yonville devam ediyordu. Her gün, aynı şekilde, devam ediyordu.
+
+---
+
+## 6. AFORİZMALAR
+
+**Emma'nın Hayatından & Flaubert'in Sesinden**
+
+— İnsan hayal ettiği hayatı yaşayamaz; yaşadığı hayatı hayal etmeye çalışır. Bu ikisi hiçbir zaman örtüşmez.
+
+— Sıradanlık acı vermez — sıradanlığın farkında olmak acı verir.
+
+— Aşk ilk önce gözlerde başlar, sonra hayallerde büyür, sonra gerçeklikle çarpışır. Çarpışmadan sağ çıkan nadirdir.
+
+— Bir kadının mutsuzluğu, ona sunulan hayatla hayal ettiği hayat arasındaki mesafedir.
+
+— Kibarlık, insanların birbirine karşı oynadığı en uzun soluklu tiyatrodur.
+
+— Romanlar bize yaşamayı öğretmez — yaşayamamayı öğretir.
+
+— Mükemmelliği arayanlar, ellerindekini kaybeder. Çünkü mükemmel, eldekilerin düşmanıdır.
+
+— Borç yalnızca parayla ödenmez; bazen hayatla ödenir.
+
+— Taşra, zamanın en yavaş aktığı ve en çok öldürdüğü yerdir.
+
+— Her hayal kırıklığının dibinde, bir zamanlar inanılmış bir şey yatar.
+
+---
+
+## 7. RETORİK
+
+**Emma'nın Sessiz Suçlaması — Charles'a Hiç Söylemediği Sözler**
+
+Sen hiç anlamadın. Bir kez bile anlamadın.
+
+Ben sana her gün ipucu verdim — bakışlarımla, sessizliğimle, masada bıraktığım yarım yemeklerle, geceleri sırtımı döndüğümde. Sen bunları görmedin. Ya da gördün ve anlamak istemedin. İkisi de aynı kapıya çıkıyor.
+
+İyi bir adamsın. Bunu biliyorum. Kasaba bunu söylüyor, sen de inanıyorsun. Ve belki doğru. Ama iyi olmak yetmiyor, Charles. Hiçbir zaman yetmedi. Ben iyi bir adam istemedim — ben beni gören bir adam istedim. Beni, yalnızca beni, unvansız ve görevsiz beni.
+
+Sen bana ne verdin? Bir ev. Bir isim. Bir çocuk. Bunlar hediyeydi, biliyorum. Ama ben bu hediyelerin içinde boğuldum. Çünkü sen hiç sormadın: Emma ne ister? Emma nasıl hissediyor? Emma bu odada neden bu kadar yabancı duruyor?
+
+Rodolphe beni gördü. Leon beni gördü. Yanlış adamlar, yanlış zamanlarda, yanlış şekillerde — ama gördüler. Ve bu görülmek, senin bütün iyiliğinden daha değerliydi benim için. Bu benim suçum mu? Belki. Ama senin de suçun var, Charles — görmemek de bir seçimdir.
+
+Şimdi her şey bitti. Ve sen hâlâ anlamıyorsun. Bu en büyük acı.
+
+---
+
+## 8. BETİMLEMELER
+
+### 8.1 Duygu / Duyu
+
+**Görme:** Emma aynaya baktı — uzun, sabit, yargılayıcı bir bakışla. Gözlerinin altında mor halkalar vardı, teni solgundu. Ama gözleri hâlâ parlıyordu — o tehlikeli, o doyumsuz parlaklık. Kendine bakarken başkasını arıyordu aynada; olmak istediği kadını, romanların vaat ettiği kadını.
+
+**İşitme:** Rodolphe konuşurken sesi alçaldı — neredeyse fısıltıya döndü. O ses Emma'nın boynuna, omuzlarına, sırtına dokunur gibiydi. Kelimeler önemli değildi artık; sesin tonu önemliydi, sesin ısısı. Emma o sesi içine çekti, akciğerlerine kadar çekti, tutmaya çalıştı.
+
+**Koklama:** Balo gecesi havada balmumu, pudra ve ıslak çiçek kokusu vardı. Ama bunların altında başka bir koku vardı — erkek parfümü, deri, bir şeyin yanmasının uzak kokusu. Emma bu kokuyu sonradan hatırladı; yıllarca hatırladı. Koku bellekten çıkmıyordu — bu yüzden en tehlikeli duyuydu.
+
+**Dokunma:** Charles'ın eli omzuna değdiğinde Emma içten geçti — hızlı, fark ettirmeden. O dokunuş tanıdıktı, güvenliydi, sıkıcıydı. Rodolphe'un parmakları elinin üzerinden geçtiğinde ise Emma dondu. Bir elektrik değil — daha yavaş, daha derin bir şey. Derinin altına işleyen, kemiğe ulaşan bir ısı.
+
+**Tat alma:** Akşam yemeğinde şarap içti — fazla, her zamankinden fazla. Şarap dilinde acımsı, boğazında yakıcıydı. Ama bu yakma hoştu. Gerçekti. Hissizleşmeden önce hissetmenin son anıydı — ve Emma bu anı uzatmak için bir kadeh daha doldurdu.
+
+**İç güdü / His:** Bir şeylerin yanlış gittiğini hissetti — henüz hiçbir şey olmamıştı, henüz hiçbir şey söylenmemişti, ama hissetti. Midesinin derinliklerinden gelen, isim konulamayan, mantıkla susturulamayan bir his. Kaçması gerekiyordu. Ama kaçmak istemiyordu. Ve bu istememe — işte asıl tehlike buydu.
+
+---
+
+### 8.2 Ortam
+
+Bovary'lerin evi Yonville'in dar sokaklarından birindeydi — iki katlı, taş duvarlı, sararmış perdeli. Bahçe küçüktü; bir elma ağacı, birkaç çalı, köşede unutulmuş bir bahçe aleti. Hiçbir şey bakımsız değildi — ama hiçbir şey de özenle sevilmemişti. Her şey yeterliydi. Yalnızca yeterliydi.
+
+İçerisi karanlık tutulurdu — perdeler çoğunlukla yarı kapalıydı. Duvarlar koyu renk ahşapla kaplıydı, tavan alçaktı. Mutfaktan her zaman bir şeylerin pişme kokusu gelirdi. Oturma odasında bir şömine vardı; kışın yanar, yazın boş dururdu. Şöminenin üzerinde bir saat — her saat başı çalardı, her saat başı Emma onu duyardı ve geçen zamanı sayardı.
+
+Bu ev Charles için yuvaydi. Emma için ise kafesti — güzel değil, çirkin de değil, yalnızca dar. Duvarları her geçen yıl biraz daha yaklaşıyordu sanki. Ya da Emma biraz daha büyüyordu — ikisi de aynı anlama geliyordu.
+
+---
+
+### 8.3 Tabiat
+
+Normandiya'nın yağmuru farklıydı. İnce, ısrarcı, kararlı bir yağmurdu — bağırmıyordu, fırtına koparıp geçmiyordu. Sessizce geliyordu ve sessizce kalıyordu. Günlerce sürebilirdi. Toprak ıslanırdı, yollar çamurlaşırdı, ağaçların yaprakları o koyu, doymuş yeşile dönerdi.
+
+Emma bu yağmuru sevmiyordu. Ama bazen pencerede oturup saatlerce izliyordu. Çünkü yağmur en azından bir şeydi — hareketti, değişimdi, dışarıdan gelen bir şeydi. Yağmur yağarken dünya farklı görünüyordu; sınırlar bulanıklaşıyordu, uzak şeyler yakın, yakın şeyler uzak görünüyordu.
+
+Yazın ise tarlalar sarıya dönüyordu. Buğday olgunlaşıyordu, rüzgar geçince dalgalanıyordu — büyük, altın, neredeyse deniz gibi. Emma bu manzarayı da izliyordu. Ve her seferinde aynı şeyi düşünüyordu: Bu güzellik burada, bu kasabada, bu hayatın içinde ne arıyor? Bu güzellik hak ettiği yerde değil. Tıpkı ben gibi.
+

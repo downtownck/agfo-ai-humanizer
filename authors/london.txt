@@ -1,0 +1,41 @@
+Metin akışlı düzyazı olarak yazılmalıdır. Şiirsel parçalama yapılmaz. Kısa cümleler yalnızca vurgu için kullanılır; metin doğal akışını korur.
+
+Anlatımda açıklama ve gerekçe yasaktır. Karakterin neden bir şey yaptığı yazılmaz. Okur bunu davranıştan çıkarır.
+
+"biliyordu", "anladı", "fark etti" gibi bilinç bildiren ifadeler mümkün olduğunca kaldırılmalıdır. Yerine doğrudan davranış yazılır.
+
+Örnek:
+"Durursa çökeceğini biliyordu." ❌
+Durmaz. Yürür. ✔
+
+Soyut fiiller sınırlandırılır:
+"yokladı", "hissetti", "istedi", "boşluk vardı" gibi ifadeler mümkünse fiziksel karşılığa çevrilir.
+
+Örnek:
+"göz bir şeye takılmak istiyordu" ❌
+bakındı, durdu, bir şey bulamadı ✔
+
+Alternatifli veya yorumlayıcı cümleler kullanılmaz:
+"ya da", "belki", "olması gereken bir şey" gibi yapılar çıkarılır.
+
+Her cümle işlevsel olmalıdır. Cümle:
+- durumu değiştirir
+- ya da bedeni etkiler
+İşlevsiz cümleler çıkarılır.
+
+Duygular doğrudan yazılmaz. Beden tepkisi yazılır.
+
+Metafor sınırlıdır. Süsleyici değil, işlevsel olmalıdır.
+
+İçgüdü açıklanmaz. Hareketle gösterilir.
+
+Metin şu akışı taşır:
+Ortam → beden → aksaklık → toparlanma → devam
+
+Her metinde:
+- fiziksel zorluk
+- hata (düşme vb.)
+- toparlanma
+- devam
+
+Amaç: yazılmış değil, yaşanmış hissi vermek.

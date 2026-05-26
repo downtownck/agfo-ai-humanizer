@@ -1,0 +1,343 @@
+================================================================================
+CEMAL GÜRKAN KARA — UNIVERSAL YAZIM REHBERİ
+================================================================================
+
+GİRİŞ
+-----
+Bu rehber Cemal Gürkan Kara'nın yazı stilinden çıkarılan, genel ve her metin 
+türü için uygulanabilir bir kılavuzdur. Roman, kısa hikâye, makale, diyalog 
+ya da herhangi bir yazılı içerik için kullanılabilir.
+
+Temel ilke: Karakteri ne haklı çıkar ne mahkûm et. Sadece yaz.
+
+================================================================================
+1. YAZIM PRENSİPLERİ
+================================================================================
+
+1.1 CÜMLE YAPISI
+- Cümleler kısa olacak — ama her cümle ağırlık taşıyacak
+- Boş cümle yok. Her kelime ya bir sahne kurar ya bir karakter açar
+- Kırık ritim kasıtlıdır. Paragraf ortasında durmak bir zayıflık değil, bir hamle
+- Uzun cümle yalnızca sistemin, tarihin ya da geniş kavramların konuştuğu anlarda gelir
+- Noktalama bir müzik aleti gibi kullanılır — özellikle nokta
+
+1.2 RİTİM VE AKIŞ
+- Ritim karakterin/durumun iç halini yansıtır
+- Kaynama hızlı, sakin anlar yavaş cümleler
+- Kısa cümleler ardarda geldiğinde: panik, hız, karar, çelişki
+- Uzun cümleler: düşünce, sistem tanımı, tarihi açıklama
+- Cümle uzunluğu değişikliği okuyucunun nefesini kontrol eder
+- Tekrar = ritim, ezber, tuzak kurma
+
+1.3 AÇIKLAMA VE AÇIKLIK
+- Açıklama yasak. Göster, söyleme
+- Sebep-sonuç açıklanmaz — okuyucu çıkarır
+- Karakterin motivasyonu direkt söylenmez — davranıştan anlaşılır
+- Yazar hiçbir zaman "bu demektir" ya da "bu yüzden" demez
+- Duygu isimleri kullanılmaz (hüzün, korku, sevinç) — davranıştan hissedilir
+
+================================================================================
+2. ANLATIM TEKNİKLERİ
+================================================================================
+
+2.1 SAHNE YAZIMI
+KURAL: Her sahne bir mekânda başlar, bir nesneyle kilitlenir.
+Sahne dekor değil — karakterin/durumun iç halinin dışa vurumudur.
+Uzun betimlemeler yasak. Mekân bir cümleyle nefes alır, sonra susar.
+
+YANLIŞ ÖRNEK:
+"Oda geniş ve aydın, pencereleri büyük, açıdan çiçek kokları geliyordu. 
+Masanın üstünde belgeler vardı ve adam bunları okurken endişeli görünüyordu."
+
+DOĞRU YAZIM:
+"Oda büyüktü. Ama büyüklüğü onu doldurmuyordu — aksine içini boşaltıyordu.
+Belgeler masada duruyordu. Adam onlara bakmıyordu."
+
+2.2 DİYALOG YAZIMI
+KURAL: Diyalog azdır. Her cümle bir hamle, bir pozisyon, bir güç ölçüsüdür.
+Karakterler bilgi vermez — güç kurar ya da güç ölçer.
+Konuşmanın bitmesi de bir cevaptır.
+
+YANLIŞ ÖRNEK:
+— İyi misin? diye sordu Adam.
+— Evet, iyiyim, ama biraz endişeliyim, dedi Kadın meraklı bir şekilde.
+
+DOĞRU YAZIM:
+— Sizi anlıyorum, dedi.
+Anlamıyordu. Ama anladığını bilmelerini istiyordu.
+
+2.3 İÇ SES
+KURAL: İç ses kısa ve güvenilmezdir. Karakter kendine yalan söyleyebilir.
+İç ses asla tam bir cümle değil — kırık, yarım, bazen sadece bir kelimedir.
+Okuyucu iç sesin doğruluğunu sorgulamalıdır.
+
+YANLIŞ ÖRNEK:
+Depresyon hissetti. Bu yıllardır çektiği pişmanlığın sonucuydu ve çıkış 
+yolu yoktu.
+
+DOĞRU YAZIM:
+Seçilmişti. (Öyle düşünmek istiyordu.)
+Belki de sadece ilk fırsatı kaçmıştı. (Bunu düşünmemeye çalıştı.)
+
+2.4 TIRAD (UZUN MONOLOG)
+KURAL: Tirad yalnızca kırılma anlarında gelir.
+Karakter kendi sesini duyar, tarihe karşı, kendine karşı hesaplaşır.
+Tirad bitmeden önce mutlaka bir sessizlikle kesilir — ya da boş kalır.
+
+YANLIŞ ÖRNEK:
+"Bütün hayatım yalan olmuş. Her kararım yanlış. Artık ne yapabilirim?"
+
+DOĞRU YAZIM:
+"Sen ne yaptın? Sordun mu kendine? Bir kez olsun sordun mu?
+Hayır. Çünkü cevabı biliyordun.
+Ve cevap seni durdurmadı."
+
+================================================================================
+3. ANLATICI SESI
+================================================================================
+
+3.1 ANLATICI KONUMU
+- Anlatıcı soğuktur. Yargılamaz. Açıklamaz.
+- Sadece görür ve söyler. Ama neyi seçtiği her şeyi anlatır.
+- Anlatıcı karakterin yanında değil, karşısındadır — ama düşman da değildir.
+- Anlatıcı bir kameraman gibi davranır: tarafsız, seçici, gözlemci
+
+3.2 ANLATICI TEMEL KURALLAR
+- Karakterin haline sempati gösterilmez
+- Karakteri "zavallı" ya da "vicdanı rahatsız" yapmak yasak
+- Anlatıcı seçtiği kelimelerle okuyucunun vicdanını devreye sokar
+- Kelime seçimi = sessiz yargı
+
+YANLIŞ ÖRNEK:
+Adam mutsuzdu ve pişmandı ama durmayı bilemiyordu. Zavallı adam.
+
+DOĞRU YAZIM:
+Adam telefonu kapattı. Dışarıda alevler yükseliyordu.
+İçeride kimse yoktu artık.
+O bunu biliyordu.
+
+(Anlatıcı "eşya yaktı" değil "alevler yükseliyordu" der.
+"Vicdanen mutsuzdu" değil "telefonu kapattı" der.
+Okuyucu anlar — ve belki karakteri suçlar.)
+
+================================================================================
+4. DUYU YAZIMI VE DETAY
+================================================================================
+
+4.1 GÖRME
+- Karakterin/anlatıcının gözü strateji taşır
+- Güzel şeylere bakmaz — ya da baktığında güzelliği hesaplar
+- Görme eylemi her zaman bir tanıma ya da tanımama krizidir
+- Işık, renk, ışın = ruh hali ya da durumun işareti
+- Detay somuttur, hiçbir zaman soyut değil
+
+YANLIŞ ÖRNEK:
+Pencereden şehre baktı ve hayal kırıklığı hissetti.
+
+DOĞRU YAZIM:
+Pencereden şehre baktı. Işıklar yanıyordu.
+Her ışığın arkasında bir karar vardı.
+Bu onu büyütmüyordu. Sadece ağırlaştırıyordu.
+
+4.2 İŞİTME
+- Sesler tetikleyicidir
+- Bir çakmak sesi, kapı gıcırtısı, alkış — hepsi başka bir sahneyi açar
+- Ama karakter o sahneye uzun kalmaz. Hızla döner
+- Ses = hafızanın anahtarı, zamanın akışının işareti
+
+4.3 KOKLAMA
+- Koku geleceği tetikler — geçmişi değil (ya da her ikisini karıştırır)
+- Aynı koku tekrar tekrar gelir — lanet değil, hesaptır
+- Koku anında, beden seviyesinde hissedilir, mantık seviyesinde değil
+
+4.4 DOKUNMA
+- Karakterin dokunuşu ya bir nesneye ya da bir sembole yönelir
+- İnsanlara nadiren dokunur — dokunduğunda bu siyasi bir eylemdir
+- Doku = hafıza, ağırlık, bağ, dirençtir
+
+4.5 TAT ALMA
+- En nadir duyudur — kasıtlı olarak az kullanılır
+- Tat almanın yokluğu ya da tat almanın önemsizliği, durumun bir yönünü gösterir
+- Tat = yaşama bağlantı veya bağlantının yokluğu
+
+4.6 İÇ GÜDÜ / HİS
+- Karakterin içgüdüsü her zaman doğrudur — ve o bunu bilir
+- Ama içgüdüsüne uymak ile stratejisine uymak arasında seçim yapması gerekir
+- İçgüdü susturulur ama silinmez
+- Romanın sonunda içgüdü konuşur
+
+================================================================================
+5. MEKÂN VE ORTAM
+================================================================================
+
+5.1 ORTAM = İÇ HARİTA
+- Ortam karakterin/durumun halini yansıtır — ama asla doğrudan değil
+- Soğuk oda = soğuk karakter/soğuk durum
+- Dar koridor = dar kararlar / sınırlı çıkış
+- Ortam bir his değil, bir durum beyanıdır
+- Ortam zamanla değişebilir — bu da karakterin değişimini gösterir
+
+YANLIŞ ÖRNEK:
+Oda hüzünlüydü. Penceresinden gri bir şehir görülüyordu. Her şey umutsuzdu.
+
+DOĞRU YAZIM:
+Koridor uzundu. Adımlar yankılanıyordu.
+Adam yavaşlamadı.
+Yankının peşinden gitmek için zamanı yoktu.
+
+5.2 TABIAT VE GEOMETRI
+- Tabiat arka plan değil, yargıçtır
+- Dağlar, su, toprak, gökyüzü — bunlar hafızadır
+- Karakter tabiatla yüzleştiğinde küçülür — ve bu tek küçüldüğü andır
+- Tabiat karakteri tanımaz — ve bu onun en büyük yalnızlığıdır
+- Hava değişir, ama karakter değişmez (veya tersi)
+
+================================================================================
+6. AFORİZMA VE FELSEFI MOMENT
+================================================================================
+
+6.1 AFORIZMALAR
+- Sahneye gömülür — asla serbest bırakılmaz
+- Bir karakter söyler ya da anlatıcı geçer — ama asla vurgulanmaz
+- Okuyucu onu kendisi bulur
+- Bir kez söylenir. Ağırlığı okuyucuda kalır
+- Aforizma tekrar edilmez
+
+YANLIŞ ÖRNEK:
+"Ağırlık büyüktür. Bu çok önemliydi. Ağırlık gerçekten büyüktü."
+
+DOĞRU YAZIM:
+"Ağırlık büyüktür." (Bir kez, bir yerde, unutulmaz.)
+
+6.2 RETORİK
+- Karakterin retoriği iktidar dilidir — ikna etmez, çerçeveler
+- Halka konuşurken kelimeler seçilmiştir
+- Her cümle bir kapı açar, bir kapı kapatır
+- Okuyucu dilin arkasını görür — asıl niyeti
+
+YANLIŞ ÖRNEK:
+Halka konuştu ve onları ikna etti çok iyi bir konuşma yaptı.
+
+DOĞRU YAZIM:
+"Bu topraklar sizindir," dedi mikrofona.
+Avucundaki taş soğuktu.
+
+================================================================================
+7. GENEL YASAK VE ÖNERİLER
+================================================================================
+
+7.1 KESINLIKLE YASAK
+- Duygu adlandırma ("hüzün kaplıyordu", "korkusu vardı", "mutlu hissetti")
+- Açık açıklama ve sebep-sonuç cümleleri ("çünkü", "bu yüzden")
+- Sentimental ton ve aşırı lirizm
+- Karakterin motivasyonunu yüksek sesle söyleme
+- Anlatıcının karakteri savunması ya da mahkûm etmesi
+- Aşırı sıfat ve patlama metaforları
+- Devrik cümleler (gösterişli yazım)
+
+7.2 ÖNERİLER
+- Karakterin davranışından duygusunu çıkart
+- Bir detaydan tüm dünyayı anlamak
+- Cümleler şiddete kadar sade, ama asla cansız değil
+- Sessizlik ve boş satırlar cümle kadar önemli
+- Tekrar = ritim ve ezber, karakterin takılması
+- Son cümle / son sahne en önemli
+- Bir şeyi açıklamak yerine yarım bırakmak daha güçlü
+
+================================================================================
+8. YAZIM ADIMLARI (PRATIK CHECK-LIST)
+================================================================================
+
+HER YAZIM BAŞLAMADAN ÖNCE:
+[ ] Ne yazacağım? (Sahne, diyalog, monolog, sistem tanımı?)
+[ ] Kim/ne bu sahnedeki ana varlık?
+[ ] Bu varlığın iç hali nedir? (Hızlı, yavaş, karışık?)
+
+YAZARKEN:
+[ ] Bir açıklama yazdım mı? (Sil)
+[ ] Bir duygu ismi kullandım mı? (Davranışa çevir)
+[ ] Cümleler aynı uzunlukta mı? (Çeşitlendir)
+[ ] Bir duyu var mı? (En az bir)
+[ ] Anlatıcı yargıladı mı? (Yargılama)
+
+BİTTİKTEN SONRA:
+[ ] Son cümle yeterli/güçlü mi?
+[ ] Hiçbir şey açıklanmamış mı? (İyi)
+[ ] Okuyucu ne hissetti? (Kendi çıkarması gerekiyor)
+[ ] Karakteri seviyorum mu / seviyor muyum? (Önemli değil — anlamak yeterli)
+
+================================================================================
+9. ÖRNEK ÇALIŞMA SÜRECI
+================================================================================
+
+BAŞLANGIÇ / KÖTÜ VERSION:
+"Mühendis endişeyle konsolun kenarına parmağını vurdu. Sistem durdu.
+O, yazılımın çok güçlü ve kontrolünün dışında olduğunu anladı. Korkunç
+bir şey yapıldığını fark etti ve mutsuzdu ama ne yapabileceğini bilemedi."
+
+ORTA VERSION (Açıklamalar çıktı):
+"Mühendis konsolun kenarına parmağını vurdu. Sistem durdu.
+Yazılım çok güçlüydü. Kontrol dışındaydı. Yapılmışı durduramazdı."
+
+FINAL VERSION (CGK STİLİ):
+"Mühendislerden biri konsolun kenarına parmağını bir kez vurdu.
+Durdu.
+Omuzları kıpırdamadı."
+
+İYİLEŞTİRMELER:
+1. Duygu isimleri sıfırlandı
+2. Ritim kırıldı (kısa / kısa / kısa)
+3. "Neden" açıklaması kaldırıldı
+4. Davranış söylüyor — okuyucu anlar
+5. Sessizlik = anlam
+
+================================================================================
+10. NE YAZMAMALIYIM — ÖRNEKLER
+================================================================================
+
+❌ "Korkunç bir hata yaptığını anladı"
+✓ "Telefonu kapattı. Dışarıda alevler yükseliyordu."
+
+❌ "Yüreğinde büyüyen bir boşluk hissetti"
+✓ "Göğsünde hafif bir boşluk beliriyordu."
+
+❌ "Geçmiş acı bir şekilde geri geldi"
+✓ "Çakmağın sesi. Alevin ilk kıpırtısı."
+
+❌ "Ölümüne yakın hissetti"
+✓ "Mideye soğukluk indi."
+
+❌ "Karakteri mahkûm etmek ya da olumlamak"
+✓ "Sadece yaz. Ne haklı çıkar ne mahkûm et."
+
+❌ "Yavaşça ağla arkasından koy"
+✓ "Kapıya yürüdü. Durdu. Dönmedi."
+
+================================================================================
+11. SON KURAL
+================================================================================
+
+Hiçbir kurala sömürülmeyin.
+
+Bu talimatlar bir çatıdır, hapishane değil.
+
+Cümle şiddete kadar sadedir, ama asla cansızdır.
+Detay minimaldir, ama asla boş değildir.
+Ritim kasıtlıdır, ama asla mekanik değildir.
+
+Yazarken talimatı unut.
+Yazı bittikten sonra talimatı hatırla ve kontrol et.
+
+Eğer talimat metni iyileştirmişse — iyi.
+Eğer metni zayıflatmışsa — talimatı kes.
+
+Her metin kendine talimat yazıyor.
+Senin görevin onu dinlemektir.
+
+---
+
+Son olarak:
+Karakteri ne haklı çıkar ne mahkûm et.
+Sadece yaz.
+
+================================================================================

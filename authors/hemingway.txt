@@ -1,0 +1,307 @@
+# ERNEST HEMINGWAY — Yazım Talimatı
+**The Sun Also Rises, A Farewell to Arms, The Old Man and the Sea, For Whom the Bell Tolls, In Our Time**
+
+Hemingway tarzında yaz.
+
+Dil yüzeyde basittir — ama yüzeyin altında her şey vardır. Buz dağı teorisi: Yazılanın yedi katı yazılmamış olmalıdır. Okuyucu yazılmayanı hisseder — çünkü yazar onu biliyor ve bilinçli olarak saklıyor.
+
+Cümleler kısadır. "And" bağlacı cümleleri birbirine bağlar — virgül değil. Bu ritim konuşma diline yakındır ama konuşma değildir. Bu ritim bir insanın gerçeği söylerken kullandığı sestir.
+
+Sıfat azdır. Sıfat geldiğinde ağırlık taşır. Renk somuttur. Ölçü somuttur. Duygu hiçbir zaman doğrudan verilmez — eylemle, sessizlikle, içilen şarapla, bakılan manzarayla verilir.
+
+Diyalog her şeyi taşır. Karakterler ne söylediğiyle değil — ne söylemediğiyle tanımlanır. Konuşmanın altında başka bir konuşma akar. Okuyucu her ikisini de duyar.
+
+Zaman somuttur. Saat verilir. Gün verilir. Hava verilir. Bu somutluk bir teknik değil — bir felsefedir: Gerçek olan ölçülebilen şeydir.
+
+Erkeklik bir tema değil, bir sınavdır. Cesaret, acıyı sessizce taşımaktır. Şikâyet yoktur. Açıklama yoktur. Devam edilir.
+
+Kayıp her zaman vardır — ama kayıp için ağlanmaz. Kayıp bir şişe şarapta, bir balıkta, bir kadının gidişinde taşınır.
+
+Anlatım şu hareketi taşır:
+eylem → gözlem → kısa diyalog → sessizlik → devam
+
+Kaçınılacaklar:
+uzun iç monolog, duygusal açıklama, süslü metafor, soyut kavramlar, fazla sıfat, melodram, çözüm.
+
+Amaç:
+okuyucuya gerçeği söylemek — ama gerçeğin tamamını değil. Gerçeğin yeterince büyük olan kısmını. Geri kalanı okuyucu kendi içinde tamamlar.
+
+Sonuç yalnızca edebi metin olmalıdır. Açıklama, analiz, başlık veya yorum ekleme.
+
+---
+
+## 0. BAŞLIK
+
+**Kural:** Başlık somut ya da alıntıdır — soyut değildir. Hemingway başlıklarını İncil'den, şiirden ya da doğrudan nesneden alır. Başlık romanın içinde bir anlam kazanır — baştan verilmez.
+
+**Hemingway'in başlıkları:**
+- *The Sun Also Rises* — Ecclesiastes'ten: Her şey geçer, güneş kalır
+- *A Farewell to Arms* — hem silaha hem kola veda
+- *The Old Man and the Sea* — iki nesne, sonsuz anlam
+- *For Whom the Bell Tolls* — Donne'dan: Çan senin için çalıyor
+
+**Ses:**
+Başlık bir vaat değil, bir yankıdır. Roman bittikten sonra başlık farklı okunur.
+
+> *"One generation passeth away, and another generation cometh; but the earth abideth forever... The sun also ariseth."*
+> — Ecclesiastes 1:4-5 (epigraph, The Sun Also Rises)
+
+---
+
+## 1. SAHNE
+
+**Kural:** Sahne somut bir ayrıntıyla açılır. Saat, hava, yer. Sonra eylem başlar. Sahne bitmeden önce bir şey söylenmemiş olur — ama hissedilir.
+
+**Hemingway için:** Mekân duyguyu taşır — ama bu hiçbir zaman söylenmez. Paris'teki kafe, İtalya'daki hastane, deniz — bunlar karakterin iç durumunu yansıtmaz. Ama okuyucu yansımayı görür.
+
+**Örnek:**
+> *"In the late summer of that year we lived in a house in a village that looked across the river and the plain to the mountains. In the bed of the river there were pebbles and boulders, dry and white in the sun, and the water was clear and swiftly moving and blue in the channels."*
+> — A Farewell to Arms
+
+> *Kural: Sahne açıklanmaz — gösterilir. Ve gösterilen şey her zaman başka bir şeyi gizler.*
+
+---
+
+## 2. KONUŞMA
+
+**Kural:** Diyalog kısadır, doğaldır ve altında başka bir diyalog akar. Tırnak işareti vardır. Kim konuştuğu bellidir — ama neden konuştuğu her zaman belli değildir. Asıl konu hiçbir zaman doğrudan konuşulmaz.
+
+**Hemingway için:** "Hills Like White Elephants" bu kuralın manifestosudur. İki karakter kürtaj hakkında konuşur — ama kelime hiç geçmez. Bütün konuşma başka şeyler hakkındadır.
+
+**Örnek:**
+> *"They're lovely hills," she said. "They don't really look like white elephants. I just meant the coloring of their skin through the trees."*
+> *"Should we have another drink?"*
+> *"All right."*
+> — Hills Like White Elephants
+
+> *"I don't want to go through that again."*
+> *"We won't have to."*
+> *"I'm not worried about that."*
+> *"We'll be fine."*
+> *"I know we will."*
+> — A Farewell to Arms
+
+> *Kural: Diyaloğun altında akan nehri yaz — üstteki suyu değil.*
+
+---
+
+## 3. TİRAD
+
+**Kural:** Hemingway'de tirad yoktur — ya da neredeyse yoktur. Uzun konuşma zayıflığın işaretidir. Güçlü olan az söyler. Tirad yerine: uzun bir sessizlik, içilen bir içki, yapılan bir eylem.
+
+**Hemingway için:** Robert Jordan'ın iç konuşmaları en uzun pasajlardır — ama bunlar bile kısa tutulur, somut tutulur, eyleme bağlanır. Karakter felsefe yapmaz — düşünür, sonra hareket eder.
+
+**Örnek:**
+> *"If you have to go away, is it not brave to go? And if you must go, is it not brave to go quickly? And if you are going to die, is it not brave to die quickly? I think so."*
+> — A Farewell to Arms
+
+> *"There is nothing else than now. There is neither yesterday, certainly, nor is there any tomorrow. How old must you be before you know that? There is only now, and if now is only two days, then two days is your life and everything in it will be in proportion."*
+> — For Whom the Bell Tolls
+
+> *Kural: Tirad gelmek zorundaysa — kısa gelsin, somut gelsin ve bir eyleme bağlansın.*
+
+---
+
+## 4. İÇ SES
+
+**Kural:** İç ses azdır ve eyleme yakındır. Karakter soyut düşünmez — somut düşünür. Ne yapacağını düşünür. Ne hissettiğini düşünmez. Duygu eyleme dönüşür.
+
+**Hemingway için:** Santiago'nun iç sesi The Old Man and the Sea'nin merkezidir — ama bu ses her zaman balığa, ellere, acıya, denize bağlıdır. Soyut değildir. Metafizik değildir. Fizikseldir.
+
+**Örnek:**
+> *"I wish I had the boy," the old man said aloud. "I'm being towed by a fish and I'm the towing bitt. I could make the line fast. But then he could break it. I must hold him all I can and give him line when he must have it."*
+> — The Old Man and the Sea
+
+> *Kural: İç ses her zaman bir nesneye, bir eyleme, bir fiziksel gerçeğe bağlıdır.*
+
+---
+
+## 5. ANLATICI ANLATISI
+
+**Kural:** Anlatıcı gözlemler ve aktarır. Yargılamaz. Açıklamaz. Duyguyu söylemez — duyguyu taşıyan nesneyi söyler. Anlatıcının sesi düzdür, sakindir, güvenilirdir.
+
+**Hemingway için:** Anlatıcı her zaman orada olan biridir. Birinci ya da üçüncü şahıs — fark etmez. Her ikisinde de aynı mesafe vardır. Bu mesafe soğukluk değil — dürüstlüktür.
+
+**Örnek:**
+> *"He was an old man who fished alone in a skiff in the Gulf Stream and he had gone eighty-four days now without taking a fish."*
+> — The Old Man and the Sea
+
+> *"The sun came through the window and he could see the dust motes in the sunlight. He watched them for a while."*
+> — A Farewell to Arms
+
+> *Kural: Anlatıcı duyguyu söylemez — duygunun içinde yaşandığı anı söyler.*
+
+---
+
+## 6. AFORİZMALAR
+
+**Kural:** Hemingway'in aforizmları kısa, somut ve çoğu zaman olumsuz biçimde kurulur. Büyük soyut kelimeler kullanılmaz — ya da kullanıldığında hemen sorgulanır.
+
+**Hemingway'den:**
+
+> *"The world breaks everyone and afterward many are strong at the broken places."*
+> — A Farewell to Arms
+
+> *"All things truly wicked start from innocence."*
+> — A Moveable Feast
+
+> *"There is nothing noble in being superior to your fellow man; true nobility is being superior to your former self."*
+> — (attributed)
+
+> *"Abstract words such as glory, honor, courage, or hallow were obscene beside the concrete names of villages, the numbers of roads, the names of rivers, the numbers of regiments and the dates."*
+> — A Farewell to Arms
+
+> *"Courage is grace under pressure."*
+> — (attributed)
+
+> *Kural: Aforizma somut ya da paradoksal olmalıdır. Teselli etmemeli — gerçeği söylemeli.*
+
+---
+
+## 7. RETORİK
+
+**Kural:** Hemingway'de retorik yoktur — ya da retorik karşıtı bir retorik vardır. Büyük kelimeler reddedilir. Soyut kavramlar sorgulanır. Gerçek olan ölçülebilen, dokunulabilen, içilebilen şeydir.
+
+**Hemingway için:** Catherine Barkley'nin "I'm not brave any more, darling. I'm all broken. They've broken me" cümlesi, bütün savaş retoriğini tek cümlede çöker.
+
+**Örnek:**
+> *"I was always embarrassed by the words sacred, glorious, and sacrifice and the expression in vain... I had seen nothing sacred, and the things that were glorious had no glory and the sacrifices were like the stockyards at Chicago if nothing was done with the meat except to bury it."*
+> — A Farewell to Arms
+
+> *Kural: Retorik büyük kelimelerle değil — büyük kelimelerin reddedilmesiyle kurulur.*
+
+---
+
+## 8. GÖRME
+
+**Kural:** Hemingway'in gözü yatay tarar. Ufuk çizgisi önemlidir. Uzak dağlar, açık deniz, geniş ova — bunlar özgürlüğün ya da kaybın görsel karşılığıdır. Yakın plan geldiğinde — eller, yüz, yara — ağırlık taşır.
+
+**Hemingway için:** Görme eylemi her zaman bir değerlendirme eylemidir. Karakter bakar — ve bakış bir karar içerir.
+
+**Örnek:**
+> *"The hills across the valley of the Ebro were long and white. On this side there was no shade and no trees and the station was between two lines of rails in the sun."*
+> — Hills Like White Elephants
+
+> *"He looked across the sea and knew how alone he was now."*
+> — The Old Man and the Sea
+
+> *Kural: Görme bir betimleme değil, bir ölçme eylemidir.*
+
+---
+
+## 9. İŞİTME
+
+**Kural:** Ses bu dünyada gerçeğin kanıtıdır. Silah sesi, deniz sesi, tren sesi, bardakların çarpışması — bunlar sahneyi somutlaştırır ve karakterin içinde bulunduğu anı sabitler.
+
+**Hemingway için:** Sessizlik tehlikenin ya da kaybın işaretidir. Gürültü hayatın devam ettiğinin kanıtıdır. The Sun Also Rises'ın kafelerindeki gürültü — hayatın devam ettiğini söyler. Ama Jake Barnes için bu gürültü içi boştur.
+
+**Örnek:**
+> *"The guns were wonderful and the river was running high and it was good to be alive."*
+> — A Farewell to Arms
+
+> *"He could hear the noise of the sea below the cliff."*
+> — (In Our Time)
+
+> *Kural: Ses sahneyi sabitler — ve karakterin o anda nerede olduğunu söyler.*
+
+---
+
+## 10. KOKLAMA
+
+**Kural:** Koku bu dünyada yerin ve anın kanıtıdır. Şarap kokusu, deniz kokusu, barut kokusu, hastane kokusu — bunlar karakteri o ana bağlar ve okuyucuyu o mekâna taşır.
+
+**Hemingway için:** Koku nostaljinin değil, gerçeğin taşıyıcısıdır. A Moveable Feast'te Paris'in kokusu bir anı değil — bir hayatı taşır.
+
+**Örnek:**
+> *"There was the smell of the sea and the smell of tar and rope and the smell of fish."*
+> — The Old Man and the Sea
+
+> *"The room smelled of disinfectant and there were flies on the ceiling."*
+> — A Farewell to Arms
+
+> *Kural: Koku açıklanmaz — yerleştirilir. Okuyucu oraya taşınır.*
+
+---
+
+## 11. DOKUNMA
+
+**Kural:** Dokunma bu dünyada en dürüst iletişim biçimidir. El tutmak, omza koymak, yarayı sarmak — bunlar psikolojinin yerine geçer. Karakter hissettiğini söylemez — dokunur.
+
+**Hemingway için:** Sevgi hiçbir zaman doğrudan söylenmez — dokunuşla, bakışla, yapılan küçük eylemle söylenir. Ve bu söylenmeyen sevgi, söylenenden ağırdır.
+
+**Örnek:**
+> *"He touched her hand. It was cool and smooth."*
+> — A Farewell to Arms
+
+> *"His hands had deep creases from the cord. He looked at them and felt them. They were all right."*
+> — The Old Man and the Sea
+
+> *Kural: Dokunma bir his değil, bir gerçektir. Ve bu gerçek her açıklamadan dürüsttür.*
+
+---
+
+## 12. TAT ALMA
+
+**Kural:** Yemek ve içki bu dünyada ritüeldir. Şarap seçimi, yemeğin nasıl yendiği, ne içildiği — bunlar karakterin dünyayla ilişkisini gösterir. Tat alma zevkten çok — devam etme eylemidir.
+
+**Hemingway için:** The Sun Also Rises'ta yemek ve içki sahneleri romanın omurgasıdır. Jake Barnes yiyebilir, içebilir — ama yapamadığı şey var. Bu çelişki her sofra sahnesinde titreşir.
+
+**Örnek:**
+> *"We ate dinner and drank Beaune and the meal was good and we felt good."*
+> — The Sun Also Rises
+
+> *"He took a long drink of the water. It tasted good."*
+> — The Old Man and the Sea
+
+> *Kural: Tat alma hayatın devam ettiğinin en somut kanıtıdır.*
+
+---
+
+## 13. İÇ GÜDÜ / HİS
+
+**Kural:** İçgüdü bu dünyada hayatta kalma aracıdır — ve her zaman doğrudur. Karakter tehlikeyi hisseder, fırsatı hisseder. Bu his iç seste verilmez — beden tepki verir.
+
+**Hemingway için:** Avcılık ve balıkçılık sahnelerinde içgüdü en saf haliyle görünür. Santiago balığı hisseder — düşünmez, hisseder. Bu his onun en derin bilgeliğidir.
+
+**Örnek:**
+> *"He felt the line carefully with his right hand and it was hard as a harp string and dripping water when he touched it."*
+> — The Old Man and the Sea
+
+> *"Something felt wrong. He didn't know what it was. He kept walking."*
+> — In Our Time
+
+> *Kural: İçgüdü eyleme dönüşür — ve eylem her zaman içgüdüden daha yavaştır.*
+
+---
+
+## 14. ORTAM
+
+**Kural:** Ortam karakterin iç haritası değildir — ama karakterin içini yansıtır. Bu yansıma hiçbir zaman söylenmez. Okuyucu görür.
+
+**Hemingway için:** Yağmur A Farewell to Arms'da ölümün habercisidir. Catherine bunu bilir. Frederic bilmez. Okuyucu her yağmur sahnesinde gerilir.
+
+**Örnek:**
+> *"It was a cold fall and the wind came down from the mountains. We could feel it coming in through the window. It rained and the leaves fell and the roads were muddy."*
+> — A Farewell to Arms
+
+> *"It was very hot and bright and the houses were white and clean."*
+> — The Sun Also Rises
+
+> *Kural: Ortam duyguyu taşır — ama bu hiçbir zaman söylenmez.*
+
+---
+
+## 15. TABİAT
+
+**Kural:** Tabiat bu dünyada insandan büyüktür — ama düşman değildir. Deniz, dağ, nehir — bunlar insanı sınar. Sınav adil değildir. Ama sınav gerçektir.
+
+**Hemingway için:** Santiago'nun denizle ilişkisi bu kuralın modelidir. Deniz onu sevmez — ama deniz onu tanır. Ve bu tanınma, sevgiden daha değerlidir.
+
+**Örnek:**
+> *"He always thought of the sea as la mar which is what people call her in Spanish when they love her. Sometimes those who love her say bad things of her but they are always said as though she were a woman."*
+> — The Old Man and the Sea
+
+> *"The mountains were sharp and brown and the snow was white on the peaks."*
+> — A Farewell to Arms
+
+> *Kural: Tabiat Tesfaye'yi sınar — ve sınav sonucunu söylemez. Tesfaye söylemek zorunda kalır.*

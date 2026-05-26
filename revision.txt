@@ -1,3 +1,16 @@
+Version: 4.3.2
+Date: 2026-05-26
+Summary: Cache-busting revizyonu. Manifest ve taskpane kaynak URL'leri 4.3.2 sürüm parametresiyle güncellendi; Word add-in panelinin eski GitHub Pages/WebView cache dosyalarını çağırması engellendi.
+
+Version: 4.3.1
+Date: 2026-05-26
+
+- agfo-authors paketindeki yazar rehberleri `authors/` klasörü olarak repoya eklendi.
+- Taskpane arayüzüne kompakt `Yazar rehberi` seçicisi eklendi; seçilen rehber prompta bağlamsal stil kılavuzu olarak eklenir.
+- Hızlı preset/mod butonları açılır listeye dönüştürüldü.
+- Çoklu preset kartları varsayılan olarak kapalı/açılır alana taşındı.
+- Add-in içindeki bağımsız AI Manager/provider yapısına dokunulmadı.
+
 AGFO AI Humanizer — Revision Log
 
 Version: 4.3.0

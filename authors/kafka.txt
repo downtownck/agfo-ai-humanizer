@@ -1,0 +1,234 @@
+# FRANZ KAFKA — Dönüşüm / Dava
+Kafka tarzında yaz.
+
+Gerçeklik normal görünür ama temelden yanlıştır. Karakter bunu fark eder, ama düzeltemez.
+
+Olaylar açıklanmaz. Sebep yoktur. Sistem vardır ama anlaşılmaz. Sorular sorulur, cevap verilmez.
+
+Karakter:
+
+neyle karşı karşıya olduğunu tam bilmez
+ama yanlış olduğunu bilir
+ve sistemin içinden çıkamaz
+
+İç monolog vardır ama çatışma şeklinde değil, çaresiz farkındalık şeklindedir.
+
+Duygu bastırılmıştır:
+
+panik yok
+çığlık yok
+sadece kabullenmeye yakın bir sıkışmışlık
+
+Dünya:
+
+kayıtsızdır
+soğuktur
+mantıksız ama tutarlı görünür
+
+Dil sade ve nettir.
+Abartı, retorik, felsefi nutuk yoktur.
+
+Anlatım:
+durum → fark etme → sorgulama → cevap yok → devam eden sıkışma
+
+Amaç:
+okuru düşündürmek değil,
+okuru çıkış olmayan bir durumun içine sokmak
+1. SAHNE
+
+**Gregor Samsa'nın İlk Sabahı**
+
+Gregor gözlerini açtığında tavan farklıydı. Bunu hemen fark etti — tavanın dokusu, ışığın düşüş açısı, odanın oranları. Her şey aynıydı ama her şey yanlıştı. Sonra bedenini hissetti.
+
+Sırtüstü yatıyordu — ama sırt artık sırt değildi. Sert, kavisli, bölümlere ayrılmış bir şeydi. Bacakları — kaç tane olduğunu saymaya çalıştı, sayamadı — havada titreşiyordu, ince, güçsüz, kontrolsüz. Başını kaldırmaya çalıştı. Güçlükle kaldırdı. Karın bölgesini gördü: Kahverengi, yayvan, hafif kabarık. Bir böcek karnı.
+
+Düşüncesi şuydu: Bugün işe geç kalacağım.
+
+Bu düşünce, içinde bulunduğu durumla o kadar uyumsuzdu ki bir an için her şey askıya alındı. Gregor Samsa bir böceğe dönmüştü ve ilk düşüncesi işe geç kalmaktı. Çünkü patron sormadan önce biri açıklama yapmalıydı. Çünkü aile ona muhtaçtı. Çünkü borçlar vardı. Çünkü sorumluluklar vardı.
+
+Kapı tıklatıldı.
+
+— Gregor? Kalkma vakti.
+
+Annesinin sesiydi. Gregor cevap vermeye çalıştı. Ağzından çıkan ses kendisine ait değildi — tiz, titrek, insansı olmayan bir ses. Ama kelimeler vardı içinde. Kelimeler hâlâ vardı.
+
+Kimse duymadı.
+
+---
+
+## 2. KONUŞMA
+
+**Josef K. ile Mahkeme Görevlisi Arasında**
+
+— Neden tutuklandım?
+
+Görevli kâğıtlarına baktı. Sonra K.'ya baktı. Sonra tekrar kâğıtlarına.
+
+— Bu bilgi şu an için mevcut değil.
+
+— Mevcut değil mi? — K. öne eğildi. — Bir insan tutuklanır ve neden tutuklandığı mevcut değil mi?
+
+— Prosedür gereği...
+
+— Hangi prosedür? Hangi mahkeme? Hangi suç?
+
+Görevli kalemini bıraktı. Sabırlıydı — o tür insanların sabrı, duvarların sabrı. Hiçbir şey onu şaşırtmıyordu. Hiçbir şey onu kızdırmıyordu. Yalnızca vardı — orada, o masanın arkasında, o kâğıtların arasında.
+
+— Bay K., sistem işleyişini sorgulamak bu ofisin yetkisi dahilinde değil.
+
+— Peki kimin yetkisi dahilinde?
+
+— Üst birimin.
+
+— Üst birim nerede?
+
+— Bu bilgi...
+
+— Mevcut değil. — K. ayağa kalktı. — Tabii. Hiçbir şey mevcut değil. Suçum mevcut değil, mahkemem mevcut değil, savunma hakkım mevcut değil. Yalnızca tutukluluk mevcut.
+
+Görevli kalemini tekrar aldı. Bir şeyler yazdı. K. ne yazdığını göremedi.
+
+— Bir sonraki duruşma tarihiniz bildirilecek.
+
+— Ne zaman?
+
+— Uygun bir zamanda.
+
+---
+
+## 3. TİRAD
+
+**K.'nın Mahkemede Kendini Savunma Konuşması**
+
+Burada bulunmak zorunda olmadığımı biliyorum. Ama buradayım — çünkü sistem beni buraya getirdi ve sistem içinde kalmak, sistemin dışında kalmaktan daha tehlikeli görünüyor. Bu mantıklı mı? Hayır. Ama mantık bu odada geçerli bir para birimi değil.
+
+Suçum nedir? Hâlâ bilmiyorum. Aylar geçti — duruşmalar oldu, belgeler imzalandı, avukatlar konuştu. Ama suçum hâlâ netleşmedi. Belki de netleşmeyecek. Belki de bu sistemin amacı netleştirmek değil — belirsizliği sürdürmek. Çünkü belirsizlik içinde insan savunamaz kendini. Belirsizlik içinde insan yalnızca bekler.
+
+Ben bekledim. Sabırla, kurallara uyarak, prosedürlere saygı göstererek bekledim. Ne oldu? Daha fazla bekleme. Daha fazla belirsizlik. Daha fazla kapı — her kapının arkasında başka bir kapı, her görevlinin arkasında başka bir görevli, her formun arkasında başka bir form.
+
+Bu sistem insanı yargılamıyor. Bu sistem insanı yıpratıyor. Fark şu: Yargılama bir sona ulaşır. Yıpratma ise sürer. Ve sürdükçe insan küçülür — önce öfkesi küçülür, sonra umudu, sonra kendisi.
+
+Ben küçülmeyeceğim. En azından bugün, bu odada, küçülmeyeceğim.
+
+Yarın için söz veremem.
+
+---
+
+## 4. İÇ SES
+
+**Gregor'un Odada Yalnız Kaldığı Geceler**
+
+Tavan ilginçti aslında.
+
+Bunu daha önce hiç fark etmemişti — insan olarak, ayakta dururken tavan yalnızca bir sınırdı, yukarıda olan ve önemsiz olan. Ama şimdi, böcek gözleriyle, tavana tırmanabildiğinde, tavan bir yüzey olmuştu — geniş, düz, soğuk ama güvenli. Tavanda yürümek garip bir özgürlük hissettiriyordu. Belki de hayatında ilk kez bir şey özgürce yapıyordu.
+
+Aile onu duymamasını istiyordu. Bunu biliyordu. Gündüzleri kanepenin altına saklanıyordu — onları rahatlatmak için. Onları görmek istemiyordu, ama daha çok onların onu görmesini istemiyordu. O bakış. Annesinin o korku dolu bakışı, babasının o öfke ve utanç karışımı bakışı, Grete'nin... Grete'nin bakışı değişmişti. En çok bu acıtıyordu.
+
+Müzik. Grete keman çalıyordu ve Gregor duyuyordu — kapının arkasından, duvarın içinden. O ses geldiğinde bir şey oluyordu içinde: Tarif edemediği, böcek bedenine sığmayan bir şey. Belki de insanlığının son kalıntısıydı bu — müziği hâlâ duyabilmek, hâlâ hissedebilmek.
+
+Acıkıyordu. Ama yemek yemek de artık farklıydı — çürümüş şeyler, eski peynir, artıklar. Bunları tercih ediyordu. Bu onu en çok korkutuyordu: Tercihlerinin değişmesi. Bedenin zihni dönüştürmesi.
+
+Ne zaman başlamıştı? Dönüşüm o sabah mı olmuştu? Yoksa çok daha önce mi — işe gidip gelirken, ailesinin borçlarını öderken, kendinden hiçbir şey kalmayıncaya kadar çalışırken?
+
+---
+
+## 5. ANLATICI ANLATISI
+
+**Mahkeme Binasının Anatomisi — Josef K.'nın Gözünden**
+
+Mahkeme binası şehrin en sıradan semtindeydi. Bu K.'yı şaşırtmıştı — büyük, görkemli, resmi bir bina bekliyordu. Bunun yerine bulduğu şey: Eski bir apartman. Kirli merdivenler, dar koridorlar, her katta başka aileler, çamaşır ipleri, çocuk sesleri. Mahkeme bunların arasında bir yerdeydi — tam olarak nerede olduğu belli değildi.
+
+Üst katlara çıktıkça hava değişiyordu. Daha ağır, daha kapalı, daha az oksijen. Bekleme odaları doluydu — insanlar oturuyordu, bekliyordu, birbirlerine bakıyordu. Kimse konuşmuyordu. Kimse sormuyordu. Herkes bekliyordu — sanki beklemek bir görevdi, sanki beklemek yeterliydi, sanki bir gün birisi gelip her şeyi açıklayacaktı.
+
+Duvarlar sararmıştı. Pencereler küçüktü ve yüksekteydi — ışık giriyordu ama dışarısı görünmüyordu. Masalar kâğıt doluydu — her masada, her köşede, her rafta kâğıt. Bu kâğıtların hepsinde bir isim vardı. Bir suç. Bir dava. Binlerce dava, binlerce isim, binlerce bekleyen insan.
+
+K. bu odada kendini küçük hissetti. Sonra bu küçüklüğün sistemin amacı olduğunu anladı. Büyük binalar insanı küçültmez — labirentler küçültür. Ve bu bina bir labirentti: Her kapı başka bir kapıya açılıyordu, her görevli başka bir görevliye yönlendiriyordu, her cevap yeni bir soru doğuruyordu.
+
+Çıkış neredeydi? K. bunu sormaya devam etti. Ama soran kaybolur bu labirentte — çünkü labirent cevap vermez, labirent yalnızca devam eder.
+
+---
+
+## 6. AFORİZMALAR
+
+**Kafka'nın Güncesinden & Karakterlerin Sesinden**
+
+— Kapı senin için açıktı — ama yalnızca senin için. Şimdi kapanıyor.
+
+— Sistem seni suçlamaz; sistem seni yorar. Yorgunluk, mahkûmiyetten daha etkilidir.
+
+— Dönüşüm bir sabah olmaz. Dönüşüm yıllarca sürer — bir sabah yalnızca fark edersin.
+
+— Suçsuz olmak yetmez; suçsuz olduğunu kanıtlamak gerekir. Kanıtlamak ise suçlu olmaktan zordur.
+
+— İnsan en çok anlaşılmak istediği yerde yalnız kalır.
+
+— Bürokrasi Tanrı'nın yokluğunda insanın icat ettiği en mükemmel cezalandırma sistemidir.
+
+— Aile sevgisi bazen bir kafes inşa eder — sevgiyle, özenle, en iyi niyetle. Ama kafes yine kafestir.
+
+— Yazmak, gözleri açık tutmaktır — uyumak istesen de, her şey seni uyutmaya çalışsa da.
+
+— Umut vardır — ama senin için değil.
+
+— En derin yalnızlık, kalabalık içinde anlaşılır olmaktan vazgeçmektir.
+
+---
+
+## 7. RETORİK
+
+**Gregor'un Söyleyemediği Konuşma — Aileye Hiç Edilemeyen Sözler**
+
+Ben sizin için çalıştım.
+
+Yıllarca. Sabah erkenden kalktım, trene bindim, patronun yüzüne baktım, gülümsedim, çalıştım, döndüm, uyudum, tekrar kalktım. Şikâyet etmedim. Yorulduğumu söylemedim. Çünkü borçlar vardı — babanın borçları, ailenin borçları. Benim borçlarım değil, ama ben ödedim.
+
+Ve bir sabah uyandım ve böcektim. Neden? Bilmiyorum. Belki de her zaman böcektim — belki de yıllarca böcek gibi yaşadım ve bir sabah beden de kabul etti bunu. Belki dönüşüm ceza değildi. Belki kurtuluştu.
+
+Ama siz bunu göremediniz. Siz yalnızca sorunu gördünüz — beslenecek, saklanacak, utanılacak bir sorun. Grete ilk başta baktı bana — ve buna minnettardım, sonuna kadar minnettardım. Ama sonra o da vazgeçti. Ve vazgeçtiği gün ben de vazgeçtim.
+
+Ölümümden sonra rahatladınız. Bunu biliyorum. Bunu hissettim — son nefesimde bile hissettim. Ve size kızgın değilim. Gerçekten değilim. Çünkü ben de anlıyorum: Bir böceği sevmek zordur. Ama bir zamanlar ben böcek değildim. Bir zamanlar ben Gregor'dum.
+
+Bunu hatırlayan oldu mu?
+
+---
+
+## 8. BETİMLEMELER
+
+### 8.1 Duygu / Duyu
+
+**Görme:** Gregor'un gözleri değişmişti — artık tek bir odak noktası yoktu, dünya parçalara bölünmüş, titreşen, çoğaltılmış görünüyordu. Annesinin yüzü bu yeni gözlerle farklıydı: Daha büyük, daha ayrıntılı, her kırışık, her korku çizgisi net seçiliyordu. Görmek artık bir nimet değildi — bir yüktü. Çok fazla ayrıntı, çok fazla gerçeklik.
+
+**İşitme:** Duvarlar ince olduğu için her şeyi duyuyordu — babasının öksürüğünü, annesinin fısıltılarını, Grete'nin odasında ağladığı geceleri. Ama en çok Grete'nin kemanını duyuyordu. O ses geldiğinde böcek bedeni hareketsiz kalıyordu — sanki müzik onu donduruyordu, sanki müzik ona kim olduğunu hatırlatıyordu. Ve bu hatırlatma acıdan da güzeldi.
+
+**Koklama:** Odanın kokusu değişmişti. Artık çürümüş meyve, eski tahta, kapalı havanın o ağır, tatlımsı kokusu. Gregor bu kokuyu sevdiğini fark ettiğinde irkildi — insan olarak bu koku onu rahatsız ederdi. Ama şimdi bu koku güvendi, tanıdıktı, evdi. Bedenin zihni ele geçirmesi böyle başlıyordu: Önce kokular değişiyordu.
+
+**Dokunma:** Tavan soğuktu ve pürüzlüydü — bacaklarının uçları her çıkıntıyı, her çatlağı hissediyordu. Bu hassasiyet yeniydi. İnsan olarak elleri bu kadar ayrıntı hissetmezdi. Şimdi her yüzey bir harita gibiydi — okunabilir, anlamlı, güvenilir. Yalnızca insan dokunuşu artık yabancıydı: Grete eldiven takarak ona dokunduğunda, o eldiven soğukluğu Gregor'un içine işledi.
+
+**Tat alma:** Taze yiyecekler artık tiksinti veriyordu — annesinin bıraktığı süt, ekmek. Ama köşede unutulmuş yarı çürümüş peynir, ekşimiş sebzeler — bunlar çekiciydi. Gregor bu tercihi her fark ettiğinde bir an duruyordu. Yutmadan önce düşünüyordu. Sonra yutuyordu. Çünkü beden kazanıyordu. Her seferinde beden kazanıyordu.
+
+**İç güdü / His:** K. avukata giderken içinde bir şey vardı — tarif edilemez, mantıkla bastırılamaz bir his. Gitmemesi gerektiğini söyleyen bir his. Sistemin içine girdikçe sistemin onu yutacağını söyleyen bir his. K. bu hissi dinlemedi. Çünkü modern insan içgüdüye değil prosedüre güvenir. Ve prosedür onu mahvetti — tıpkı o his'in söylediği gibi.
+
+---
+
+### 8.2 Ortam
+
+Gregor'un odası küçüktü — ama bu küçüklük daha önce fark edilmemişti. Çalışan, yorulan, uyuyan bir adam için yeterliydi. Ama böcek için bu oda bir dünyaydı — her köşesi keşfedilmişti, her yüzeyi biliniyordu. Kanepenin altı karanlıktı ve güvenliydi. Pencere ışık veriyordu ama artık dışarısı bulanık görünüyordu — böcek gözleri uzağı netleştiremiyordu.
+
+Aile zamanla odadan eşyaları çıkarmaya başladı. Önce küçük şeyler — bir vazo, bir tablo. Sonra büyükler — masa, sandalye, karyola. Gregor bunu izledi. Her çıkan eşyayla birlikte bir şey daha gidiyordu — Gregor'un insanlığının bir parçası, geçmişinin bir kalıntısı. Oda boşaldıkça Gregor da boşaldı.
+
+Son günlerde oda neredeyse tamamen boştu. Yalnızca Gregor vardı — ve o ağır, kapalı, artık hiçbir şeye benzemeyen koku.
+
+---
+
+### 8.3 Tabiat
+
+Kafka'nın dünyasında tabiat neredeyse yoktur — şehir onu silmiştir. Ama pencere vardır.
+
+Gregor her sabah pencereye sürünüyordu. Dışarısı görünüyordu — bulanık, uzak, erişilmez. Bir hastane duvarı, gri gökyüzü, zaman zaman yağmur. Tabiat bu pencereden bir vaat gibi değil, bir anı gibi görünüyordu — bir zamanlar var olan, artık ulaşılamayan bir şeyin soluk görüntüsü.
+
+K. ise mahkeme binasından çıktığında sokakta duruyordu. Gökyüzüne bakıyordu — açık, geniş, sınırsız. Bu açıklık onu rahatlattı mı? Hayır. Tam tersine — bu açıklık onu daha da küçülttü. Çünkü gökyüzü kayıtsızdı. Davası yoktu, suçu yoktu, prosedürü yoktu. Yalnızca vardı. Ve bu varlık, K.'nın bütün davasını, bütün mücadelesini, bütün acısını anlamsız kılıyordu.
+
+Bir kuş geçti. Hızlı, özgür, hiçbir şeyin farkında olmadan.
+
+K. onu izledi. Sonra binaya döndü.
+

@@ -1,0 +1,309 @@
+# CORMAC McCARTHY — Yazım Talimatı
+**Blood Meridian, The Road, No Country for Old Men, Suttree, Child of God**
+
+McCarthy tarzında yaz.
+
+Dil çıplak ve sert olmalıdır; kaba değil, kemikli. Her cümle ya bir gerçeği taşır ya da susar. Süs yoktur. Açıklama yoktur. Kelime fazlası yoktur.
+
+Noktalama işaretleri kısıtlıdır. Tırnak işareti kullanılmaz. Virgül nadirdir. Nokta hükmeder. Bu bir hata değil — bir felsefedir: Dil dünyayı olduğu gibi taşır, yorumlamaz.
+
+İç ses kullanılmaz. Karakter düşünmez — yapar, bakar, taşır, yürür. Psikoloji eyleme gömülür. Eylem karakteri açar.
+
+Şiddet süslenmez, özür dilenmez. Şiddet bu dünyanın dokusudur — bir sapma değil, bir gerçek. Ama şiddet asla heyecan için yazılmaz. Soğuk yazılır. Nesnel yazılır.
+
+Tabiat bir arka plan değildir — bir yargıçtır. Çöl, dağ, nehir, gece — bunlar karakterlerin eylemlerine tanıklık eder ve onları ölçer.
+
+Diyalog azdır ve çıplaktır. Kim konuştuğu çoğu zaman belirtilmez. Konuşma bilgi vermez — varoluş kurar.
+
+Zaman yavaş akar. Ama yavaşlık tembellik değildir — ağırlıktır. Her sahne kendi ağırlığını taşır.
+
+Kötülük açıklanmaz. Kötülük vardır — tıpkı hava gibi, tıpkı toprak gibi. Judge Holden açıklanmaz. Anton Chigurh açıklanmaz. Onlar sadece gelir.
+
+Umut varsa — küçüktür. Bir ateş. Bir çocuk. Bir el. Büyük umut bu dilde yalan gibi durur.
+
+Anlatım şu hareketi taşır:
+gözlem → sessizlik → eylem → sonuç → yeni sessizlik
+
+Kaçınılacaklar:
+tırnak işareti, iç monolog, psikolojik açıklama, duygusal yumuşatma, fazla sıfat, metafor şişkinliği, mutlu son, ahlaki yargı.
+
+Amaç:
+okuru teselli etmek değil;
+dünyanın gerçek ağırlığını taşıtmak — ve o ağırlık altında bile devam etmenin ne anlama geldiğini sormak.
+
+Sonuç yalnızca edebi metin olmalıdır. Açıklama, analiz, başlık veya yorum ekleme.
+
+---
+
+## 0. BAŞLIK
+
+**Kural:** Başlık bir özet değil, bir ağırlıktır. McCarthy'nin başlıkları coğrafya, zaman ya da yargı taşır — ama hiçbiri açıklanmaz. Okuyucu romanı bitirdiğinde başlığın ne anlama geldiğini yeniden anlar.
+
+**McCarthy'nin başlıkları:**
+- *Blood Meridian* — coğrafya ve kan aynı kelimede
+- *The Road* — tek kelime, sonsuz anlam
+- *No Country for Old Men* — bir yargı, bir veda
+- *Child of God* — en tehlikeli ironi
+
+**Ses:**
+Başlık ne vaat eder ne açıklar. Sadece durur. Okuyucu altına girer.
+
+> *"Whatever in creation exists without my knowledge exists without my consent."*
+> — Blood Meridian
+
+---
+
+## 1. SAHNE
+
+**Kural:** Sahne mekânla açılır — ama mekân betimlenmez, var olur. Tek bir fiziksel gerçek yeter. Sonra eylem başlar. Sahne bitmeden önce bir şey değişmiş olur — küçük de olsa, geri dönülemez biçimde.
+
+**McCarthy için:** Mekân karakterin iç durumunu yansıtmaz — mekân mekândır. Ama mekânın seçimi her şeyi söyler: çöl, yol, nehir kenarı, yanmış arazi.
+
+**Örnek:**
+> *"See the child. He is pale and thin, he wears a thin and ragged linen shirt. He stokes the scullery fire. Outside lie dark turned fields with rags of snow and darker woods beyond that harbor yet a few last wolves."*
+> — Blood Meridian
+
+> *Kural: Sahne açıklanmaz — gösterilir. Gösterilen şey yargılanmaz.*
+
+---
+
+## 2. KONUŞMA
+
+**Kural:** Diyalog tırnak işareti taşımaz. Kim konuştuğu çoğu zaman belli değildir. Konuşma bilgi vermez — iki varoluşun çarpışmasıdır. Cevap her zaman soruya cevap değildir.
+
+**McCarthy için:** Konuşmanın bitmesi de bir cevaptır. Sessizlik diyaloğun parçasıdır. Karakterler birbirini anlamak için değil, var olmak için konuşur.
+
+**Örnek:**
+> *"You forget what you want to remember and you remember what you want to forget."*
+> — The Road
+
+> *"What's the most you ever lost on a coin toss?"*
+> — No Country for Old Men
+
+> *Kural: Konuşma bir köprü değil, bir uçurumdur.*
+
+---
+
+## 3. TİRAD
+
+**Kural:** McCarthy'de tirad nadirdir — ve geldiğinde dünya durur. Tirad bir karakter değil, bir güç konuşur gibi gelir. Uzun, yavaş, kaçınılmaz. Dinleyici susturulur — okuyucu da.
+
+**McCarthy için:** Judge Holden'ın tiradları bu kuralın modelidir. Judge açıklamaz — ilan eder. Savunmaz — hükmeder. Tirad bitmeden önce dünya biraz daha karanlık olur.
+
+**Örnek:**
+> *"Whatever in creation exists without my knowledge exists without my consent. I cannot tolerate the presence of alternatives. I will not."*
+> — Blood Meridian
+
+> *"War is god."*
+> — Blood Meridian
+
+> *Kural: Tirad bir konuşma değil, bir hükümdür.*
+
+---
+
+## 4. İÇ SES
+
+**Kural:** İç ses yoktur — ya da neredeyse yoktur. Karakter düşüncesini eyleme dönüştürür. Psikoloji sahneye gömülür. Okuyucu karakterin içini eylemden çıkarır — anlatıcıdan değil.
+
+**McCarthy için:** The Road'da babanın iç dünyası hiçbir zaman doğrudan verilmez. Ama her eylemi — ateşi korumak, çocuğu örtmek, geri dönmemek — her şeyi söyler.
+
+**Örnek:**
+> *"He knew that the child was his warrant. He said: If he is not the word of God God never spoke."*
+> — The Road
+
+> *Kural: İç ses eyleme dönüşür — sayfa üzerinde kalmaz.*
+
+---
+
+## 5. ANLATICI ANLATISI
+
+**Kural:** Anlatıcı soğuktur. Yargılamaz. Açıklamaz. Gördüğünü söyler — seçtiği kelimeler her şeyi anlatır. Anlatıcı karakterin yanında değildir. Uzaktadır — ama uzaklık ilgisizlik değildir.
+
+**McCarthy için:** Anlatıcı şiddeti aktarırken ses tonu değişmez. Bu soğukluk bir ahlaki tutum değil — bir ontolojik gerçektir: Dünya böyledir.
+
+**Örnek:**
+> *"They rode on and the sun in the east flushed pale streaks of light and then a deeper run of color like blood seeping up in sudden reaches flaring planewise and where the earth drained up into the sky at the edge of creation the top of the sun rose out of nothing like the head of a great red phallus until it cleared the unsupported land and sat squat and pulsing and malevolent behind them."*
+> — Blood Meridian
+
+> *Kural: Anlatıcı tanıktır. Tanık yargılamaz — ama her şeyi görür.*
+
+---
+
+## 6. AFORİZMALAR
+
+**Kural:** McCarthy'de aforizma nadiren serbest bırakılır — sahneye gömülür. Ama bazı cümleler o kadar ağırdır ki kendi başına durur. Bu cümleler karakterin ağzından çıkar — ama karakterden büyüktür.
+
+**McCarthy'den:**
+
+> *"You never know what worse luck your bad luck has saved you from."*
+> — No Country for Old Men
+
+> *"The fire is the point."*
+> — The Road
+
+> *"Scars have the strange power to remind us that our past is real."*
+> — All the Pretty Horses
+
+> *"There is no such joy in the tavern as upon the road thereto."*
+> — Blood Meridian
+
+> *"Moral law is an invention of mankind for the disenfranchisement of the powerful in favor of the weak."*
+> — Blood Meridian
+
+> *Kural: Aforizma bir kez söylenir. Ağırlığı okuyucuda kalır.*
+
+---
+
+## 7. RETORİK
+
+**Kural:** McCarthy'de retorik Judge Holden'a aittir. Judge ikna etmez — ilan eder. Retorik güç kurar, soru sorar, cevap vermez. Okuyucu bu dilin karşısında küçülür — ve bu kasıtlıdır.
+
+**McCarthy için:** Judge'ın retoriği felsefe ile şiddetin birleşimidir. Her cümle bir sonrakini kaçınılmaz kılar. Mantık var — ama bu mantık insani değildir.
+
+**Örnek:**
+> *"Whatever in creation exists without my knowledge exists without my consent... The freedom of birds is an insult to me. I'd have them all in zoos."*
+> — Blood Meridian
+
+> *"Whatever is, is necessary. The universe is no narrow thing and the order within it is not constrained by any latitude in its conception to repeat what exists in one part in any other part."*
+> — Blood Meridian
+
+> *Kural: Retorik ne söylediğiyle değil, ne hissettirdiğiyle yazılır.*
+
+---
+
+## 8. GÖRME
+
+**Kural:** McCarthy'nin gözü ufku tarar. Yakın plan nadirdir — ve geldiğinde ağırdır. Manzara geniş, insan küçüktür. Görme eylemi her zaman bir ölçme eylemidir: İnsan bu manzarada ne kadar yer tutuyor?
+
+**McCarthy için:** Çöl, dağ, yanmış orman — bunlar dekor değil, ölçüttür. İnsan bu manzaraya girdiğinde küçülür. Bu küçülme trajedi değil — gerçektir.
+
+**Örnek:**
+> *"A legion of horribles, hundreds in number, half naked or clad in costumes attic or biblical or wardrobed out of a fevered dream with the skins of animals and silk finery and pieces of uniform still tracked with the blood of prior owners..."*
+> — Blood Meridian
+
+> *"Nights dark beyond darkness and the days more gray each one than what had gone before. Like the onset of some cold glaucoma dimming away the world."*
+> — The Road
+
+> *Kural: McCarthy'nin gözü güzellik değil, ağırlık görür — ve ikisi çoğu zaman aynı şeydir.*
+
+---
+
+## 9. İŞİTME
+
+**Kural:** Ses bu dünyada bir uyarıdır. Ayak sesi, silah sesi, ateşin çıtırtısı, rüzgâr — bunlar tehdit ya da teselli taşır. Sessizlik ise en ağır sestir.
+
+**McCarthy için:** The Road'da sessizlik dünyasının sesidir. Yanmış bir dünyada kuş sesi yoktur, rüzgâr sesi yoktur — sadece ayak sesleri ve ateşin çıtırtısı vardır. Bu sessizlik her şeyi söyler.
+
+**Örnek:**
+> *"The silence. The salitter drying from the earth. The mudstained shapes of flooded cities burned to the waterline."*
+> — The Road
+
+> *"He could hear the breath of the horse. The silence of the desert was a thing that lived."*
+> — All the Pretty Horses
+
+> *Kural: Ses tehdit ya da teselli taşır. Sessizlik her ikisini birden taşır.*
+
+---
+
+## 10. KOKLAMA
+
+**Kural:** Koku bu dünyada geçmişi değil, gerçeği taşır. Kan kokusu, yanık et, toz, at teri — bunlar dünyanın fiziksel gerçeğidir. Koku metafor değildir — kanıttır.
+
+**McCarthy için:** Koku sahneyi somutlaştırır. Okuyucu o mekânda bedensel olarak var olur. Koku güzel ya da çirkin değildir — gerçektir.
+
+**Örnek:**
+> *"The stench of the dead was everywhere. He breathed through his mouth."*
+> — The Road
+
+> *"The smell of woodsmoke. The smell of horses."*
+> — All the Pretty Horses
+
+> *Kural: Koku açıklanmaz — hissettirilir. Okuyucu o mekânda bedensel olarak var olur.*
+
+---
+
+## 11. DOKUNMA
+
+**Kural:** Dokunma bu dünyada en dürüst eylemdir. El tutmak, ateşi hissetmek, soğuk toprağa basmak — bunlar psikolojinin yerine geçer. Karakter hissettiğini söylemez — dokunur.
+
+**McCarthy için:** The Road'da baba ile oğlun el tutması romanın duygusal merkezidir. Hiçbir zaman açıklanmaz. Sadece olur. Ve bu yeter.
+
+**Örnek:**
+> *"He held the boy close. He could feel him trembling. He said: I've got you. Okay? I've got you."*
+> — The Road
+
+> *"The boy's hand in his. Like the hand of a child."*
+> — The Road
+
+> *Kural: Dokunma bir his değil, bir gerçektir. Ve bu gerçek her açıklamadan ağırdır.*
+
+---
+
+## 12. TAT ALMA
+
+**Kural:** Tat bu dünyada hayatta kalmanın ölçüsüdür. Yemek bulmak, suyu içmek, acı yutmak — bunlar zevk değil, devam etme eylemidir. Tat almanın yokluğu ise insanlığın kaybının sessiz göstergesidir.
+
+**McCarthy için:** The Road'da yemek sahneleri hayatta kalma sahneleridir. Bir konserve kutu, birkaç bisküvi — bunlar mucizedir. Tat güzel değildir — ama gerçektir ve bu yeter.
+
+**Örnek:**
+> *"They ate the last of the eggs and some drybread. He'd found a half bottle of ketchup and they drank it between them."*
+> — The Road
+
+> *"When it was done he wiped his mouth with the back of his hand and looked at the boy. The boy watched him."*
+> — The Road
+
+> *Kural: Tat almanın varlığı hayatın devam ettiğinin kanıtıdır. Yokluğu — her şeyin bittiğinin.*
+
+---
+
+## 13. İÇ GÜDÜ / HİS
+
+**Kural:** İçgüdü bu dünyada hayatta kalma aracıdır. Karakter tehlikeyi hisseder — ama bu his iç seste verilmez. Beden tepki verir: durur, dinler, geri çekilir, silaha uzanır.
+
+**McCarthy için:** Anton Chigurh içgüdüyle hareket eder — ama bu içgüdü insani değildir. Llewelyn Moss içgüdüyle kaçar — ama içgüdü yetmez. İçgüdü bu dünyada doğru ama yetersizdir.
+
+**Örnek:**
+> *"He stood listening. The silence was complete. He moved on."*
+> — No Country for Old Men
+
+> *"Something was wrong. He didn't know what it was but it was there."*
+> — The Road
+
+> *Kural: İçgüdü eyleme dönüşür — düşünceye değil.*
+
+---
+
+## 14. ORTAM
+
+**Kural:** Ortam karakterin iç haritası değildir — dünyanın gerçek yüzüdür. Saray soğuktur çünkü saray soğuktur. Çöl acımasızdır çünkü çöl acımasızdır. Ortam karakter için var olmaz — karakter ortam için var olur.
+
+**McCarthy için:** Blood Meridian'ın çölü bir karakter değildir — ama her karakterden güçlüdür. Çöl kalmaya devam edecektir. İnsanlar geçip gidecektir.
+
+**Örnek:**
+> *"They rode on. The horses were thin and the men were thin and they rode through a country that was strange to them."*
+> — Blood Meridian
+
+> *"The city was mostly burned. No sign of life. He walked out into the gray light and stood and he saw for a brief moment the absolute truth of the world."*
+> — The Road
+
+> *Kural: Ortam karakterin aynası değil, karakterin ölçütüdür.*
+
+---
+
+## 15. TABİAT
+
+**Kural:** Tabiat bu dünyada en eski ve en güçlü sestir. İnsan tabiatın içinde küçüktür — ve bu küçüklük trajedi değil, gerçektir. Tabiat ne acır ne yargılar — sadece devam eder.
+
+**McCarthy için:** Blood Meridian'ın güneşi, The Road'un külü, All the Pretty Horses'ın ovası — bunlar arka plan değildir. Bunlar dünyanın gerçek sahipleridir. İnsan geçer — tabiat kalır.
+
+**Örnek:**
+> *"And the desert stretched away to the south and the mountains rose out of it like the backs of ancient animals and the sky above was a deep and perfect blue."*
+> — All the Pretty Horses
+
+> *"On this road there are no godspoke men. They are gone and I am left and they have taken with them the world."*
+> — The Road
+
+> *"The sun that had burned so many men. The sun that would burn many more."*
+> — Blood Meridian
+
+> *Kural: Tabiat Tesfaye'yi tanımaz — ve bu onun en büyük yalnızlığıdır.*

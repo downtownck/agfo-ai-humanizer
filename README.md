@@ -1,9 +1,9 @@
 # AGFO AI Humanizer — MS Word Add-in
 
-**Version:** 4.3.0  
+**Version:** 4.3.2  
 **Author:** AGFOCERT / Cemal Gurkan Kara
 
-AGFO AI Humanizer, Microsoft Word içinde çalışan Office.js tabanlı bir metin insanlaştırma eklentisidir. Bu repo WordPress eklentisi değildir. v4.3.0 revizyonunda AGFO Novel Humanizer WordPress örneğindeki preset/prompt deneyimi Word add-in mimarisine uyarlanmıştır; add-in içindeki bağımsız AI Manager yapısına dokunulmamıştır.
+AGFO AI Humanizer, Microsoft Word içinde çalışan Office.js tabanlı bir metin insanlaştırma eklentisidir. Bu repo WordPress eklentisi değildir. v4.3.2 revizyonunda AGFO Novel Humanizer WordPress örneğindeki preset/prompt deneyimi Word add-in mimarisine uyarlanmıştır; add-in içindeki bağımsız AI Manager yapısına dokunulmamıştır.
 
 ## Dosyalar
 
@@ -15,7 +15,15 @@ AGFO AI Humanizer, Microsoft Word içinde çalışan Office.js tabanlı bir meti
 | `commands.html` | Office komut dosyası taşıyıcısı |
 | `revision.txt` | Revizyon geçmişi |
 
-## v4.3.0 ile Gelenler
+
+## v4.3.2 Cache-Busting Düzeltmesi
+
+- `manifest.xml` sürümü 4.3.2 yapıldı.
+- `SourceLocation` adreslerine `?v=4.3.2` parametresi eklendi.
+- `taskpane.html` içindeki `taskpane.js` çağrısı `taskpane.js?v=4.3.2` olarak güncellendi.
+- Bu revizyon, Word/WebView/GitHub Pages cache'inin eski panel dosyalarını göstermesini önlemek için hazırlanmıştır.
+
+## v4.3.2 ile Gelenler
 
 - WP örneğindeki preset mimarisi Word add-in paneline uyarlandı.
 - Tek Preset, Çoklu Preset ve Custom Prompt akışları eklendi.
