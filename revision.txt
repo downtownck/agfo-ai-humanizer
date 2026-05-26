@@ -38,3 +38,9 @@ Changed files:
 - taskpane.js
 - README.md
 - revision.txt
+
+2026-05-26 - v4.3.4
+- Prompt katmanları sadeleştirildi.
+- Yazar rehberi yükleme mantığı uzun ham dosya yerine kısa stil özü üretecek şekilde değiştirildi.
+- Tanpınar gibi rehberlerdeki örnek sahne, aforizma ve uzun örnek metin bloklarının prompta taşması engellendi.
+- Üslup Kaynağı varsayılanı “Üslup yok” yapıldı; seçilmedikçe İstanbul Nostaljisi gibi hazır üsluplar prompta karışmaz.

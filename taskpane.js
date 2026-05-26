@@ -75,7 +75,7 @@
   };
 
 
-  var SETTINGS_VERSION = "4.3.3";
+  var SETTINGS_VERSION = "4.3.4";
 
   var AGFO_ANTI_AI_RULES = [
     "Türkçede yapay zekâ kokan, çeviri tadı veren, şişirilmiş ve klişe anlatımdan kaçın.",
@@ -121,7 +121,8 @@
     cemal_gurkan_kara_akademik: { icon:"📐", name:"Cemal Gürkan Kara — Akademik", writer:"Cemal Gürkan Kara", anti:true, desc:"Doğal akademik Türkçe", guide:"Bilimsel içeriği sade, katmanlı ve doğal bir dille aktar. Veriyi öne çıkar, yorumu verinin içinden üret. Paragrafı olumsuz yüklemle açma, arka arkaya iki paragrafı 'Bu...' ile başlatma, üçlü akademik listeleri böl, yapay akademik kalıpları sadeleştir." }
   };
 
-  var AUTHOR_GUIDE_MAX_CHARS = 16000;
+  var AUTHOR_GUIDE_MAX_CHARS = 2600;
+  var AUTHOR_GUIDE_RAW_MAX_CHARS = 40000;
   var AUTHOR_LIBRARY = {
     none: { name:"Yazar rehberi yok", file:"", desc:"Prompta ek yazar rehberi eklenmez." },
     adem_isik__cemal_gurkan_kara: { name:"Âdem Işık — Cemal Gürkan Kara", file:"authors/adem_isik__cemal_gurkan_kara.txt", desc:"adem_isik__cemal_gurkan_kara.txt" },
@@ -733,6 +734,42 @@
   }
 
 
+  function normalizeAuthorGuideText(text) {
+    return String(text || "").replace(/\r\n/g, "\n").replace(/[ \t]+$/gm, "").replace(/\n{3,}/g, "\n\n").trim();
+  }
+
+  function trimAuthorExamples(text) {
+    var t = normalizeAuthorGuideText(text);
+    var cutPatterns = [/\n#{1,3}\s*1[\.\)]\s*/i, /\n#{1,3}\s*SAHNE\b/i, /\n#{1,3}\s*ÖRNEK\b/i, /\n#{1,3}\s*AFORİZMA/i, /\n---\s*\n\s*#{1,3}\s*1[\.\)]/i];
+    var cutAt = -1;
+    cutPatterns.forEach(function (rx) {
+      var m = rx.exec(t);
+      if (m && m.index > 400 && (cutAt === -1 || m.index < cutAt)) cutAt = m.index;
+    });
+    if (cutAt > 0) t = t.slice(0, cutAt).trim();
+    return t;
+  }
+
+  function compactAuthorGuide(text, authorName) {
+    var t = trimAuthorExamples(text);
+    t = t.replace(/^\s*[^\n]{0,90}tarzında yaz\.\s*$/gmi, "").replace(/^\s*#\s+/gm, "## ").replace(/^\s*[-–—]{3,}\s*$/gm, "").replace(/\n{3,}/g, "\n\n").trim();
+    var lines = t.split("\n");
+    var kept = [];
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      if (!line.trim()) {
+        if (kept.length && kept[kept.length - 1] !== "") kept.push("");
+        continue;
+      }
+      var next = kept.concat([line]).join("\n");
+      if (next.length > AUTHOR_GUIDE_MAX_CHARS) break;
+      kept.push(line);
+    }
+    var compact = kept.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+    if (!compact) compact = "Seçilen yazar rehberini yalnızca ritim, atmosfer ve cümle disiplini için kullan. Birebir taklit etme; metnin anlamını ve kapsamını koru.";
+    return ["Kısa stil özü — " + (authorName || "seçili yazar") + ":", compact, "", "Uygulama sınırı: örnek sahne, aforizma, karakter konuşması ve uzun alıntıları prompta taşıma; yalnızca yukarıdaki stil ilkelerini uygula."].join("\n");
+  }
+
   function activeAuthorKey() {
     var select = $("author-select");
     return select && select.value ? select.value : "none";
@@ -765,13 +802,12 @@
       var response = await fetch(item.file, { cache: "no-store" });
       if (!response.ok) throw new Error("HTTP " + response.status);
       var text = await response.text();
+      if (text.length > AUTHOR_GUIDE_RAW_MAX_CHARS) text = text.slice(0, AUTHOR_GUIDE_RAW_MAX_CHARS);
       state.authorKey = key;
       state.authorGuideLoaded = true;
-      state.authorGuide = text.length > AUTHOR_GUIDE_MAX_CHARS
-        ? text.slice(0, AUTHOR_GUIDE_MAX_CHARS) + "\n\n[Not: Rehber çok uzun olduğu için prompt güvenliği amacıyla ilk " + AUTHOR_GUIDE_MAX_CHARS + " karakter kullanıldı.]"
-        : text;
-      if (!silent) setStatus(item.name + " yazar rehberi yüklendi.", "success");
-      updateAuthorMeta(item.name + " yüklendi · " + Math.min(text.length, AUTHOR_GUIDE_MAX_CHARS) + "/" + text.length + " karakter prompta eklenecek.", "success");
+      state.authorGuide = compactAuthorGuide(text, item.name);
+      if (!silent) setStatus(item.name + " yazar rehberi sadeleştirilmiş stil özü olarak yüklendi.", "success");
+      updateAuthorMeta(item.name + " yüklendi · prompta " + state.authorGuide.length + " karakterlik sade stil özü eklenecek.", "success");
       return state.authorGuide;
     } catch (err) {
       state.authorKey = key;
@@ -795,9 +831,10 @@
     if (!key || key === "none" || !state.authorGuide) return "";
     var item = AUTHOR_LIBRARY[key] || { name: key };
     return [
-      "## SEÇİLİ YAZAR REHBERİ: " + item.name,
-      "Aşağıdaki rehberi birebir taklit için değil; ritim, cümle disiplini, atmosfer ve anti-AI kontrolü için bağlamsal stil kılavuzu olarak kullan.",
-      "Metnin anlamını, olay sırasını ve kapsamını koru; yeni bilgi ekleme.",
+      "## YAZAR REHBERİ KATMANI: " + item.name,
+      "Bu katman hazır üslup presetinin yerine geçmez; yalnızca kısa stil özü olarak uygulanır.",
+      "Birebir taklit, örnek sahne üretimi, aforizma kopyalama veya yeni olay ekleme yasaktır.",
+      "Metnin anlamını, olay sırasını ve kapsamını koru.",
       "",
       state.authorGuide
     ].join("\n");
@@ -805,7 +842,9 @@
 
   function activeWorkflow() {
     var btn = document.querySelector(".wtab.active");
-    return btn ? btn.getAttribute("data-workflow") : "single";
+    if (btn) return btn.getAttribute("data-workflow");
+    var select = $("workflow-select");
+    return select && select.value ? select.value : "none";
   }
 
   function selectedPresetKeys() {
@@ -831,6 +870,8 @@
     var workflow = activeWorkflow();
     var keys = [];
     var title = "";
+
+    if (!workflow || workflow === "none") return "";
 
     if (workflow === "custom") {
       var custom = $("custom-prompt") ? $("custom-prompt").value.trim() : "";
@@ -875,7 +916,7 @@
 
     var select = $("preset-select");
     var key = select ? select.value : "";
-    if (!key || !PRESET_LIBRARY[key]) return "";
+    if (!key || key === "none" || !PRESET_LIBRARY[key]) return "";
     var preset = PRESET_LIBRARY[key];
     return [
       "## ÜSLUP KATMANI: Tek hazır üslup",
@@ -914,8 +955,8 @@
 
     prompt += "\n\nKATMAN AYRIMI:\n";
     prompt += "- Hızlı işlem modu ne yapılacağını belirler.\n";
-    prompt += "- Hazır üslup / custom üslup / yazar rehberi nasıl bir tonda yapılacağını belirler.\n";
-    prompt += "- Yazar rehberi seçildiyse onu ayrı bir bağlamsal stil kılavuzu olarak uygula; hazır humanizer presetinin yerine koyma.\n";
+    prompt += "- Hazır üslup, custom üslup ve yazar rehberi yalnızca nasıl bir tonda yapılacağını belirler; kapalı bırakılabilir.\n";
+    prompt += "- Yazar rehberi seçildiyse sadece kısa stil özü olarak uygula; örnek sahne, alıntı veya yeni içerik üretme.\n";
 
     prompt += "\nWORD ADD-IN UYUMU:\n";
     prompt += "- Çıktı Microsoft Word'e doğrudan yapıştırılabilir temiz düz metin olsun.\n";
@@ -1573,6 +1614,10 @@
     var select = $("preset-select");
     if (select) {
       select.innerHTML = "";
+      var noneOpt = document.createElement("option");
+      noneOpt.value = "none";
+      noneOpt.textContent = "Üslup yok / yalnızca işlem modu";
+      select.appendChild(noneOpt);
       Object.keys(PRESET_LIBRARY).forEach(function (key) {
         var p = PRESET_LIBRARY[key];
         var opt = document.createElement("option");
@@ -1580,7 +1625,7 @@
         opt.textContent = p.icon + " " + p.name;
         select.appendChild(opt);
       });
-      if (!select.value && select.options.length) select.selectedIndex = 0;
+      select.value = "none";
     }
 
     var lib = $("preset-library");
@@ -1629,6 +1674,10 @@
     var select = $("preset-select");
     var desc = $("preset-desc");
     if (!select || !desc) return;
+    if (!select.value || select.value === "none") {
+      desc.textContent = "Hazır üslup kapalı. Yalnızca işlem modu ve seçiliyse yazar rehberi uygulanır.";
+      return;
+    }
     var p = PRESET_LIBRARY[select.value];
     desc.textContent = p ? p.desc + " · " + p.writer : "";
   }
@@ -1651,9 +1700,10 @@
       b.classList.toggle("active", b.getAttribute("data-workflow") === workflow);
     });
     document.querySelectorAll(".workflow-panel").forEach(function (panel) {
-      panel.classList.toggle("active", panel.id === "workflow-" + workflow);
+      panel.classList.toggle("active", workflow !== "none" && panel.id === "workflow-" + workflow);
     });
-    setStatus("Akış seçildi: " + workflow, "info");
+    var labels = { none: "Üslup yok", single: "Hazır üslup", multi: "Üslup harmanı", custom: "Custom üslup" };
+    setStatus("Üslup kaynağı: " + (labels[workflow] || workflow), "info");
   }
 
   async function buildFullPromptPreview() {

@@ -19,7 +19,7 @@
   </style>
 </head>
 <body>
-  <div class="hdr"><span class="hdr-icon">&#x1F9E0;</span><div><h1>AGFO AI Humanizer</h1><small>Word Add-in · ayrık işlem modu + üslup katmanı</small></div><span class="version-pill">v4.3.3</span></div>
+  <div class="hdr"><span class="hdr-icon">&#x1F9E0;</span><div><h1>AGFO AI Humanizer</h1><small>Word Add-in · ayrık işlem modu + üslup katmanı</small></div><span class="version-pill">v4.3.4</span></div>
   <div class="body">
     <div class="section">
       <div class="section-title">&#x2699;&#xFE0F; API Ayarları <span class="mini-note">Bağımsız AI Manager korunur</span></div>
@@ -42,12 +42,12 @@
 
     <div class="section">
       <div class="section-title">&#x1F9EC; Humanizer Akışı <span class="mini-note">Sade görünüm</span></div>
-      <div class="grid2"><div><label>İşlem Modu <span class="mini-note">ne yapılacak</span></label><select id="quick-mode-select"><option value="OTO">🤖 OTO</option><option value="GENEL">✍️ Genel</option><option value="YAPISAL">🏗️ Yapısal</option><option value="TON">🎙️ Ton</option><option value="AKADEMIK">🎓 Akademik</option><option value="KELIME">🔤 Kelime</option><option value="KATMANLI">🧅 Katmanlı</option><option value="BURST">⚡ Burst</option><option value="CGK_DRAMA">🌀 CGK Drama</option><option value="CGK_AKADEMIK">📐 CGK Akademik</option><option value="SIMPLE">🧹 Simple</option><option value="KUPKURU">🪓 Kupkuru</option></select></div><div><label>Üslup Kaynağı <span class="mini-note">nasıl yazılacak</span></label><select id="workflow-select"><option value="single">Hazır üslup</option><option value="multi">Üslup harmanı</option><option value="custom">Custom üslup</option></select></div></div>
-      <div id="workflow-single" class="workflow-panel active" style="margin-top:8px"><label>Hazır Üslup</label><select id="preset-select"></select><div id="preset-desc" class="selected-summary"></div></div>
+      <div class="grid2"><div><label>İşlem Modu <span class="mini-note">ne yapılacak</span></label><select id="quick-mode-select"><option value="OTO">🤖 OTO</option><option value="GENEL">✍️ Genel</option><option value="YAPISAL">🏗️ Yapısal</option><option value="TON">🎙️ Ton</option><option value="AKADEMIK">🎓 Akademik</option><option value="KELIME">🔤 Kelime</option><option value="KATMANLI">🧅 Katmanlı</option><option value="BURST">⚡ Burst</option><option value="CGK_DRAMA">🌀 CGK Drama</option><option value="CGK_AKADEMIK">📐 CGK Akademik</option><option value="SIMPLE">🧹 Simple</option><option value="KUPKURU">🪓 Kupkuru</option></select></div><div><label>Üslup Kaynağı <span class="mini-note">nasıl yazılacak</span></label><select id="workflow-select"><option value="none">Üslup yok</option><option value="single">Hazır üslup</option><option value="multi">Üslup harmanı</option><option value="custom">Custom üslup</option></select></div></div>
+      <div id="workflow-single" class="workflow-panel" style="margin-top:8px"><label>Hazır Üslup</label><select id="preset-select"></select><div id="preset-desc" class="selected-summary"></div></div>
       <div id="workflow-multi" class="workflow-panel" style="margin-top:8px"><button class="collapse-toggle" id="toggle-preset-library" type="button">+ Preset kütüphanesini aç</button><div class="collapse-area" id="preset-library-area"><div id="preset-library"></div></div><div id="selected-presets" class="selected-summary">Henüz preset seçilmedi.</div></div>
       <div id="workflow-custom" class="workflow-panel" style="margin-top:8px"><label>Custom Prompt</label><textarea id="custom-prompt" placeholder="Örn: Sen Tanpınar tadında ama daha sade yazan bir editörsün..."></textarea></div>
       <button class="collapse-toggle" id="toggle-author" type="button" style="margin-top:9px">+ Yazar rehberi / ayrı stil katmanı</button>
-      <div class="collapse-area" id="author-area"><div class="compact-row"><div><label>Yazar / Rehber</label><select id="author-select"></select></div><button class="btn btn-secondary btn-small" id="btn-load-author" type="button">Yükle</button></div><div id="author-meta" class="author-meta">Yazar rehberi ayrı katmandır; işlem modu ve hazır üslup yerine geçmez, prompta ek stil bağlamı olarak eklenir.</div></div>
+      <div class="collapse-area" id="author-area"><div class="compact-row"><div><label>Yazar / Rehber</label><select id="author-select"></select></div><button class="btn btn-secondary btn-small" id="btn-load-author" type="button">Yükle</button></div><div id="author-meta" class="author-meta">Yazar rehberi ayrı katmandır; sadece kısa stil özü prompta eklenir. Örnek sahneler ve uzun alıntılar taşınmaz.</div></div>
       <button class="collapse-toggle" id="toggle-context" type="button" style="margin-top:9px">+ Bağlam ve ek talimat</button>
       <div class="collapse-area" id="context-area"><label>Bağlam</label><textarea id="context-note" rows="3" placeholder="Örn: Bu bölüm romanın giriş sahnesi; anlatıcı üçüncü tekil."></textarea><label style="margin-top:8px">Ek talimat</label><textarea id="extra-instruction" rows="3" placeholder="Örn: Diyalogları daha doğal yap, metaforu azalt, akademik tonu koru."></textarea></div>
     </div>
@@ -58,8 +58,8 @@
 
     <div class="section" id="output-section" style="display:none"><div class="section-title">&#x2705; Çıktı <span id="used-mode" class="mini-note"></span></div><div id="hc-output" class="output-box"></div><div class="soft-row" style="margin-top:8px"><button class="btn btn-primary btn-small" id="btn-replace">Seçimi Değiştir</button><button class="btn btn-secondary btn-small" id="btn-append">Sona Ekle</button><button class="btn btn-secondary btn-small" id="btn-copy">Kopyala</button></div><div class="danger-lite">Word'e yazmadan önce çıktıyı kontrol edin. Değiştir butonu aktif seçim alanını AI çıktısıyla değiştirir.</div></div>
 
-    <div class="status" id="status-msg"></div><div class="version-foot">AGFO AI Humanizer Word Add-in v4.3.3</div>
+    <div class="status" id="status-msg"></div><div class="version-foot">AGFO AI Humanizer Word Add-in v4.3.4</div>
   </div>
-  <script src="taskpane.js?v=4.3.3"></script>
+  <script src="taskpane.js?v=4.3.4"></script>
 </body>
 </html>
