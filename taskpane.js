@@ -75,7 +75,7 @@
   };
 
 
-  var SETTINGS_VERSION = "4.3.2";
+  var SETTINGS_VERSION = "4.3.3";
 
   var AGFO_ANTI_AI_RULES = [
     "Türkçede yapay zekâ kokan, çeviri tadı veren, şişirilmiş ve klişe anlatımdan kaçın.",
@@ -835,15 +835,20 @@
     if (workflow === "custom") {
       var custom = $("custom-prompt") ? $("custom-prompt").value.trim() : "";
       if (!custom) return "";
-      title = "Custom Prompt";
+      title = "Custom üslup";
       return [
-        "Sen profesyonel bir metin editörüsün.",
+        "## ÜSLUP KATMANI: " + title,
+        "Bu bölüm hızlı humanizer modunun yerine geçmez; yalnızca seçilen işlem moduna stil bağlamı ekler.",
+        "Kullanıcı tarafından tanımlanan üslubu metnin anlamını bozmadan uygula.",
         "",
-        "## KULLANICI TARAFINDAN TANIMLANAN ÜSLUP",
+        "### Kullanıcı Üslup Tanımı",
         custom,
         "",
-        "## Anti-AI denetimi",
-        "- " + AGFO_ANTI_AI_RULES,
+        "### Üslup güvenliği",
+        "- Metni birebir taklit amacıyla yazma.",
+        "- Anlamı, olay sırasını ve kapsamı koru.",
+        "- Yeni bilgi, yeni sahne veya yeni iddia ekleme.",
+        "- Anti-AI denetimi uygula: " + AGFO_ANTI_AI_RULES,
         "",
         "Çıktı dili: " + lang
       ].join("\n");
@@ -854,13 +859,14 @@
       if (!keys.length) return "";
       title = keys.map(function (k) { return PRESET_LIBRARY[k].name; }).join(" + ");
       return [
-        "Sen çok katmanlı bir metin editörüsün.",
+        "## ÜSLUP KATMANI: Çoklu hazır üslup",
+        "Bu bölüm hızlı humanizer modunun yerine geçmez; yalnızca seçilen işlem moduna stil bağlamı ekler.",
         "Aşağıdaki üslupları tek metinde organik biçimde harmanla; hiçbirini mekanik biçimde taklit etme.",
         "",
-        "## Seçilen Üsluplar: " + title,
+        "### Seçilen Üsluplar: " + title,
         keys.map(presetPromptForKey).join("\n\n---\n\n"),
         "",
-        "## Harmanlama kuralı",
+        "### Harmanlama kuralı",
         "Metnin anlamını, olay sırasını ve kapsamını koru. Üslupları dışarıdan yapıştırma; mevcut metnin ihtiyacına göre erit.",
         "",
         "Çıktı dili: " + lang
@@ -872,13 +878,14 @@
     if (!key || !PRESET_LIBRARY[key]) return "";
     var preset = PRESET_LIBRARY[key];
     return [
-      "Sen " + preset.writer + " referansını bilen profesyonel bir editörsün.",
+      "## ÜSLUP KATMANI: Tek hazır üslup",
+      "Bu bölüm hızlı humanizer modunun yerine geçmez; yalnızca seçilen işlem moduna stil bağlamı ekler.",
       "Metni birebir taklit amacıyla değil, aşağıdaki üslup ilkelerini gözeterek dönüştür.",
       "",
-      "## Seçilen Preset: " + preset.icon + " " + preset.name,
+      "### Seçilen Üslup: " + preset.icon + " " + preset.name,
       presetPromptForKey(key),
       "",
-      "## Son talimat",
+      "### Üslup güvenliği",
       "Metni gerçek bir insan yazmış gibi doğal, akıcı ve özgün hale getir. Anlamı koru, yeni bilgi ekleme.",
       "",
       "Çıktı dili: " + lang
@@ -886,17 +893,31 @@
   }
 
   function buildPrompt(mode, lang) {
+    var prompt = agfoGetPrompt(mode, lang);
     var presetPrompt = buildPresetPrompt(lang);
-    var prompt = presetPrompt || agfoGetPrompt(mode, lang);
+    var authorPrompt = buildAuthorPromptBlock();
     var contextEl = $("context-note");
     var extraEl = $("extra-instruction");
     var context = contextEl ? contextEl.value.trim() : "";
     var extra = extraEl ? extraEl.value.trim() : "";
 
+    if (presetPrompt) {
+      prompt += "\n\n" + presetPrompt;
+    }
+
+    if (authorPrompt) {
+      prompt += "\n\n" + authorPrompt;
+    }
+
     if (context) prompt += "\n\n## BAĞLAM\n" + context;
     if (extra) prompt += "\n\n## EK TALİMAT\n" + extra;
 
-    prompt += "\n\nWORD ADD-IN UYUMU:\n";
+    prompt += "\n\nKATMAN AYRIMI:\n";
+    prompt += "- Hızlı işlem modu ne yapılacağını belirler.\n";
+    prompt += "- Hazır üslup / custom üslup / yazar rehberi nasıl bir tonda yapılacağını belirler.\n";
+    prompt += "- Yazar rehberi seçildiyse onu ayrı bir bağlamsal stil kılavuzu olarak uygula; hazır humanizer presetinin yerine koyma.\n";
+
+    prompt += "\nWORD ADD-IN UYUMU:\n";
     prompt += "- Çıktı Microsoft Word'e doğrudan yapıştırılabilir temiz düz metin olsun.\n";
     prompt += "- HTML, markdown tablo, kod bloğu veya açıklama üretme.";
     return prompt;
